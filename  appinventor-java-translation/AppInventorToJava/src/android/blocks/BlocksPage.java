@@ -23,6 +23,7 @@ import android.java.code.CodeSegment;
 import android.java.code.FunctionCall;
 import android.java.code.IfSegment;
 import android.java.code.Value;
+import android.java.code.ValueStatement;
 
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -111,7 +112,7 @@ public class BlocksPage
             {
                 Value v = new Value( String.format( "component.equals( %s ) && eventName.equals( \"%s\" )", getNameFromLabel( b.getLabel() ), event ));
                 IfSegment newIf = new IfSegment( v );
-                newIf.add( getEventCall( (EventDefinitionBlock)b));
+                newIf.add( new ValueStatement( getEventCall( (EventDefinitionBlock)b )));
                 if( ifThen == null )
                 {
                     ifThen = newIf;
