@@ -51,6 +51,11 @@ public class CodeSegment
             blocks.add( block );
     }
 
+    public boolean isEmpty()
+    {
+        return blocks.isEmpty();
+    }
+
     protected SortedMap<String, String> getDependencies()
     {
         TreeMap<String, String> dependencies = new TreeMap<String, String>();

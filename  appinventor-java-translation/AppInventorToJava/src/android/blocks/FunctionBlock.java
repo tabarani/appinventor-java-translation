@@ -41,6 +41,17 @@ public class FunctionBlock extends Block
         super( block );
     }
 
+    protected int getNumParameters()
+    {
+        int n = 0;
+
+        for( BlockConnector connector : connectors )
+            if( connector.getLabel().equals( "arg" ))
+                n++;
+
+        return n;
+    }
+
     protected final CodeSegment toCode()
     {
         CodeSegment code = new CodeSegment();

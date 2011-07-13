@@ -20,6 +20,9 @@
 package android.blocks;
 
 import android.java.code.CodeSegment;
+import android.java.code.FunctionCall;
+import android.java.code.IfSegment;
+import android.java.code.Value;
 
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -95,5 +98,45 @@ public class BlocksPage
             eventSet.addAll( b.getEvents() );
 
         return eventSet;
+    }
+
+    public CodeSegment createDispatchSegment()
+    {
+        CodeSegment segment = new CodeSegment();
+        IfSegment ifThen = null;
+
+        for( Block b : blocks )
+        {
+            for( String event : b.getEvents() )
+            {
+                Value v = new Value( String.format( "component.equals( %s ) && eventName.equals( \"%s\" )", getNameFromLabel( b.getLabel() ), event ));
+                IfSegment newIf = new IfSegment( v );
+                newIf.add( getEventCall( (EventDefinitionBlock)b));
+                if( ifThen == null )
+                {
+                    ifThen = newIf;
+                    segment.add( ifThen );
+                } else {
+                    segment.add( newIf );
+                }
+            }
+        }
+
+        return segment;
+    }
+
+    private String getNameFromLabel( String label )
+    {
+        return label.substring( 0, label.indexOf( "." ));
+    }
+
+    private FunctionCall getEventCall( EventDefinitionBlock b )
+    {
+        ArrayList<Value> params = new ArrayList<Value>();
+
+        for( int i = 0; i < b.getNumParameters(); i++ )
+            params.add( new Value( String.format( "args[%d]", i )));
+
+        return new FunctionCall( b.getFunctionName(), params );
     }
 }
