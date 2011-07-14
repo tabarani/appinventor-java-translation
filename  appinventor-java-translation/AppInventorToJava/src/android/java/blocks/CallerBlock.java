@@ -21,6 +21,8 @@ package android.java.blocks;
 
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
+import android.java.code.CodeSegment;
+import android.java.code.FunctionCall;
 import org.w3c.dom.Node;
 
 @BlockAnnotation(
@@ -36,5 +38,10 @@ public class CallerBlock extends Block
     public CallerBlock( Node node )
     {
         super( node );
+    }
+
+    public CodeSegment toCode()
+    {
+        return new FunctionCall( getLabel() );
     }
 }

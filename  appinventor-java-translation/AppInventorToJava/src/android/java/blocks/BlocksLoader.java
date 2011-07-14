@@ -58,21 +58,31 @@ class BlocksLoader
     protected ArrayList<Block> loadBlocks( NodeList blocks )
     {
         ArrayList<Block> blocksList = new ArrayList<Block>();
-        HashMap<Integer, Block> blocksMap = new HashMap<Integer, Block>();
-
-        for( int i = 0; i < blocks.getLength(); i++ )
-            if( blocks.item( i ).getNodeName().equals( "Block" ))
-            {
-                Block newBlock = createBlock( blocks.item( i ));
-                blocksMap.put( newBlock.getID(), newBlock );
-            } else if( blocks.item( i ).getNodeName().equals( "BlockStub" ))
-                loadBlocks( blocks.item( i ).getChildNodes() );
+        HashMap<Integer, Block> blocksMap = getBlocksMap( blocks );
 
         for( Block b : blocksMap.values() )
             if( b.setReferences( blocksMap ))
                 blocksList.add( b );
 
         return blocksList;
+    }
+
+    private HashMap<Integer, Block> getBlocksMap( NodeList blocks )
+    {
+        HashMap<Integer, Block> blocksMap = new HashMap<Integer, Block>();
+
+        for( int i = 0; i < blocks.getLength(); i++ )
+        {
+            Node target = blocks.item( i );
+            if( target.getNodeName().equals( "Block" ))
+            {
+                Block newBlock = createBlock( target );
+                blocksMap.put( newBlock.getID(), newBlock );
+            } else if( target.getNodeName().equals( "BlockStub" ) )
+                blocksMap.putAll( getBlocksMap( target.getChildNodes() ));
+        }
+
+        return blocksMap;
     }
 
     private Block createBlock( Node blockNode )
