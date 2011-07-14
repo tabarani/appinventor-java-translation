@@ -62,8 +62,6 @@ abstract class BlocksLoader
                 return new EventDefinitionBlock( blockNode );
         else if( genus.equals( "def" ))
             return new VariableDefinitionBlock( blockNode );
-        else if( genus.equals( "if" ))
-            return new IfBlock( blockNode );
         else if( genus.equals( "text" ))
             return new TextLiteralBlock( blockNode );
         else if( isLiteral( genus ))
