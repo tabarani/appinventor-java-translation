@@ -138,7 +138,7 @@ public class BlocksPage
     {
         ArrayList<Value> params = new ArrayList<Value>();
 
-        for( int i = 0; i < b.getNumParameters(); i++ )
+        for( int i : b.getParameterNumbers() )
             params.add( new Value( String.format( "args[%d]", i )));
 
         return new FunctionCall( b.getFunctionName(), params );

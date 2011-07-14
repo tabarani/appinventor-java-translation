@@ -156,7 +156,7 @@ class AppInventorProperties
         //End $define
 
         //Start dispatchEvent
-        FunctionSegment dispatchFunction = new FunctionSegment( "dispatchEvent", CodeVisibility.PUBLIC, "void", new Parameter( "Object", "component" ), new Parameter( "java.lang.String", "id" ), new Parameter( "Object[]", "params" ));
+        FunctionSegment dispatchFunction = new FunctionSegment( "dispatchEvent", CodeVisibility.PUBLIC, "void", new Parameter( "Object", "component", 0 ), new Parameter( "java.lang.String", "id", 1 ), new Parameter( "Object[]", "params", 2 ));
 
         for( BlocksPage page : pages )
             dispatchFunction.add( page.createDispatchSegment( getName() ));

@@ -59,9 +59,4 @@ public class EventDefinitionBlock extends FunctionBlock
     {
         return label.substring( label.lastIndexOf( "." ) + 1 );
     }
-
-    protected Collection<Parameter> getDeclarationParameters()
-    {
-        return getDeclarationParameters( true );
-    }
 }

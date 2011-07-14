@@ -97,20 +97,15 @@ public class BlockConnector
             connectedBlock = blocksMap.get( conBlockId );
     }
 
-    protected Parameter getParameter( String defaultName, boolean isEvent )
+    protected Parameter getParameter( int iArg )
     {
         String name = null;
 
-        if( hasConnectedBlock() )
-        {
-            if( isEvent && connectedBlock.getGenus().equals( "argument" ))
-                name = getLabel();
-            else if( label.equals("arg") )
-                name = connectedBlock.getLabel();
-        }
+        if( hasConnectedBlock() && connectedBlock.getGenus().equals( "argument" ) )
+            name = connectedBlock.getLabel();
 
         if( name != null )
-            return new Parameter( "Object", name );
+            return new Parameter( "Object", name, iArg );
         else
             return null;
     }

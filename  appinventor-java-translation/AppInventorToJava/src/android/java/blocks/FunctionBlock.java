@@ -28,6 +28,7 @@ import android.java.code.Value;
 import android.java.code.ValueStatement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import org.w3c.dom.Node;
 
 /**
@@ -36,20 +37,39 @@ import org.w3c.dom.Node;
  */
 public class FunctionBlock extends Block
 {
+    private final ArrayList<Parameter> parameters = new ArrayList<Parameter>();
+
     public FunctionBlock( Node block )
     {
         super( block );
     }
 
-    protected int getNumParameters()
+    protected boolean setReferences( HashMap<Integer, Block> blocksMap )
     {
-        int n = 0;
+        boolean returnValue = super.setReferences( blocksMap );
+        int iArg = 0;
 
         for( BlockConnector connector : connectors )
-            if( connector.getLabel().equals( "arg" ))
-                n++;
+        {
+            Parameter p = connector.getParameter( iArg );
 
-        return n;
+            if( p != null )
+                parameters.add( p );
+
+            iArg++;
+        }
+
+        return returnValue;
+    }
+
+    protected Collection<Integer> getParameterNumbers()
+    {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+
+        for( Parameter p : parameters )
+            numbers.add( p.getIndex() );
+
+        return numbers;
     }
 
     protected final CodeSegment toCode()
@@ -79,45 +99,25 @@ public class FunctionBlock extends Block
             return "Object";
     }
 
-    protected Collection<Parameter> getDeclarationParameters()
+    protected final Collection<Parameter> getDeclarationParameters()
     {
-        return getDeclarationParameters( false );
-    }
-
-    protected final Collection<Parameter> getDeclarationParameters( boolean isEvent )
-    {
-        ArrayList<Parameter> parameters = new ArrayList<Parameter>();
-        int iArg = 1;
-
-        for( BlockConnector connector : connectors )
-        {
-            String defaultName = "arg".concat( String.valueOf( iArg ));
-            Parameter p = connector.getParameter( defaultName, isEvent );
-
-            if( p != null )
-            {
-                parameters.add( p );
-                iArg++;
-            }
-        }
-
         return parameters;
     }
 
     private Collection<Value> getCallParameters()
     {
-        ArrayList<Value> parameters = new ArrayList<Value>();
+        ArrayList<Value> values = new ArrayList<Value>();
 
         for( BlockConnector connector : connectors )
         {
             Block connected = connector.getConnectedBlock();
             if( connected instanceof LiteralBlock )
-                parameters.add( (Value)connected.toCode() );
+                values.add( (Value)connected.toCode() );
             else
-                parameters.add( new Value( connected.getLabel() ));
+                values.add( new Value( connected.getLabel() ));
         }
 
-        return parameters;
+        return values;
     }
 
     private final CodeSegment createCall()

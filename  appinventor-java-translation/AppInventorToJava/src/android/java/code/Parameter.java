@@ -26,11 +26,18 @@ package android.java.code;
 public class Parameter
 {
     private String type, identifier;
+    private int index;
 
-    public Parameter( String type, String identifier )
+    public Parameter( String type, String identifier, int index )
     {
         this.type = type;
         this.identifier = identifier;
+        this.index = index;
+    }
+
+    public int getIndex()
+    {
+        return index;
     }
 
     protected String getType()
