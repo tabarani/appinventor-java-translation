@@ -23,21 +23,36 @@ package android.java.code;
  *
  * @author Joshua
  */
-public class Parameter
+public class Parameter extends Value
 {
     private String type, identifier;
     private int index;
+
+    public Parameter( String type, String identifier )
+    {
+        this.type = type;
+        this.identifier = identifier;
+
+        setValue( String.format( "%s %s", type, identifier ));
+    }
 
     public Parameter( String type, String identifier, int index )
     {
         this.type = type;
         this.identifier = identifier;
         this.index = index;
+
+        setValue( String.format( "%s %s", type, identifier ));
     }
 
     public int getIndex()
     {
         return index;
+    }
+
+    public void setIndex( int index )
+    {
+        this.index = index;
     }
 
     protected String getType()

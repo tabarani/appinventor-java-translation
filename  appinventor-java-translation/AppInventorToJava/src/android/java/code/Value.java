@@ -49,4 +49,9 @@ public class Value extends Statement
     {
         return new TreeMap<String, String>();
     }
+
+    protected void setValue( String value )
+    {
+        this.value = new String( value );
+    }
 }

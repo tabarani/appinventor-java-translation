@@ -23,6 +23,9 @@ import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
 import android.java.code.CodeSegment;
 import android.java.code.FunctionCall;
+import android.java.code.Value;
+import android.java.code.ValueStatement;
+import java.util.ArrayList;
 import org.w3c.dom.Node;
 
 @BlockAnnotation(
@@ -42,6 +45,23 @@ public class CallerBlock extends Block
 
     public CodeSegment toCode()
     {
-        return new FunctionCall( getLabel() );
+        if( getGenus().equals( "caller-command" ))
+            return new ValueStatement( createFunction() );
+        else
+            return createFunction();
+    }
+
+    private FunctionCall createFunction()
+    {
+        ArrayList<Value> params = new ArrayList<Value>();
+
+        for( BlockConnector c : connectors )
+            if( !(c instanceof Plug ))
+                if( c.hasConnectedBlock())
+                    params.add( (Value)(c.getConnectedBlock().toCode()) );
+                else
+                    params.add( new Value( "null" ));
+
+        return new FunctionCall( getLabel(), params );
     }
 }

@@ -19,6 +19,7 @@
 
 package android.java.blocks;
 
+import android.java.code.CodeSegment;
 import android.java.code.Parameter;
 import android.java.code.Value;
 import java.util.HashMap;
@@ -72,6 +73,11 @@ public class BlockConnector
             return "<!unknown type>";
     }
 
+    protected String getConnectorKind()
+    {
+        return connectorKind;
+    }
+
     protected Block getConnectedBlock()
     {
         return connectedBlock;
@@ -99,14 +105,17 @@ public class BlockConnector
 
     protected Parameter getParameter( int iArg )
     {
-        String name = null;
-
-        if( hasConnectedBlock() && connectedBlock.getGenus().equals( "argument" ) )
-            name = connectedBlock.getLabel();
-
-        if( name != null )
-            return new Parameter( "Object", name, iArg );
-        else
-            return null;
+        if( hasConnectedBlock() )
+        {
+            CodeSegment segment = connectedBlock.toCode();
+            if( segment instanceof Parameter )
+            {
+                Parameter p = (Parameter)segment;
+                p.setIndex( iArg );
+                return p;
+            }
+        }
+        
+        return null;
     }
 }
