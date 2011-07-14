@@ -19,6 +19,8 @@
 
 package android.java.blocks;
 
+import android.java.blocks.annotation.BlockAnnotation;
+import android.java.blocks.annotation.StringRelationship;
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
@@ -26,6 +28,10 @@ import android.java.code.ConstructorCall;
 import android.java.code.DeclarationStatement;
 import android.java.util.CodeUtil;
 import org.w3c.dom.Node;
+
+@BlockAnnotation(
+    genus = "def",
+    genusRelation = StringRelationship.EQUALS )
 
 /**
  *

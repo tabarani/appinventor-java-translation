@@ -17,32 +17,23 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.annotation;
 
-import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
-import android.java.code.CodeSegment;
-import android.java.code.Value;
-
-import org.w3c.dom.Node;
-
-@BlockAnnotation(
-    genus = "text",
-    genusRelation = StringRelationship.EQUALS )
+import java.util.Comparator;
 
 /**
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+public class BlockAnnotationComparator implements Comparator<BlockAnnotation>
 {
-    public TextLiteralBlock( Node block )
+    public int compare( BlockAnnotation a1, BlockAnnotation a2 )
     {
-        super( block );
-    }
-
-    public final CodeSegment toCode()
-    {
-        return new Value( String.format( "\"%s\"", getLabel() ));
+        int operationComparison = a1.genusRelation().compareTo( a2.genusRelation() );
+        
+        if( operationComparison == 0 )
+            return a1.genus().compareTo( a2.genus() );
+        else
+            return operationComparison;
     }
 }

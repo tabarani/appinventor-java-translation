@@ -17,32 +17,33 @@
    limitations under the License.
 */
 
-package android.java.blocks;
-
-import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
-import android.java.code.CodeSegment;
-import android.java.code.Value;
-
-import org.w3c.dom.Node;
-
-@BlockAnnotation(
-    genus = "text",
-    genusRelation = StringRelationship.EQUALS )
+package android.java.blocks.annotation;
 
 /**
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+public enum StringRelationship
 {
-    public TextLiteralBlock( Node block )
-    {
-        super( block );
-    }
+    EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS;
 
-    public final CodeSegment toCode()
+    public boolean test( String a, String b )
     {
-        return new Value( String.format( "\"%s\"", getLabel() ));
+        switch( this )
+        {
+            case STARTS_WITH:
+                return a.startsWith( b );
+
+            case ENDS_WITH:
+                return a.endsWith( b );
+
+            case CONTAINS:
+                return a.contains( b );
+
+            case EQUALS:
+                return a.equals( b );
+        }
+
+        return false;
     }
 }

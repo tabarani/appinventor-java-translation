@@ -19,8 +19,15 @@
 
 package android.java.blocks;
 
+import android.java.blocks.annotation.BlockAnnotation;
+import android.java.blocks.annotation.BlockAnnotationComparator;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeMap;
+
+import org.reflections.Reflections;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -28,9 +35,26 @@ import org.w3c.dom.NodeList;
  *
  * @author Joshua
  */
-abstract class BlocksLoader
+class BlocksLoader
 {
-    protected static ArrayList<Block> loadBlocks( NodeList blocks )
+    private final TreeMap<BlockAnnotation, Class<?>> knownBlocks = new TreeMap<BlockAnnotation, Class<?>>( new BlockAnnotationComparator() );
+
+    protected BlocksLoader()
+    {
+        String packageName = getClass().getPackage().getName();
+        Reflections reflections = new Reflections( packageName );
+
+        Set<Class<?>> blocks = reflections.getTypesAnnotatedWith( BlockAnnotation.class );
+
+        for( Class<?> c : blocks )
+            if( Block.class.isAssignableFrom( c ))
+            {
+                BlockAnnotation annotation = c.getAnnotation( BlockAnnotation.class );
+                knownBlocks.put( annotation, c );
+            }
+    }
+
+    protected ArrayList<Block> loadBlocks( NodeList blocks )
     {
         ArrayList<Block> blocksList = new ArrayList<Block>();
         HashMap<Integer, Block> blocksMap = new HashMap<Integer, Block>();
@@ -52,19 +76,33 @@ abstract class BlocksLoader
         return blocksList;
     }
 
-    private static Block createBlock( Node blockNode )
+    private Block createBlock( Node blockNode )
     {
+        String myPackage = Block.class.getPackage().getName();
+
         String genus = blockNode.getAttributes().getNamedItem( "genus-name" ).getNodeValue();
 
-        if( genus.startsWith( "define" ))
-            return new FunctionDefinitionBlock( blockNode );
-        else if(genus.contains("-"))
-                return new EventDefinitionBlock( blockNode );
-        else if( genus.equals( "def" ))
-            return new VariableDefinitionBlock( blockNode );
-        else if( genus.equals( "text" ))
-            return new TextLiteralBlock( blockNode );
-        else if( isLiteral( genus ))
+        Set<BlockAnnotation> keys = knownBlocks.keySet();
+        for( BlockAnnotation key : keys )
+        {
+            System.out.println( key.genus() );
+            if( key.genusRelation().test( genus, key.genus() ))
+            {
+                try
+                {
+                    Constructor c = knownBlocks.get( key ).getConstructor( Node.class );
+                    return (Block)c.newInstance( blockNode );
+                } catch( NoSuchMethodException e ) {
+                    System.err.println( knownBlocks.get( key ).toString() + " does not have a constructor accepting a Node parameter." );
+                    System.exit( 1 );
+                } catch( Exception e ) {
+                    System.err.println( e );
+                    System.exit( 1 );
+                }
+            }
+        }
+        
+        if( isLiteral( genus ))
             return new LiteralBlock( blockNode );
         else
             return new Block( blockNode );

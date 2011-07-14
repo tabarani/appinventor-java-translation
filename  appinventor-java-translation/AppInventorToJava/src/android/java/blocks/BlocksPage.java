@@ -39,6 +39,7 @@ import org.w3c.dom.NodeList;
 public class BlocksPage
 {
     private final ArrayList<Block> blocks = new ArrayList<Block>();
+    private BlocksLoader loader = new BlocksLoader();
 
     public BlocksPage( Node page )
     {
@@ -47,7 +48,7 @@ public class BlocksPage
         for( int i = 0; i < children.getLength(); i++ )
             if( children.item( i ).getNodeName().equals( "PageBlocks" ))
             {
-                blocks.addAll( BlocksLoader.loadBlocks( children.item( i ).getChildNodes() ));
+                blocks.addAll( loader.loadBlocks( children.item( i ).getChildNodes() ));
                 break;
             }
     }

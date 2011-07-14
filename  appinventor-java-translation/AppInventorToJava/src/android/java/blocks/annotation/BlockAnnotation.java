@@ -17,32 +17,21 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.annotation;
 
-import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
-import android.java.code.CodeSegment;
-import android.java.code.Value;
-
-import org.w3c.dom.Node;
-
-@BlockAnnotation(
-    genus = "text",
-    genusRelation = StringRelationship.EQUALS )
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface BlockAnnotation
 {
-    public TextLiteralBlock( Node block )
-    {
-        super( block );
-    }
-
-    public final CodeSegment toCode()
-    {
-        return new Value( String.format( "\"%s\"", getLabel() ));
-    }
+    String genus();
+    StringRelationship genusRelation();
 }
