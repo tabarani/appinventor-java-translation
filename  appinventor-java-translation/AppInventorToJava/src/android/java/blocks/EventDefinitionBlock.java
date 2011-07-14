@@ -29,7 +29,7 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class EventDefinitionBlock extends FunctionBlock
+public class EventDefinitionBlock extends FunctionDefinitionBlock
 {
     public EventDefinitionBlock( Node block )
     {
