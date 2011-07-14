@@ -35,11 +35,11 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class FunctionBlock extends Block
+public class FunctionDefinitionBlock extends Block
 {
     private final ArrayList<Parameter> parameters = new ArrayList<Parameter>();
 
-    public FunctionBlock( Node block )
+    public FunctionDefinitionBlock( Node block )
     {
         super( block );
     }

@@ -57,7 +57,7 @@ abstract class BlocksLoader
         String genus = blockNode.getAttributes().getNamedItem( "genus-name" ).getNodeValue();
 
         if( genus.startsWith( "define" ))
-            return new FunctionBlock( blockNode );
+            return new FunctionDefinitionBlock( blockNode );
         else if(genus.contains("-"))
                 return new EventDefinitionBlock( blockNode );
         else if( genus.equals( "def" ))
