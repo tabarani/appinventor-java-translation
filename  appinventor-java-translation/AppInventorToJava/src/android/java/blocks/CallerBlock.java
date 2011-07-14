@@ -36,6 +36,5 @@ public class CallerBlock extends Block
     public CallerBlock( Node node )
     {
         super( node );
-        System.out.println( "AAA" );
     }
 }
