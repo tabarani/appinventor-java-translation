@@ -19,7 +19,7 @@
 
 package android.java;
 
-import android.blocks.BlocksPage;
+import android.java.blocks.BlocksPage;
 
 import android.java.code.ClassSegment;
 import android.java.code.SourceFile;

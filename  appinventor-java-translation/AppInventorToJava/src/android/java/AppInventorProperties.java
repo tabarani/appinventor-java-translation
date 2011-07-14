@@ -19,7 +19,7 @@
 
 package android.java;
 
-import android.blocks.BlocksPage;
+import android.java.blocks.BlocksPage;
 import android.java.code.*;
 
 import com.google.gson.stream.JsonReader;
@@ -159,7 +159,7 @@ class AppInventorProperties
         FunctionSegment dispatchFunction = new FunctionSegment( "dispatchEvent", CodeVisibility.PUBLIC, "void", new Parameter( "Object", "component" ), new Parameter( "java.lang.String", "id" ), new Parameter( "Object[]", "params" ));
 
         for( BlocksPage page : pages )
-            dispatchFunction.add( page.createDispatchSegment() );
+            dispatchFunction.add( page.createDispatchSegment( getName() ));
 
         block.add( dispatchFunction );
         //End dispatchEvent
