@@ -23,6 +23,7 @@ import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.BlockAnnotationComparator;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
@@ -64,10 +65,8 @@ class BlocksLoader
             {
                 Block newBlock = createBlock( blocks.item( i ));
                 blocksMap.put( newBlock.getID(), newBlock );
-            } else if( blocks.item( i ).getNodeName().equals( "BlockStub" )) {
-                Block newBlock = new BlockStub( blocks.item( i ));
-                blocksMap.put( newBlock.getID(), newBlock );
-            }
+            } else if( blocks.item( i ).getNodeName().equals( "BlockStub" ))
+                loadBlocks( blocks.item( i ).getChildNodes() );
 
         for( Block b : blocksMap.values() )
             if( b.setReferences( blocksMap ))
@@ -85,7 +84,6 @@ class BlocksLoader
         Set<BlockAnnotation> keys = knownBlocks.keySet();
         for( BlockAnnotation key : keys )
         {
-            System.out.println( key.genus() );
             if( key.genusRelation().test( genus, key.genus() ))
             {
                 try

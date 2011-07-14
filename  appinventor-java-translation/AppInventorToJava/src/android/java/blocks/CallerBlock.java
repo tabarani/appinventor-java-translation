@@ -19,31 +19,23 @@
 
 package android.java.blocks;
 
+import android.java.blocks.annotation.BlockAnnotation;
+import android.java.blocks.annotation.StringRelationship;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
+@BlockAnnotation(
+    genus = "caller",
+    genusRelation = StringRelationship.STARTS_WITH )
 
 /**
  *
  * @author Joshua
  */
-public class BlockStub extends Block
+public class CallerBlock extends Block
 {
-    String stubParentName = null, stubParentGenus = null;
-    
-    public BlockStub( Node block )
+    public CallerBlock( Node node )
     {
-        NodeList children = block.getChildNodes();
-
-        for( int i = 0; i < children.getLength(); i++ )
-        {
-            String name = children.item( i ).getNodeName();
-
-            if( name.equals( "StubParentName" ))
-                stubParentName = children.item( i ).getTextContent();
-            else if( name.equals( "StubParentGenus" ))
-                stubParentGenus = children.item( i ).getTextContent();
-            else if(name.equals("Block"))
-                load( children.item( i ));
-        }
+        super( node );
+        System.out.println( "AAA" );
     }
 }
