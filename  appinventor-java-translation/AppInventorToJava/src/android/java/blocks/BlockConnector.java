@@ -46,22 +46,22 @@ public class BlockConnector
         
     }
 
-    protected boolean hasConnectedBlock()
+    public boolean hasConnectedBlock()
     {
         return connectedBlock != null;
     }
 
-    protected final String getLabel()
+    public final String getLabel()
     {
         return new String( label );
     }
 
-    protected final Value getValue()
+    public final Value getValue()
     {
         return null;
     }
 
-    protected String getDataType()
+    public String getDataType()
     {
         String genus = connectedBlock.getGenus();
 
@@ -73,14 +73,30 @@ public class BlockConnector
             return "<!unknown type>";
     }
 
-    protected String getConnectorKind()
+    public String getConnectorKind()
     {
-        return connectorKind;
+        return new String( connectorKind );
     }
 
-    protected Block getConnectedBlock()
+    public Block getConnectedBlock()
     {
         return connectedBlock;
+    }
+
+    public Parameter getParameter( int iArg )
+    {
+        if( hasConnectedBlock() )
+        {
+            CodeSegment segment = connectedBlock.toCode();
+            if( segment instanceof Parameter )
+            {
+                Parameter p = (Parameter)segment;
+                p.setIndex( iArg );
+                return p;
+            }
+        }
+
+        return null;
     }
 
     protected void load( Node blockConnector )
@@ -101,21 +117,5 @@ public class BlockConnector
     {
         if( conBlockId != -1 )
             connectedBlock = blocksMap.get( conBlockId );
-    }
-
-    protected Parameter getParameter( int iArg )
-    {
-        if( hasConnectedBlock() )
-        {
-            CodeSegment segment = connectedBlock.toCode();
-            if( segment instanceof Parameter )
-            {
-                Parameter p = (Parameter)segment;
-                p.setIndex( iArg );
-                return p;
-            }
-        }
-        
-        return null;
     }
 }

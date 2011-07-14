@@ -55,19 +55,69 @@ public class Block
         return genusName;
     }
 
-    protected CodeSegment declare()
+    public CodeSegment declare()
     {
         return null;
     }
 
-    protected CodeSegment define()
+    public CodeSegment define()
     {
         return null;
     }
 
-    protected CodeSegment toCode()
+    public CodeSegment toCode()
     {
         return null;
+    }
+
+    public final String getLabel()
+    {
+        return new String( label );
+    }
+
+    public final int getID()
+    {
+        return id;
+    }
+
+    public HashSet<String> getEvents()
+    {
+        return new HashSet<String>();
+    }
+
+    public final boolean isFirstGeneration()
+    {
+        return ( beforeBlock == null );
+    }
+
+    public final boolean isPlugged()
+    {
+        return plugged;
+    }
+
+    //Returns true if the block has no parents
+    protected boolean setReferences( HashMap<Integer, Block> blocksMap )
+    {
+        for( BlockConnector connector : connectors )
+            connector.setReferences( blocksMap );
+
+        if( afterBlockId != -1 )
+            afterBlock = blocksMap.get( afterBlockId );
+
+        if( beforeBlockId != -1 )
+            beforeBlock = blocksMap.get( beforeBlockId );
+        else if( !plugged )
+            return true;
+
+        return false;
+    }
+
+    protected final CodeSegment getNextCode()
+    {
+        if( afterBlock != null )
+            return afterBlock.toCode();
+        else
+            return null;
     }
 
     protected void load( Node block )
@@ -81,56 +131,6 @@ public class Block
 
         for( int i = 0; i < children.getLength(); i++ )
             handleChild( children.item( i ));
-    }
-
-    protected final String getLabel()
-    {
-        return new String( label );
-    }
-
-    protected final int getID()
-    {
-        return id;
-    }
-
-    //Returns true if the block has no parents
-    protected boolean setReferences( HashMap<Integer, Block> blocksMap )
-    {
-        for( BlockConnector connector : connectors )
-            connector.setReferences( blocksMap );
-        
-        if( afterBlockId != -1 )
-            afterBlock = blocksMap.get( afterBlockId );
-
-        if( beforeBlockId != -1 )
-            beforeBlock = blocksMap.get( beforeBlockId );
-        else if( !plugged )
-            return true;
-
-        return false;
-    }
-
-    protected HashSet<String> getEvents()
-    {
-        return new HashSet<String>();
-    }
-
-    protected final boolean isFirstGeneration()
-    {
-        return ( beforeBlock == null );
-    }
-
-    protected final CodeSegment getNextCode()
-    {
-        if( afterBlock != null )
-            return afterBlock.toCode();
-        else
-            return null;
-    }
-
-    protected final boolean isPlugged()
-    {
-        return plugged;
     }
 
     private void handleChild( Node child )

@@ -19,6 +19,7 @@
 
 package android.java.blocks;
 
+import android.java.blocks.definition.EventDefinitionBlock;
 import android.java.code.CodeSegment;
 import android.java.code.FunctionCall;
 import android.java.code.IfSegment;

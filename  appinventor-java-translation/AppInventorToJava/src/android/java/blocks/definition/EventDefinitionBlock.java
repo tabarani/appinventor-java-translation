@@ -17,8 +17,9 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.definition;
 
+import android.java.blocks.definition.FunctionDefinitionBlock;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
 import java.util.HashSet;
@@ -40,17 +41,17 @@ public class EventDefinitionBlock extends FunctionDefinitionBlock
         super( block );
     }
 
-    protected String getFunctionName()
+    public String getFunctionName()
     {
-        return label.replace( ".", "_" );
+        return new String( label.replace( ".", "_" ) );
     }
 
-    protected String getFunctionReturnType()
+    public String getFunctionReturnType()
     {
         return "void";
     }
 
-    protected HashSet<String> getEvents()
+    public HashSet<String> getEvents()
     {
         HashSet<String> eventSet = new HashSet<String>();
 
@@ -59,7 +60,7 @@ public class EventDefinitionBlock extends FunctionDefinitionBlock
         return eventSet;
     }
 
-    private String getEventName()
+    public String getEventName()
     {
         return label.substring( label.lastIndexOf( "." ) + 1 );
     }

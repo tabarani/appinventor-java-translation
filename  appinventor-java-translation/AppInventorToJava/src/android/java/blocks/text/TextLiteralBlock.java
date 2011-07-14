@@ -17,8 +17,9 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.text;
 
+import android.java.blocks.math.MathLiteralBlock;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
 import android.java.code.CodeSegment;
@@ -34,7 +35,7 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+public class TextLiteralBlock extends MathLiteralBlock
 {
     public TextLiteralBlock( Node block )
     {

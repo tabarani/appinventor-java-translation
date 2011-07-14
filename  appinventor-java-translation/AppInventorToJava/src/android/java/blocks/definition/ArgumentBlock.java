@@ -1,5 +1,6 @@
-package android.java.blocks;
+package android.java.blocks.definition;
 
+import android.java.blocks.Block;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
 import android.java.code.CodeSegment;

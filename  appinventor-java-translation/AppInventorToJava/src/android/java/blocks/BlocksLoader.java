@@ -19,6 +19,7 @@
 
 package android.java.blocks;
 
+import android.java.blocks.math.MathLiteralBlock;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.BlockAnnotationComparator;
 import java.lang.reflect.Constructor;
@@ -111,7 +112,7 @@ class BlocksLoader
         }
         
         if( isLiteral( genus ))
-            return new LiteralBlock( blockNode );
+            return new MathLiteralBlock( blockNode );
         else
             return new Block( blockNode );
     }

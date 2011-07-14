@@ -17,8 +17,9 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.definition;
 
+import android.java.blocks.Block;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
 import android.java.code.AssignmentStatement;
@@ -44,12 +45,12 @@ public class VariableDefinitionBlock extends Block
         super( block );
     }
 
-    protected CodeSegment declare()
+    public CodeSegment declare()
     {
         return new DeclarationStatement( connectors.get( 0 ).getDataType(), label, CodeVisibility.PRIVATE );
     }
 
-    protected CodeSegment define()
+    public CodeSegment define()
     {
         String dataType = connectors.get( 0 ).getDataType();
 

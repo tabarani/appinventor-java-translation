@@ -17,8 +17,11 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.definition;
 
+import android.java.blocks.Block;
+import android.java.blocks.BlockConnector;
+import android.java.blocks.math.MathLiteralBlock;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.StringRelationship;
 import android.java.code.CodeSegment;
@@ -50,6 +53,48 @@ public class FunctionDefinitionBlock extends Block
         super( block );
     }
 
+    public Collection<Integer> getParameterNumbers()
+    {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+
+        for( Parameter p : parameters )
+            numbers.add( p.getIndex() );
+
+        return numbers;
+    }
+
+    public final CodeSegment toCode()
+    {
+        CodeSegment code = new CodeSegment();
+
+        if( isFirstGeneration() )
+            code.add( createDeclaration() );
+        else
+            code.add( createCall() );
+
+        code.add( getNextCode() );
+
+        return code;
+    }
+
+    public String getFunctionName()
+    {
+        return new String( label );
+    }
+
+    public String getFunctionReturnType()
+    {
+        if( genusName.contains( "-" ))
+            return genusName.substring( genusName.indexOf( "-" )+1 );
+        else
+            return "Object";
+    }
+
+    public final Collection<Parameter> getDeclarationParameters()
+    {
+        return parameters;
+    }
+
     protected boolean setReferences( HashMap<Integer, Block> blocksMap )
     {
         boolean returnValue = super.setReferences( blocksMap );
@@ -68,48 +113,6 @@ public class FunctionDefinitionBlock extends Block
         return returnValue;
     }
 
-    protected Collection<Integer> getParameterNumbers()
-    {
-        ArrayList<Integer> numbers = new ArrayList<Integer>();
-
-        for( Parameter p : parameters )
-            numbers.add( p.getIndex() );
-
-        return numbers;
-    }
-
-    protected final CodeSegment toCode()
-    {
-        CodeSegment code = new CodeSegment();
-
-        if( isFirstGeneration() )
-            code.add( createDeclaration() );
-        else
-            code.add( createCall() );
-
-        code.add( getNextCode() );
-
-        return code;
-    }
-
-    protected String getFunctionName()
-    {
-        return label;
-    }
-
-    protected String getFunctionReturnType()
-    {
-        if( genusName.contains( "-" ))
-            return genusName.substring( genusName.indexOf( "-" )+1 );
-        else
-            return "Object";
-    }
-
-    protected final Collection<Parameter> getDeclarationParameters()
-    {
-        return parameters;
-    }
-
     private Collection<Value> getCallParameters()
     {
         ArrayList<Value> values = new ArrayList<Value>();
@@ -117,7 +120,7 @@ public class FunctionDefinitionBlock extends Block
         for( BlockConnector connector : connectors )
         {
             Block connected = connector.getConnectedBlock();
-            if( connected instanceof LiteralBlock )
+            if( connected instanceof MathLiteralBlock )
                 values.add( (Value)connected.toCode() );
             else
                 values.add( new Value( connected.getLabel() ));

@@ -17,8 +17,9 @@
    limitations under the License.
 */
 
-package android.java.blocks;
+package android.java.blocks.math;
 
+import android.java.blocks.Block;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 
@@ -28,9 +29,9 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class LiteralBlock extends Block
+public class MathLiteralBlock extends Block
 {
-    public LiteralBlock( Node block )
+    public MathLiteralBlock( Node block )
     {
         super( block );
     }

@@ -21,7 +21,7 @@ public class GlobalStub extends Block
         super( node );
     }
 
-    protected CodeSegment toCode()
+    public CodeSegment toCode()
     {
         return new Value( getLabel() );
     }
