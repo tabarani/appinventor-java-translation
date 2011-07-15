@@ -19,14 +19,11 @@
 
 package android.java.blocks;
 
-import android.java.blocks.math.MathLiteralBlock;
 import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.BlockAnnotationComparator;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.reflections.Reflections;
 import org.w3c.dom.Node;
@@ -36,11 +33,11 @@ import org.w3c.dom.NodeList;
  *
  * @author Joshua
  */
-class BlocksLoader
+class BlocksFactory
 {
-    private final TreeMap<BlockAnnotation, Class<?>> knownBlocks = new TreeMap<BlockAnnotation, Class<?>>( new BlockAnnotationComparator() );
+    private final HashMap<BlockAnnotation, Class<?>> knownBlocks = new HashMap<BlockAnnotation, Class<?>>();
 
-    protected BlocksLoader()
+    protected BlocksFactory()
     {
         String packageName = getClass().getPackage().getName();
         Reflections reflections = new Reflections( packageName );

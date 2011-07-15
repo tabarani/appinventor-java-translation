@@ -40,7 +40,7 @@ import org.w3c.dom.NodeList;
 public class BlocksPage
 {
     private final ArrayList<Block> blocks = new ArrayList<Block>();
-    private BlocksLoader loader = new BlocksLoader();
+    private BlocksFactory loader = new BlocksFactory();
 
     public BlocksPage( Node page )
     {
