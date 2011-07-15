@@ -20,6 +20,7 @@
 package android.java.blocks.definition;
 
 import android.java.blocks.Block;
+import android.java.blocks.BlockConnector;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
@@ -28,7 +29,6 @@ import android.java.code.ConstructorCall;
 import android.java.code.DeclarationStatement;
 import android.java.code.Value;
 import android.java.util.CodeUtil;
-import java.util.ArrayList;
 import java.util.Collection;
 import org.w3c.dom.Node;
 
@@ -52,8 +52,9 @@ public class VariableDefinitionBlock extends Block
 
     public CodeSegment define()
     {
-        String dataType = connectors.get( 0 ).getDataType();
-        Collection<Value> constructorParameters = getConstructorParameters();
+        BlockConnector connector = connectors.get( 0 );
+        String dataType = connector.getDataType();
+        Collection<Value> constructorParameters = connector.getConstructorParameters();
 
         try
         {
@@ -64,12 +65,5 @@ public class VariableDefinitionBlock extends Block
         }
 
         return null;
-    }
-
-    private Collection<Value> getConstructorParameters()
-    {
-        ArrayList<Value> parameters = new ArrayList<Value>();
-
-        return parameters;
     }
 }

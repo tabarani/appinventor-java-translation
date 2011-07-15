@@ -19,7 +19,7 @@
 
 package android.java.blocks.logic;
 
-import android.java.blocks.Block;
+import android.java.blocks.LiteralBlock;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
@@ -32,7 +32,7 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class BooleanLiteralBlock extends Block
+public class BooleanLiteralBlock extends LiteralBlock
 {
     public BooleanLiteralBlock( Node block )
     {
@@ -42,5 +42,10 @@ public class BooleanLiteralBlock extends Block
     public CodeSegment toCode()
     {
         return new Value( getLabel() );
+    }
+
+    public String getDataType()
+    {
+        return "Boolean";
     }
 }

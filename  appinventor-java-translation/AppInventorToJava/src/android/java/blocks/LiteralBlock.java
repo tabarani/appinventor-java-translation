@@ -17,32 +17,30 @@
    limitations under the License.
 */
 
-package android.java.blocks.text;
+package android.java.blocks;
 
-import android.java.blocks.LiteralBlock;
-import android.java.code.CodeSegment;
 import android.java.code.Value;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+public abstract class LiteralBlock extends Block
 {
-    public TextLiteralBlock( Node block )
+    protected LiteralBlock( Node block )
     {
         super( block );
     }
 
-    public final CodeSegment toCode()
+    public Collection<Value> getConstructorParameters()
     {
-        return new Value( String.format( "\"%s\"", getLabel() ));
-    }
+        ArrayList<Value> parameters = new ArrayList<Value>();
 
-    public String getDataType()
-    {
-        return "java.lang.String";
+        parameters.add( (Value)toCode() );
+
+        return parameters;
     }
 }

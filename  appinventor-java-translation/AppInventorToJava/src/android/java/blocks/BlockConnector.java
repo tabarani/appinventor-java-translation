@@ -22,6 +22,8 @@ package android.java.blocks;
 import android.java.code.CodeSegment;
 import android.java.code.Parameter;
 import android.java.code.Value;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -63,14 +65,10 @@ public class BlockConnector
 
     public String getDataType()
     {
-        String genus = connectedBlock.getGenus();
-
-        if( genus.equals( "make-list" ))
-            return "java.util.List<Object>";
-        else if( genus.equals( "number" ))
-            return "java.lang.Float";
+        if( connectedBlock != null )
+            return connectedBlock.getDataType();
         else
-            return "<!unknown type>";
+            return null;
     }
 
     public String getConnectorKind()
@@ -97,6 +95,14 @@ public class BlockConnector
         }
 
         return null;
+    }
+
+    public Collection<Value> getConstructorParameters()
+    {
+        if( connectedBlock != null )
+            return connectedBlock.getConstructorParameters();
+        else
+            return new ArrayList<Value>();
     }
 
     protected void load( Node blockConnector )

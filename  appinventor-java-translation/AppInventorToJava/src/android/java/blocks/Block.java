@@ -20,7 +20,9 @@
 package android.java.blocks;
 
 import android.java.code.CodeSegment;
+import android.java.code.Value;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -93,6 +95,16 @@ public class Block
     public final boolean isPlugged()
     {
         return plugged;
+    }
+
+    public String getDataType()
+    {
+        return "java.lang.Object";
+    }
+
+    public Collection<Value> getConstructorParameters()
+    {
+        return new ArrayList<Value>();
     }
 
     //Returns true if the block has no parents
