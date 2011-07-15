@@ -72,8 +72,6 @@ class AppInventorScreen
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         factory.setValidating( false );
-//        BufferedReader reader = new BufferedReader( new InputStreamReader( inputStream ));
-//        System.out.println( reader.readLine() );
 
         try
         {

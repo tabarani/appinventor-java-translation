@@ -28,6 +28,7 @@ import android.java.code.CodeVisibility;
 import android.java.code.FunctionCall;
 import android.java.code.FunctionSegment;
 import android.java.code.Parameter;
+import android.java.code.ReturnStatement;
 import android.java.code.Value;
 import android.java.code.ValueStatement;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class FunctionDefinitionBlock extends Block
         return numbers;
     }
 
-    public final CodeSegment toCode()
+    public CodeSegment generateCode()
     {
         CodeSegment code = new CodeSegment();
 
@@ -68,8 +69,6 @@ public class FunctionDefinitionBlock extends Block
             code.add( createDeclaration() );
         else
             code.add( createCall() );
-
-        code.add( getNextCode() );
 
         return code;
     }
@@ -118,7 +117,7 @@ public class FunctionDefinitionBlock extends Block
         {
             Block connected = connector.getConnectedBlock();
             if( connected instanceof MathLiteralBlock )
-                values.add( (Value)connected.toCode() );
+                values.add( (Value)connected.generateCode() );
             else
                 values.add( new Value( connected.getLabel() ));
         }
@@ -140,9 +139,12 @@ public class FunctionDefinitionBlock extends Block
     {
         FunctionSegment function = new FunctionSegment( getFunctionName(), CodeVisibility.PRIVATE, getFunctionReturnType(), getDeclarationParameters().toArray( new Parameter[0] ));
 
-        for( BlockConnector connector : connectors )
-            if( connector.getLabel().equals( "do" ) && connector.getConnectedBlock() != null )
-                function.add( connector.getConnectedBlock().toCode() );
+        function.add( getContainedCode()[0] );
+
+        ReturnStatement[] returns = getReturnStatements();
+
+        if( returns.length > 0 )
+            function.add( returns[0] );
 
         return function;
     }

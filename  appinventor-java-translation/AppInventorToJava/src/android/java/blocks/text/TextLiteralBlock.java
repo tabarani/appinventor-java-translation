@@ -36,7 +36,7 @@ public class TextLiteralBlock extends LiteralBlock
         super( block );
     }
 
-    public final CodeSegment toCode()
+    public CodeSegment generateCode()
     {
         return new Value( String.format( "\"%s\"", getLabel() ));
     }

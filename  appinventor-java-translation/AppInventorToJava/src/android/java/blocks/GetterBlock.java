@@ -24,20 +24,20 @@ import android.java.code.CodeSegment;
 import android.java.code.Value;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = ".*Global" )
+@BlockAnnotation( genusPattern = "getter.*" )
 
 /**
  *
  * @author Joshua
  */
-public class GlobalStub extends Block
+public class GetterBlock extends Block
 {
-    public GlobalStub( Node node )
+    public GetterBlock( Node node )
     {
         super( node );
     }
 
-    public CodeSegment toCode()
+    public CodeSegment generateCode()
     {
         return new Value( getLabel() );
     }

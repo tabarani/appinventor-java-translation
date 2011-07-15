@@ -17,29 +17,42 @@
    limitations under the License.
 */
 
-package android.java.blocks.definition;
+package android.java.code;
 
-import android.java.blocks.Block;
-import android.java.blocks.annotation.BlockAnnotation;
-import android.java.code.CodeSegment;
-import android.java.code.Parameter;
-import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "argument" )
+import android.java.util.CodeUtil;
 
 /**
  *
  * @author Joshua
  */
-public class ArgumentBlock extends Block
+public class ForEachSegment extends CodeSegment
 {
-    public ArgumentBlock( Node block )
+    private Value variable, list;
+
+    public ForEachSegment( Value variable, Value list )
     {
-        super( block );
+        this.variable = variable;
+        this.list = list;
     }
 
-    public CodeSegment generateCode()
+    public String toString()
     {
-        return new Parameter( "Object", getLabel() );
+        StringBuilder builder = new StringBuilder();
+
+        builder.append( String.format( "for( %s : %s )\n{", variable, list ));
+
+        for( int i = 0; i < blocks.size(); i++ )
+        {
+            builder.append( "\n" );
+
+            if( blocks.get( i ) instanceof FunctionSegment && i != 0 )
+                builder.append( "\n" );
+
+            builder.append( CodeUtil.indent( blocks.get( i ).toString() ));
+        }
+
+        builder.append( "\n}" );
+
+        return builder.toString();
     }
 }

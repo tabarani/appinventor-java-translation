@@ -17,29 +17,48 @@
    limitations under the License.
 */
 
-package android.java.blocks.definition;
+package android.java.blocks.control;
 
 import android.java.blocks.Block;
+import android.java.blocks.BlockConnector;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
-import android.java.code.Parameter;
+import android.java.code.IfSegment;
+import android.java.code.Value;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = "argument" )
+@BlockAnnotation( genusPattern = "if.*" )
 
 /**
  *
  * @author Joshua
  */
-public class ArgumentBlock extends Block
+public class IfBlock extends Block
 {
-    public ArgumentBlock( Node block )
+    public IfBlock( Node block )
     {
         super( block );
     }
 
     public CodeSegment generateCode()
     {
-        return new Parameter( "Object", getLabel() );
+        IfSegment segment = new IfSegment( getTest() );
+        CodeSegment[] contained = getContainedCode();
+
+        segment.add( contained[0] );
+
+        if( contained.length > 1 )
+            segment.setElse( contained[1] );
+
+        return segment;
+    }
+
+    private Value getTest()
+    {
+        for( BlockConnector connector : connectors )
+            if( connector.getLabel().equals( "test" ) && connector.hasConnectedBlock() )
+                return (Value)connector.getConnectedBlock().generateCode();
+
+        return new Value( "false" );
     }
 }

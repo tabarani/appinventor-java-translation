@@ -39,7 +39,7 @@ public class MathLiteralBlock extends LiteralBlock
         super( block );
     }
 
-    public CodeSegment toCode()
+    public CodeSegment generateCode()
     {
         return new Value( getLabel() );
     }

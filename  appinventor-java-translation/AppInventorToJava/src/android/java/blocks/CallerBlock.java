@@ -40,7 +40,7 @@ public class CallerBlock extends Block
         super( node );
     }
 
-    public CodeSegment toCode()
+    public CodeSegment generateCode()
     {
         if( getGenus().equals( "caller-command" ))
             return new ValueStatement( createFunction() );
@@ -55,7 +55,7 @@ public class CallerBlock extends Block
         for( BlockConnector c : connectors )
             if( !(c instanceof Plug ))
                 if( c.hasConnectedBlock())
-                    params.add( (Value)(c.getConnectedBlock().toCode()) );
+                    params.add( (Value)(c.getConnectedBlock().generateCode()) );
                 else
                     params.add( new Value( "null" ));
 

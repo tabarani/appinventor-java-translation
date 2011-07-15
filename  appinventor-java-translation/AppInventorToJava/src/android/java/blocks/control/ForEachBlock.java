@@ -17,36 +17,56 @@
    limitations under the License.
 */
 
-package android.java.blocks.definition;
+package android.java.blocks.control;
 
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
 import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
+import android.java.code.ForEachSegment;
 import android.java.code.Value;
-import android.java.code.ValueStatement;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = "glue" )
+@BlockAnnotation( genusPattern = "foreach" )
 
 /**
  *
  * @author Joshua
  */
-public class GlueBlock extends Block
+public class ForEachBlock extends Block
 {
-    public GlueBlock( Node block )
+    public ForEachBlock( Node block )
     {
         super( block );
     }
 
     public CodeSegment generateCode()
     {
-        BlockConnector toCall = connectors.get( 0 );
+        ForEachSegment segment = new ForEachSegment( getVariable(), getInList() );
 
-        if( toCall.hasConnectedBlock() )
-            return new ValueStatement( (Value)toCall.getConnectedBlock().generateCode() );
-        else
-            return null;
+        segment.add( getContainedCode()[0] );
+
+        return segment;
+    }
+
+    private Value getVariable()
+    {
+        for( BlockConnector connector : connectors )
+            if( connector.getLabel().equals( "variable" ))
+                if( connector.hasConnectedBlock() )
+                    return new Value( connector.getConnectedBlock().generateCode().toString() );
+
+        //TODO: Make sure this doesn't conflict
+        return new Value( "Object o" );
+    }
+
+    private Value getInList()
+    {
+        for( BlockConnector connector : connectors )
+            if( connector.getLabel().equals( "in list" ))
+                if( connector.hasConnectedBlock() )
+                    return (Value)connector.getConnectedBlock().generateCode();
+
+        return new Value( "null" );
     }
 }

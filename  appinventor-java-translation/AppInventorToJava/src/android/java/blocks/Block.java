@@ -20,6 +20,7 @@
 package android.java.blocks;
 
 import android.java.code.CodeSegment;
+import android.java.code.ReturnStatement;
 import android.java.code.Value;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,6 +58,11 @@ public class Block
         return genusName;
     }
 
+    public CodeSegment generateCode()
+    {
+        return null;
+    }
+
     public CodeSegment declare()
     {
         return null;
@@ -67,9 +73,14 @@ public class Block
         return null;
     }
 
-    public CodeSegment toCode()
+    public final CodeSegment toCode()
     {
-        return null;
+        CodeSegment segment = new CodeSegment();
+
+        segment.add( generateCode() );
+        segment.add( getNextCode() );
+
+        return segment;
     }
 
     public final String getLabel()
@@ -124,10 +135,42 @@ public class Block
         return false;
     }
 
+    protected final CodeSegment[] getContainedCode()
+    {
+        ArrayList<CodeSegment> contained = new ArrayList<CodeSegment>();
+
+        for( BlockConnector connector : connectors )
+        {
+            if( connector.getLabel().endsWith( "do" ))
+                if( connector.hasConnectedBlock() )
+                    contained.add( connector.getConnectedBlock().toCode() );
+                else
+                    contained.add( null );
+        }
+
+        return contained.toArray( new CodeSegment[0] );
+    }
+
+    protected final ReturnStatement[] getReturnStatements()
+    {
+        ArrayList<ReturnStatement> returnStatements = new ArrayList<ReturnStatement>();
+
+        for( BlockConnector connector : connectors )
+        {
+            if( connector.getLabel().endsWith( "return" ))
+                if( connector.hasConnectedBlock() )
+                    returnStatements.add( new ReturnStatement( (Value)connector.getConnectedBlock().generateCode() ));
+                else
+                    returnStatements.add( new ReturnStatement( new Value( "null" )));
+        }
+
+        return returnStatements.toArray( new ReturnStatement[0] );
+    }
+
     protected final CodeSegment getNextCode()
     {
         if( afterBlock != null )
-            return afterBlock.toCode();
+            return afterBlock.toCode() ;
         else
             return null;
     }

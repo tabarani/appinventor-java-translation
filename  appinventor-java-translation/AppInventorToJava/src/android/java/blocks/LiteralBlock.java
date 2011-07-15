@@ -39,7 +39,7 @@ public abstract class LiteralBlock extends Block
     {
         ArrayList<Value> parameters = new ArrayList<Value>();
 
-        parameters.add( (Value)toCode() );
+        parameters.add( (Value)generateCode() );
 
         return parameters;
     }

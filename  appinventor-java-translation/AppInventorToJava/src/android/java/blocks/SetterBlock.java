@@ -17,29 +17,39 @@
    limitations under the License.
 */
 
-package android.java.blocks.definition;
+package android.java.blocks;
 
-import android.java.blocks.Block;
 import android.java.blocks.annotation.BlockAnnotation;
+import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
-import android.java.code.Parameter;
+import android.java.code.Value;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = "argument" )
+@BlockAnnotation( genusPattern = "setter.*" )
 
 /**
  *
  * @author Joshua
  */
-public class ArgumentBlock extends Block
+public class SetterBlock extends Block
 {
-    public ArgumentBlock( Node block )
+    public SetterBlock( Node node )
     {
-        super( block );
+        super( node );
     }
 
     public CodeSegment generateCode()
     {
-        return new Parameter( "Object", getLabel() );
+        return new AssignmentStatement( getLabel(), getTo() );
+    }
+
+    private Value getTo()
+    {
+        for( BlockConnector connector : connectors )
+            if( connector.getLabel().equals( "to" ))
+                if( connector.hasConnectedBlock() )
+                    return (Value)connector.getConnectedBlock().generateCode();
+
+        return new Value( "null" );
     }
 }
