@@ -20,7 +20,6 @@
 package android.java.blocks;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -46,7 +45,6 @@ class BlocksFactory
 
         for( Class<?> c : blocks )
         {
-            BlockAnnotation annotation = c.getAnnotation( BlockAnnotation.class );
             try
             {
                 String genusPattern = (String)c.getMethod( "getGenusPattern" ).invoke( null );

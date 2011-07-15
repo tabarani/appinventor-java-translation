@@ -21,7 +21,6 @@ package android.java.blocks.control;
 
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.ForEachSegment;
 import android.java.code.Value;
