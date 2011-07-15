@@ -29,11 +29,6 @@ public class BlockAnnotationComparator implements Comparator<BlockAnnotation>
 {
     public int compare( BlockAnnotation a1, BlockAnnotation a2 )
     {
-        int operationComparison = a1.genusRelation().compareTo( a2.genusRelation() );
-        
-        if( operationComparison == 0 )
-            return a1.genus().compareTo( a2.genus() );
-        else
-            return operationComparison;
+        return a1.genusPattern().compareTo( a2.genusPattern() );
     }
 }

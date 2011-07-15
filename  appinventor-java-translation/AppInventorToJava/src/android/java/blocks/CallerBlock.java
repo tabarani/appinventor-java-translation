@@ -20,7 +20,6 @@
 package android.java.blocks;
 
 import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
 import android.java.code.CodeSegment;
 import android.java.code.FunctionCall;
 import android.java.code.Value;
@@ -28,9 +27,7 @@ import android.java.code.ValueStatement;
 import java.util.ArrayList;
 import org.w3c.dom.Node;
 
-@BlockAnnotation(
-    genus = "caller",
-    genusRelation = StringRelationship.STARTS_WITH )
+@BlockAnnotation( genusPattern = "caller.*" )
 
 /**
  *

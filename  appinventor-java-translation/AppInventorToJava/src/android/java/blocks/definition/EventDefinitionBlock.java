@@ -19,16 +19,12 @@
 
 package android.java.blocks.definition;
 
-import android.java.blocks.definition.FunctionDefinitionBlock;
 import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
 import java.util.HashSet;
 
 import org.w3c.dom.Node;
 
-@BlockAnnotation(
-    genus = "-",
-    genusRelation = StringRelationship.CONTAINS )
+@BlockAnnotation( genusPattern = "[A-Z].*-.*" )
 
 /**
  *

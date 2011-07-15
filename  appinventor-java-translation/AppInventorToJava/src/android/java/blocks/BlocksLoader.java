@@ -24,7 +24,6 @@ import android.java.blocks.annotation.BlockAnnotation;
 import android.java.blocks.annotation.BlockAnnotationComparator;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
@@ -95,7 +94,7 @@ class BlocksLoader
         Set<BlockAnnotation> keys = knownBlocks.keySet();
         for( BlockAnnotation key : keys )
         {
-            if( key.genusRelation().test( genus, key.genus() ))
+            if( genus.matches( key.genusPattern() ))
             {
                 try
                 {
@@ -111,14 +110,6 @@ class BlocksLoader
             }
         }
         
-        if( isLiteral( genus ))
-            return new MathLiteralBlock( blockNode );
-        else
-            return new Block( blockNode );
-    }
-
-    private static boolean isLiteral( String genus )
-    {
-        return genus.equals( "number" ) || genus.equals( "true" ) || genus.equals( "false" );
+        return new Block( blockNode );
     }
 }

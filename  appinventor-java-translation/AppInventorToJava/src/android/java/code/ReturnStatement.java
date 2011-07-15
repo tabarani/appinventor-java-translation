@@ -17,36 +17,23 @@
    limitations under the License.
 */
 
-package android.java.blocks.definition;
-
-import android.java.blocks.Block;
-import android.java.blocks.BlockConnector;
-import android.java.blocks.annotation.BlockAnnotation;
-import android.java.code.CodeSegment;
-import android.java.code.Value;
-import android.java.code.ValueStatement;
-import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "glue" )
+package android.java.code;
 
 /**
  *
  * @author Joshua
  */
-public class GlueBlock extends Block
+public class ReturnStatement extends Statement
 {
-    public GlueBlock( Node block )
+    Value value;
+
+    public ReturnStatement( Value value )
     {
-        super( block );
+        this.value = value;
     }
 
-    public CodeSegment toCode()
+    public String toString()
     {
-        BlockConnector toCall = connectors.get( 0 );
-
-        if( toCall.hasConnectedBlock() )
-            return new ValueStatement( (Value)toCall.getConnectedBlock().toCode() );
-        else
-            return null;
+        return String.format( "return %s;", value );
     }
 }

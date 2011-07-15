@@ -17,33 +17,30 @@
    limitations under the License.
 */
 
-package android.java.blocks.annotation;
+package android.java.blocks.logic;
+
+import android.java.blocks.Block;
+import android.java.blocks.annotation.BlockAnnotation;
+import android.java.code.CodeSegment;
+import android.java.code.Value;
+
+import org.w3c.dom.Node;
+
+@BlockAnnotation( genusPattern = "true|false" )
 
 /**
  *
  * @author Joshua
  */
-public enum StringRelationship
+public class BooleanLiteralBlock extends Block
 {
-    EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS;
-
-    public boolean test( String a, String b )
+    public BooleanLiteralBlock( Node block )
     {
-        switch( this )
-        {
-            case STARTS_WITH:
-                return a.startsWith( b );
+        super( block );
+    }
 
-            case ENDS_WITH:
-                return a.endsWith( b );
-
-            case CONTAINS:
-                return a.contains( b );
-
-            case EQUALS:
-                return a.equals( b );
-        }
-
-        return false;
+    public CodeSegment toCode()
+    {
+        return new Value( getLabel() );
     }
 }

@@ -32,6 +32,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface BlockAnnotation
 {
-    String genus();
-    StringRelationship genusRelation();
+    String genusPattern();
 }

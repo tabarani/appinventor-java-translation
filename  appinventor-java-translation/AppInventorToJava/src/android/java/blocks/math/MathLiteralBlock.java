@@ -20,10 +20,13 @@
 package android.java.blocks.math;
 
 import android.java.blocks.Block;
+import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 
 import org.w3c.dom.Node;
+
+@BlockAnnotation( genusPattern = "number" )
 
 /**
  *

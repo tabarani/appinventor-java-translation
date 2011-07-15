@@ -20,16 +20,10 @@
 package android.java.blocks.text;
 
 import android.java.blocks.math.MathLiteralBlock;
-import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 
 import org.w3c.dom.Node;
-
-@BlockAnnotation(
-    genus = "text",
-    genusRelation = StringRelationship.EQUALS )
 
 /**
  *

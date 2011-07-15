@@ -21,18 +21,18 @@ package android.java.blocks.definition;
 
 import android.java.blocks.Block;
 import android.java.blocks.annotation.BlockAnnotation;
-import android.java.blocks.annotation.StringRelationship;
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
 import android.java.code.ConstructorCall;
 import android.java.code.DeclarationStatement;
+import android.java.code.Value;
 import android.java.util.CodeUtil;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.w3c.dom.Node;
 
-@BlockAnnotation(
-    genus = "def",
-    genusRelation = StringRelationship.EQUALS )
+@BlockAnnotation( genusPattern = "def" )
 
 /**
  *
@@ -53,15 +53,23 @@ public class VariableDefinitionBlock extends Block
     public CodeSegment define()
     {
         String dataType = connectors.get( 0 ).getDataType();
+        Collection<Value> constructorParameters = getConstructorParameters();
 
         try
         {
             if( !Class.forName( CodeUtil.removeGeneric( dataType )).isPrimitive() )
-                return new AssignmentStatement( label, new ConstructorCall( dataType ));
+                return new AssignmentStatement( label, new ConstructorCall( dataType, constructorParameters ));
         } catch( ClassNotFoundException e ) {
             System.err.println( e );
         }
 
         return null;
+    }
+
+    private Collection<Value> getConstructorParameters()
+    {
+        ArrayList<Value> parameters = new ArrayList<Value>();
+
+        return parameters;
     }
 }
