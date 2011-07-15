@@ -19,15 +19,12 @@
 
 package android.java.blocks;
 
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.FunctionCall;
 import android.java.code.Value;
 import android.java.code.ValueStatement;
 import java.util.ArrayList;
 import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "caller.*" )
 
 /**
  *
@@ -38,6 +35,11 @@ public class CallerBlock extends Block
     public CallerBlock( Node node )
     {
         super( node );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "caller.*";
     }
 
     public CodeSegment generateCode()

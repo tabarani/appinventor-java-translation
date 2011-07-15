@@ -27,8 +27,6 @@ import android.java.code.ForEachSegment;
 import android.java.code.Value;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = "foreach" )
-
 /**
  *
  * @author Joshua
@@ -38,6 +36,11 @@ public class ForEachBlock extends Block
     public ForEachBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "foreach";
     }
 
     public CodeSegment generateCode()

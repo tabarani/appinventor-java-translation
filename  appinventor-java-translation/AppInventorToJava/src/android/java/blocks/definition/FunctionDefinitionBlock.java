@@ -22,7 +22,6 @@ package android.java.blocks.definition;
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
 import android.java.blocks.math.MathLiteralBlock;
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
 import android.java.code.FunctionCall;
@@ -36,8 +35,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = "define.*" )
-
 /**
  *
  * @author Joshua
@@ -49,6 +46,11 @@ public class FunctionDefinitionBlock extends Block
     public FunctionDefinitionBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "define.*";
     }
 
     public Collection<Integer> getParameterNumbers()

@@ -58,6 +58,11 @@ public class Block
         return genusName;
     }
 
+    public static String getGenusPattern()
+    {
+        return null;
+    }
+
     public CodeSegment generateCode()
     {
         return null;

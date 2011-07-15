@@ -20,13 +20,10 @@
 package android.java.blocks.math;
 
 import android.java.blocks.LiteralBlock;
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 
 import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "number" )
 
 /**
  *
@@ -37,6 +34,11 @@ public class MathLiteralBlock extends LiteralBlock
     public MathLiteralBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "number";
     }
 
     public CodeSegment generateCode()

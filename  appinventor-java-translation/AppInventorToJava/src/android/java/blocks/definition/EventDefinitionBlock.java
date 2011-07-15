@@ -19,12 +19,9 @@
 
 package android.java.blocks.definition;
 
-import android.java.blocks.annotation.BlockAnnotation;
 import java.util.HashSet;
 
 import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "[A-Z].*-.*" )
 
 /**
  *
@@ -35,6 +32,11 @@ public class EventDefinitionBlock extends FunctionDefinitionBlock
     public EventDefinitionBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "[A-Z].*-.*";
     }
 
     public String getFunctionName()

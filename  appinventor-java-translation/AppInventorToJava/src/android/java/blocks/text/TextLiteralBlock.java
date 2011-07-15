@@ -36,6 +36,11 @@ public class TextLiteralBlock extends LiteralBlock
         super( block );
     }
 
+    public static String getGenusPattern()
+    {
+        return "text";
+    }
+
     public CodeSegment generateCode()
     {
         return new Value( String.format( "\"%s\"", getLabel() ));

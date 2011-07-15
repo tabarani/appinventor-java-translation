@@ -20,13 +20,10 @@
 package android.java.blocks.logic;
 
 import android.java.blocks.LiteralBlock;
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 
 import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "true|false" )
 
 /**
  *
@@ -37,6 +34,11 @@ public class BooleanLiteralBlock extends LiteralBlock
     public BooleanLiteralBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "true|false";
     }
 
     public CodeSegment generateCode()

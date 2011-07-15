@@ -21,13 +21,10 @@ package android.java.blocks.definition;
 
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 import android.java.code.ValueStatement;
 import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "glue" )
 
 /**
  *
@@ -38,6 +35,11 @@ public class GlueBlock extends Block
     public GlueBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "glue";
     }
 
     public CodeSegment generateCode()

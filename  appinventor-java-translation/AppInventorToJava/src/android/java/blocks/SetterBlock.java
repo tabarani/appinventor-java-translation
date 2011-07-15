@@ -19,13 +19,10 @@
 
 package android.java.blocks;
 
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
 import android.java.code.Value;
 import org.w3c.dom.Node;
-
-@BlockAnnotation( genusPattern = "setter.*" )
 
 /**
  *
@@ -36,6 +33,11 @@ public class SetterBlock extends Block
     public SetterBlock( Node node )
     {
         super( node );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "setter.*";
     }
 
     public CodeSegment generateCode()

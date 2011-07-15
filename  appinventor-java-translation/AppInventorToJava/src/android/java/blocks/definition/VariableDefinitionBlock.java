@@ -21,7 +21,6 @@ package android.java.blocks.definition;
 
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
-import android.java.blocks.annotation.BlockAnnotation;
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
@@ -32,8 +31,6 @@ import android.java.util.CodeUtil;
 import java.util.Collection;
 import org.w3c.dom.Node;
 
-@BlockAnnotation( genusPattern = "def" )
-
 /**
  *
  * @author Joshua
@@ -43,6 +40,11 @@ public class VariableDefinitionBlock extends Block
     public VariableDefinitionBlock( Node block )
     {
         super( block );
+    }
+
+    public static String getGenusPattern()
+    {
+        return "def";
     }
 
     public CodeSegment declare()

@@ -19,8 +19,8 @@
 
 package android.java.blocks;
 
-import android.java.blocks.annotation.BlockAnnotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -35,21 +35,30 @@ import org.w3c.dom.NodeList;
  */
 class BlocksFactory
 {
-    private final HashMap<BlockAnnotation, Class<?>> knownBlocks = new HashMap<BlockAnnotation, Class<?>>();
+    private final HashMap<String, Class<?>> knownBlocks = new HashMap<String, Class<?>>();
 
     protected BlocksFactory()
     {
         String packageName = getClass().getPackage().getName();
         Reflections reflections = new Reflections( packageName );
 
-        Set<Class<?>> blocks = reflections.getTypesAnnotatedWith( BlockAnnotation.class );
+        Set<Class<? extends Block>> blocks = reflections.getSubTypesOf( Block.class );
 
         for( Class<?> c : blocks )
-            if( Block.class.isAssignableFrom( c ))
+        {
+            BlockAnnotation annotation = c.getAnnotation( BlockAnnotation.class );
+            try
             {
-                BlockAnnotation annotation = c.getAnnotation( BlockAnnotation.class );
-                knownBlocks.put( annotation, c );
+                String genusPattern = (String)c.getMethod( "getGenusPattern" ).invoke( null );
+                
+                if( genusPattern != null )
+                    knownBlocks.put( genusPattern, c );
+            } catch( Exception e )
+            {
+                System.out.println( e );
+                System.exit( 1 );
             }
+        }
     }
 
     protected ArrayList<Block> loadBlocks( NodeList blocks )
@@ -88,10 +97,10 @@ class BlocksFactory
 
         String genus = blockNode.getAttributes().getNamedItem( "genus-name" ).getNodeValue();
 
-        Set<BlockAnnotation> keys = knownBlocks.keySet();
-        for( BlockAnnotation key : keys )
+        Set<String> keys = knownBlocks.keySet();
+        for( String key : keys )
         {
-            if( genus.matches( key.genusPattern() ))
+            if( genus.matches( key ))
             {
                 try
                 {

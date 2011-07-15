@@ -38,6 +38,11 @@ public class ArgumentBlock extends Block
         super( block );
     }
 
+    public static String getGenusPattern()
+    {
+        return "argument";
+    }
+
     public CodeSegment generateCode()
     {
         return new Parameter( "Object", getLabel() );
