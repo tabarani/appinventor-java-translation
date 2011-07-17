@@ -68,16 +68,6 @@ public class Block
         return null;
     }
 
-    public CodeSegment declare()
-    {
-        return null;
-    }
-
-    public CodeSegment define()
-    {
-        return null;
-    }
-
     public final CodeSegment toCode()
     {
         CodeSegment segment = new CodeSegment();
@@ -101,11 +91,6 @@ public class Block
     public HashSet<String> getEvents()
     {
         return new HashSet<String>();
-    }
-
-    public final boolean isFirstGeneration()
-    {
-        return ( beforeBlock == null );
     }
 
     public final boolean isPlugged()

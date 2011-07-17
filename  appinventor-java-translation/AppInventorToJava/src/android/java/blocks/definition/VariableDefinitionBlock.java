@@ -19,8 +19,8 @@
 
 package android.java.blocks.definition;
 
-import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
+import android.java.blocks.DefinitionBlock;
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class VariableDefinitionBlock extends Block
+public class VariableDefinitionBlock extends DefinitionBlock
 {
     public VariableDefinitionBlock( Node block )
     {

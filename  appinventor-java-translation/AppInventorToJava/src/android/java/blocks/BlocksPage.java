@@ -39,7 +39,7 @@ import org.w3c.dom.NodeList;
  */
 public class BlocksPage
 {
-    private final ArrayList<Block> blocks = new ArrayList<Block>();
+    private final ArrayList<DefinitionBlock> blocks = new ArrayList<DefinitionBlock>();
     private BlocksFactory loader = new BlocksFactory();
 
     public BlocksPage( Node page )
@@ -58,7 +58,7 @@ public class BlocksPage
     {
         CodeSegment code = new CodeSegment();
 
-        for( Block block : blocks )
+        for( DefinitionBlock block : blocks )
             code.add( block.declare() );
 
         return code;
@@ -68,7 +68,7 @@ public class BlocksPage
     {
         CodeSegment code = new CodeSegment();
 
-        for( Block block : blocks )
+        for( DefinitionBlock block : blocks )
             code.add( block.define() );
 
         return code;

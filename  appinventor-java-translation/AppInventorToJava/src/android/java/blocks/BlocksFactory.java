@@ -59,14 +59,17 @@ class BlocksFactory
         }
     }
 
-    protected ArrayList<Block> loadBlocks( NodeList blocks )
+    protected ArrayList<DefinitionBlock> loadBlocks( NodeList blocks )
     {
-        ArrayList<Block> blocksList = new ArrayList<Block>();
+        ArrayList<DefinitionBlock> blocksList = new ArrayList<DefinitionBlock>();
         HashMap<Integer, Block> blocksMap = getBlocksMap( blocks );
 
         for( Block b : blocksMap.values() )
-            if( b.setReferences( blocksMap ))
-                blocksList.add( b );
+        {
+            b.setReferences( blocksMap );
+            if( DefinitionBlock.class.isAssignableFrom( b.getClass() ))
+                blocksList.add( (DefinitionBlock)b );
+        }
 
         return blocksList;
     }

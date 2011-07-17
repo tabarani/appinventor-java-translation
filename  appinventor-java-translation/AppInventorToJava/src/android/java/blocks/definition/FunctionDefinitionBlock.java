@@ -21,6 +21,7 @@ package android.java.blocks.definition;
 
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
+import android.java.blocks.DefinitionBlock;
 import android.java.blocks.math.MathLiteralBlock;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
@@ -39,7 +40,7 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class FunctionDefinitionBlock extends Block
+public class FunctionDefinitionBlock extends DefinitionBlock
 {
     private final ArrayList<Parameter> parameters = new ArrayList<Parameter>();
 
@@ -63,16 +64,19 @@ public class FunctionDefinitionBlock extends Block
         return numbers;
     }
 
+    public CodeSegment declare()
+    {
+        return createDeclaration();
+    }
+
+    public CodeSegment define()
+    {
+        return null;
+    }
+
     public CodeSegment generateCode()
     {
-        CodeSegment code = new CodeSegment();
-
-        if( isFirstGeneration() )
-            code.add( createDeclaration() );
-        else
-            code.add( createCall() );
-
-        return code;
+        return null;
     }
 
     public String getFunctionName()
