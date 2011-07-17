@@ -39,12 +39,12 @@ public class CallerBlock extends Block
 
     public static String getGenusPattern()
     {
-        return "caller.*";
+        return "[A-Z].*-.*|caller.*";
     }
 
     public CodeSegment generateCode()
     {
-        if( getGenus().equals( "caller-command" ))
+        if( getGenus().equals( "caller-command" ) || !getGenus().startsWith( "caller" ))
             return new ValueStatement( createFunction() );
         else
             return createFunction();

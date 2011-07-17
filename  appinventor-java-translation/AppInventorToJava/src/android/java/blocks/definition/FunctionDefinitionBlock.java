@@ -131,17 +131,7 @@ public class FunctionDefinitionBlock extends DefinitionBlock
         return values;
     }
 
-    private final CodeSegment createCall()
-    {
-        FunctionCall call = new FunctionCall( getFunctionName().replaceAll( "_", "." ), getCallParameters() );
-
-        if( !isPlugged() )
-            return new ValueStatement( call );
-        else
-            return call;
-    }
-
-    private final CodeSegment createDeclaration()
+    private CodeSegment createDeclaration()
     {
         FunctionSegment function = new FunctionSegment( getFunctionName(), CodeVisibility.PRIVATE, getFunctionReturnType(), getDeclarationParameters().toArray( new Parameter[0] ));
 

@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
  */
 class BlocksFactory
 {
-    private final HashMap<String, Class<?>> knownBlocks = new HashMap<String, Class<?>>();
+    private final HashMap<String, Class<? extends Block>> knownBlocks = new HashMap<String, Class<? extends Block>>();
 
     protected BlocksFactory()
     {
@@ -43,7 +43,7 @@ class BlocksFactory
 
         Set<Class<? extends Block>> blocks = reflections.getSubTypesOf( Block.class );
 
-        for( Class<?> c : blocks )
+        for( Class<? extends Block> c : blocks )
         {
             try
             {
@@ -94,8 +94,6 @@ class BlocksFactory
 
     private Block createBlock( Node blockNode )
     {
-        String myPackage = Block.class.getPackage().getName();
-
         String genus = blockNode.getAttributes().getNamedItem( "genus-name" ).getNodeValue();
 
         Set<String> keys = knownBlocks.keySet();
@@ -103,20 +101,36 @@ class BlocksFactory
         {
             if( genus.matches( key ))
             {
-                try
-                {
-                    Constructor c = knownBlocks.get( key ).getConstructor( Node.class );
-                    return (Block)c.newInstance( blockNode );
-                } catch( NoSuchMethodException e ) {
-                    System.err.println( knownBlocks.get( key ).toString() + " does not have a constructor accepting a Node parameter." );
-                    System.exit( 1 );
-                } catch( Exception e ) {
-                    System.err.println( e );
-                    System.exit( 1 );
-                }
+                if( isDefinition( blockNode ) ^ !DefinitionBlock.class.isAssignableFrom( knownBlocks.get( key )) )
+                    try
+                    {
+                        Constructor c = knownBlocks.get( key ).getConstructor( Node.class );
+                        return (Block)c.newInstance( blockNode );
+                    } catch( NoSuchMethodException e ) {
+                        System.err.println( knownBlocks.get( key ).toString() + " does not have a constructor accepting a Node parameter." );
+                        System.exit( 1 );
+                    } catch( Exception e ) {
+                        System.err.println( e );
+                        System.exit( 1 );
+                    }
             }
         }
         
         return new Block( blockNode );
+    }
+
+    private static boolean isDefinition( Node blockNode )
+    {
+        NodeList children = blockNode.getChildNodes();
+
+        for( int i = 0; i < children.getLength(); i++ )
+        {
+            String name = children.item( i ).getNodeName();
+
+            if( name.equals( "BeforeBlockId" ) || name.equals( "Plug" ))
+                return false;
+        }
+
+        return true;
     }
 }
