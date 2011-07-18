@@ -21,6 +21,7 @@ package android.java.blocks;
 
 import android.java.code.AssignmentStatement;
 import android.java.code.CodeSegment;
+import android.java.code.FunctionCall;
 import android.java.code.Value;
 import org.w3c.dom.Node;
 
@@ -37,12 +38,15 @@ public class SetterBlock extends Block
 
     public static String getGenusPattern()
     {
-        return "setter.*";
+        return "setter.*|.*Setter";
     }
 
     public CodeSegment generateCode()
     {
-        return new AssignmentStatement( getLabel(), getTo() );
+        if( getLabel().startsWith( "setter" ))
+            return new AssignmentStatement( getLabel(), getTo() );
+        else
+            return new FunctionCall( getLabel(), getTo() );
     }
 
     private Value getTo()

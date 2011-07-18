@@ -20,6 +20,7 @@
 package android.java.blocks;
 
 import android.java.code.CodeSegment;
+import android.java.code.FunctionCall;
 import android.java.code.Value;
 import org.w3c.dom.Node;
 
@@ -36,11 +37,14 @@ public class GetterBlock extends Block
 
     public static String getGenusPattern()
     {
-        return "getter.*";
+        return "getter.*|.*Getter";
     }
 
     public CodeSegment generateCode()
     {
-        return new Value( getLabel() );
+        if( getGenus().startsWith( "getter" ))
+            return new Value( getLabel() );
+        else
+            return new FunctionCall( getLabel() );
     }
 }
