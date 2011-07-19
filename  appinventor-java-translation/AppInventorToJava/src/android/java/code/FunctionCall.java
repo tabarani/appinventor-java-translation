@@ -62,6 +62,15 @@ public class FunctionCall extends Value
             parameters.add( v );
     }
 
+    public FunctionCall( String target, String identifier, Collection<Value> params )
+    {
+        this.target = new String( target );
+        this.identifier = new String( identifier );
+
+        for( Value v : params )
+            parameters.add( v );
+    }
+
     public FunctionCall( String identifier, Collection<Value> params )
     {
         this.identifier = identifier;

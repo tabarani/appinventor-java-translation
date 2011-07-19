@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : APIMapping.xml
+    Created on : July 19, 2011, 12:06 PM
+    Author     : Joshua
+    Description:
+        Purpose of the document follows.
+-->
+
+<API>
+    <Entry genus="string-upcase" function="toUpperCase" />
+    <Entry genus="string-downcase" function="toLowerCase" />
+    <Entry genus="string-append" function="concat" />
+</API>

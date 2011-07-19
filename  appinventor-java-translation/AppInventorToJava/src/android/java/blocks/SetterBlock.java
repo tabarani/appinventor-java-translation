@@ -43,7 +43,7 @@ public class SetterBlock extends Block
 
     public CodeSegment generateCode()
     {
-        if( getLabel().startsWith( "setter" ))
+        if( getGenus().startsWith( "setter" ))
             return new AssignmentStatement( getLabel(), getTo() );
         else
             return new FunctionCall( getLabel(), getTo() );

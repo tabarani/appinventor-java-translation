@@ -19,14 +19,19 @@
 
 package android.java;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Joshua
  */
 public abstract class JavaBridgeConstants
 {
+    public static final String API_MAPPING_FILE = "APIMapping.xml";
     public static final String COMPONENT_PREFIX = "com.google.devtools.simple.runtime.components.android.";
     public static final String FORM = "com.google.devtools.simple.runtime.components.android.Form";
     public static final String[] EVENT_HANDLING_INTERFACES = { "com.google.devtools.simple.runtime.components.HandlesEventDispatching" };
     public static final String EVENT_DISPATCHER = "com.google.devtools.simple.runtime.events.EventDispatcher";
+
+    public static final HashMap<String, String> API = new APIMapping();
 }

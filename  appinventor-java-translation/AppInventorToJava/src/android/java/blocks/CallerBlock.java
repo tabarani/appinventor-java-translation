@@ -50,7 +50,7 @@ public class CallerBlock extends Block
             return createFunction();
     }
 
-    protected FunctionCall createFunction()
+    private FunctionCall createFunction()
     {
         ArrayList<Value> params = new ArrayList<Value>();
 
