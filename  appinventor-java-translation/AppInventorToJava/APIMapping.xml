@@ -9,11 +9,23 @@
 -->
 
 <API>
-    <Entry genus="string-upcase" nParams="1" simpleFunction="toUpperCase" />
-    <Entry genus="string-downcase" nParams="1" simpleFunction="toLowerCase" />
-    <Entry genus="string-append" nParams="1" simpleFunction="concat" />
-    <Entry genus="string-equal" nParams="1" simpleFunction="equals" />
-    <Entry genus="string-split" nParams="1" simpleFunction="split" />
+    <Entry genus="string-upcase" static="false" nParams="1" simpleFunction="toUpperCase" />
+    <Entry genus="string-downcase" static="false" nParams="1" simpleFunction="toLowerCase" />
+    <Entry genus="string-append" static="false" nParams="1" simpleFunction="concat" />
+    <Entry genus="string-equal" static="false" nParams="1" simpleFunction="equals" />
+    <Entry genus="string-split" static="false" nParams="1" simpleFunction="split" />
 
-    <Entry genus="string-split-at-spaces" />
+    <Entry genus="string-vappend" static="true" minParams="1">
+        <Function name="" static="false">
+            <Target>
+                <Construct class="java.util.Scanner" />
+            </Target>
+        </Call>
+    </Entry>
+
+    <Entry genus="string-split-at-spaces" static="false" nParams="0">
+        <Call genus="string-split" static="false">
+            <Parameter value="&quot;\s&quot;" />
+        </Call>
+    </Entry>
 </API>
