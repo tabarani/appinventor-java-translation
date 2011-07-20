@@ -22,7 +22,7 @@ package android.java.blocks.definition;
 import android.java.blocks.Block;
 import android.java.blocks.BlockConnector;
 import android.java.blocks.DefinitionBlock;
-import android.java.blocks.math.MathLiteralBlock;
+import android.java.blocks.literal.MathLiteralBlock;
 import android.java.code.CodeSegment;
 import android.java.code.CodeVisibility;
 import android.java.code.FunctionCall;

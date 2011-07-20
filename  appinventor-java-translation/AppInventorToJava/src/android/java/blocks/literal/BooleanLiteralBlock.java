@@ -17,7 +17,7 @@
    limitations under the License.
 */
 
-package android.java.blocks.text;
+package android.java.blocks.literal;
 
 import android.java.blocks.LiteralBlock;
 import android.java.code.CodeSegment;
@@ -29,25 +29,25 @@ import org.w3c.dom.Node;
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+public class BooleanLiteralBlock extends LiteralBlock
 {
-    public TextLiteralBlock( Node block )
+    public BooleanLiteralBlock( Node block )
     {
         super( block );
     }
 
     public static String getGenusPattern()
     {
-        return "text";
+        return "true|false";
     }
 
     public CodeSegment generateCode()
     {
-        return new Value( String.format( "\"%s\"", getLabel() ));
+        return new Value( getLabel() );
     }
 
     public String getDataType()
     {
-        return "java.lang.String";
+        return "Boolean";
     }
 }
