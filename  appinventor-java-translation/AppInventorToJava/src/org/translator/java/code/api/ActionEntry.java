@@ -37,12 +37,15 @@ public abstract class ActionEntry
     {
         NodeList children = entry.getChildNodes();
 
+        TargetReference possibleTarget = new TargetReference( entry );
+        if( possibleTarget != null )
+            target = possibleTarget;
+
         for( int i = 0; i < children.getLength(); i++ )
         {
             Node child = children.item( i );
-            if( child.getNodeName().equals( "Target" ))
-                target = new TargetReference( child );
-            else if( child.getNodeName().equals( "Parameter" ) || child.getNodeName().equals( "Parameters" ))
+
+            if( child.getNodeName().equals( "Parameter" ) || child.getNodeName().equals( "Parameters" ))
                 parameters.add( child );
         }
     }

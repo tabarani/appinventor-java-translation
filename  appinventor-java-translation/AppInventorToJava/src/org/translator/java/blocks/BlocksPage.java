@@ -19,6 +19,7 @@
 
 package org.translator.java.blocks;
 
+import org.translator.java.blocks.definition.DefinitionBlock;
 import org.translator.java.blocks.definition.EventDefinitionBlock;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.FunctionCall;

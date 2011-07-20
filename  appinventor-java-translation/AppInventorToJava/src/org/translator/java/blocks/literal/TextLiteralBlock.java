@@ -19,7 +19,6 @@
 
 package org.translator.java.blocks.literal;
 
-import org.translator.java.blocks.LiteralBlock;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.Value;
 

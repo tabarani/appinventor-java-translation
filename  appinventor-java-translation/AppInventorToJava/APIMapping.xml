@@ -1,52 +1,94 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!--
     Document   : APIMapping.xml
     Created on : July 19, 2011, 12:06 PM
-    Author     : Joshua
+    Author     : Joshua Swank
     Description:
-        Purpose of the document follows.
+        Mappings from block genus to API
 -->
 
-<API>
-    <Entry genus="string-upcase" static="false" nParams="0" simpleFunction="toUpperCase" />
-    <Entry genus="string-downcase" static="false" nParams="0" simpleFunction="toLowerCase" />
-    <Entry genus="string-append" static="false" nParams="1" simpleFunction="concat" />
-    <Entry genus="string-equal" static="false" nParams="1" simpleFunction="equals" />
-    <Entry genus="string-split" static="false" nParams="1" simpleFunction="split" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE API SYSTEM "APIMapping.dtd">
 
-    <Entry genus="string-starts-at" static="false" nParams="1">
-        <Operation style="unary" value="++">
-            <Target>
-                <Function name="indexOf">
-                    <Parameter index="0" />
+<API>
+    <Type name="java.lang.String" default="&quot;&quot;" />
+    <Type name="java.lang.Integer" default="0" />
+    <Type name="java.lang.Float" default="0.0f" />
+    <Type name="java.lang.Boolean" default="false" />
+
+    <Entry genus="string-upcase" target="java.lang.String" static="false" nParams="0" simpleFunction="toUpperCase" type="java.lang.String" />
+    <Entry genus="string-downcase" target="java.lang.String" static="false" nParams="0" simpleFunction="toLowerCase" type="java.lang.String" />
+
+    <Entry genus="string-contains" target="java.lang.String" static="false" nParams="1" simpleFunction="contains" type="java.lang.Boolean">
+        <Parameter type="java.lang.String" />
+    </Entry>
+
+    <Entry genus="string-append" target="java.lang.String" static="false" nParams="1" simpleFunction="concat" type="java.lang.String">
+        <Parameter type="java.lang.String" />
+    </Entry>
+
+    <Entry genus="string-equal" target="java.lang.String" static="false" nParams="1" simpleFunction="equals" type="java.lang.Boolean">
+        <Parameter type="java.lang.String" />
+    </Entry>
+
+    <Entry genus="string-split" target="java.lang.String" static="false" nParams="1" simpleFunction="split" type="java.lang.String[]">
+        <Parameter type="java.lang.String" />
+    </Entry>
+
+    <Entry genus="string-starts-at" target="java.lang.String" static="false" nParams="1" type="java.lang.Integer">
+        <Parameter type="java.lang.String" />
+        <Operation style="unary" target="java.lang.Integer" value="++" type="java.lang.Integer" nParams="0">
+            <Operation style="surround" target="java.lang.Integer" value="()" type="java.lang.Integer" nParams="0">
+                <Function name="indexOf" type="java.lang.Integer">
+                    <Parameter index="0" type="java.lang.String" />
                 </Function>
-            </Target>
+            </Operation>
         </Operation>
     </Entry>
 
-
-    <Entry genus="string-vappend" static="false" nParams="1">
+    <Entry genus="string-vappend" target="java.lang.String" static="false" nParams="1" type="java.lang.String">
+        <Parameter type="java.lang.String" />
         <Call genus="string-append">
-            <Parameter index="0" />
+            <Parameter index="0" type="java.lang.String" />
         </Call>
     </Entry>
 
-    <Entry genus="string-vappend" static="false" minParams="2">
+    <Entry genus="string-vappend" target="java.lang.String" static="false" minParams="2" type="java.lang.String">
+        <Parameters start="0" type="java.lang.String" />
         <Call genus="string-vappend">
-            <Target>
-                <Call genus="string-append">
-                    <Parameter index="0" />
-                </Call>
-            </Target>
-            <Parameters start="1" />
+            <Call genus="string-append">
+                <Parameter index="0" type="java.lang.Integer" />
+            </Call>
+            <Parameters start="1" type="java.lang.Integer" />
         </Call>
     </Entry>
 
-
-    <Entry genus="string-split-at-spaces" static="false" nParams="0">
+    <Entry genus="string-split-at-spaces" target="java.lang.String" static="false" nParams="0" type="java.lang.String[]">
         <Call genus="string-split">
-            <Parameter value="&quot;\s&quot;" />
+            <Parameter value="&quot;\s&quot;" type="java.lang.String" />
         </Call>
+    </Entry>
+
+    <Entry genus="string-less-than" target="java.lang.String" static="false" nParams="1" type="java.lang.Boolean">
+        <Parameter type="java.lang.String" />
+        <Operation style="surround" target="java.lang.Boolean" value="()" type="java.lang.Boolean" nParams="0">
+            <Operation style="infix" target="java.lang.Integer" value="&lt;" type="java.lang.Boolean" nParams="1">
+                <Function name="compareTo" type="java.lang.Integer">
+                    <Parameter index="0" type="java.lang.String" />
+                </Function>
+                <Parameter value="0" type="java.lang.Integer" />
+            </Operation>
+        </Operation>
+    </Entry>
+
+    <Entry genus="string-greater-than" target="java.lang.String" static="false" nParams="1" type="java.lang.Boolean">
+        <Parameter type="java.lang.String" />
+        <Operation style="surround" target="java.lang.Boolean" value="()" type="java.lang.Boolean" nParams="0">
+            <Operation style="infix" target="java.lang.Integer" value="&gt;" type="java.lang.Boolean" nParams="1">
+                <Function name="compareTo" type="java.lang.Integer">
+                    <Parameter index="0" type="java.lang.String" />
+                </Function>
+                <Parameter value="0" type="java.lang.Integer" />
+            </Operation>
+        </Operation>
     </Entry>
 </API>

@@ -19,6 +19,7 @@
 
 package org.translator.java.blocks;
 
+import org.translator.java.blocks.definition.DefinitionBlock;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;

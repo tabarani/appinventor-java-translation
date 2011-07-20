@@ -20,5 +20,7 @@ public class Tester
 
         CodeSegment segment = JavaBridgeConstants.API.generateCode( "string-starts-at", params );
         System.out.println( segment.toString() );
+
+        //System.out.println( JavaBridgeConstants.API.get( "string-vappend" ).get( 1 ).getParameterType( 1000 ));
     }
 }

@@ -17,11 +17,12 @@
    limitations under the License.
 */
 
-package org.translator.java.blocks;
+package org.translator.java.blocks.literal;
 
 import org.translator.java.code.Value;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.translator.java.blocks.Block;
 import org.w3c.dom.Node;
 
 /**

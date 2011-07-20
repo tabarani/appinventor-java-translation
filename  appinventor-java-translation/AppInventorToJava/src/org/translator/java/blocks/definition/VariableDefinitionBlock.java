@@ -20,7 +20,6 @@
 package org.translator.java.blocks.definition;
 
 import org.translator.java.blocks.BlockConnector;
-import org.translator.java.blocks.DefinitionBlock;
 import org.translator.java.code.AssignmentStatement;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.CodeVisibility;

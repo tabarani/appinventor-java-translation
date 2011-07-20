@@ -45,6 +45,11 @@ public class Value extends Statement
         return value;
     }
 
+    public boolean isNull()
+    {
+        return value.equals( "null" );
+    }
+
     protected SortedMap<String, String> getDependencies()
     {
         return new TreeMap<String, String>();

@@ -1,0 +1,47 @@
+<!--
+    Document   : APIMapping.dtd
+    Created on : July 19, 2011, 12:06 PM
+    Author     : Joshua Swank
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT API (Type*, Entry*)>
+
+<!ELEMENT Type (EMPTY)>
+    <!ATTLIST Type name CDATA #REQUIRED>
+    <!ATTLIST Type default CDATA #REQUIRED>
+
+<!ELEMENT Entry ((Parameter|Parameters)*, (Operation|Function|Call))>
+    <!ATTLIST Entry genus CDATA #REQUIRED>
+    <!ATTLIST Entry type CDATA #IMPLIED>
+    <!ATTLIST Entry target CDATA "java.lang.Object">
+    <!ATTLIST Entry static (true|false) "false">
+    <!ATTLIST Entry nParams CDATA #IMPLIED>
+    <!ATTLIST Entry minParams CDATA #IMPLIED>
+    <!ATTLIST Entry maxParams CDATA #IMPLIED>
+    <!ATTLIST Entry simpleFunction CDATA #IMPLIED>
+
+<!ELEMENT Operation ((Operation|Function|Call)?, (Parameter|Parameters)*)>
+    <!ATTLIST Operation style CDATA #IMPLIED>
+    <!ATTLIST Operation target CDATA "java.lang.Object">
+    <!ATTLIST Operation value CDATA #REQUIRED>
+    <!ATTLIST Operation nParams CDATA #IMPLIED>
+    <!ATTLIST Operation type CDATA "java.lang.Object">
+
+<!ELEMENT Function ((Operation|Function|Call)?, (Parameter|Parameters)*)>
+    <!ATTLIST Function name CDATA #REQUIRED>
+    <!ATTLIST Function type CDATA "java.lang.Object">
+
+<!ELEMENT Call ((Operation|Function|Call)?, (Parameter|Parameters)*)>
+    <!ATTLIST Call genus CDATA #REQUIRED>
+
+<!ELEMENT Parameter (Operation|Function|Call)>
+    <!ATTLIST Parameter type CDATA "java.lang.Object">
+    <!ATTLIST Parameter value CDATA #IMPLIED>
+    <!ATTLIST Parameter index CDATA #IMPLIED>
+
+<!ELEMENT Parameters (Operation|Function|Call)+>
+    <!ATTLIST Parameters type CDATA "java.lang.Object">
+    <!ATTLIST Parameters start CDATA #IMPLIED>
+    <!ATTLIST Parameters end CDATA #IMPLIED>

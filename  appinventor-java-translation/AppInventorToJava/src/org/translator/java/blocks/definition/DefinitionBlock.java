@@ -1,5 +1,6 @@
-package org.translator.java.blocks;
+package org.translator.java.blocks.definition;
 
+import org.translator.java.blocks.Block;
 import org.translator.java.code.CodeSegment;
 import org.w3c.dom.Node;
 

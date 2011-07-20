@@ -19,6 +19,7 @@
 
 package org.translator.java.code.api;
 
+import java.util.ArrayList;
 import org.translator.java.code.api.util.APIUtil;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -33,7 +34,8 @@ import org.w3c.dom.NodeList;
  */
 public class APIEntry
 {
-    private String genus;
+    private String genus, type = "java.lang.Object", targetType = "java.lang.Object";
+    private final ArrayList<String> parameterTypes = new ArrayList<String>();
     private int minParams = -1, maxParams = -1;
     private boolean isStatic = false;
     private ActionEntry action;
@@ -62,12 +64,22 @@ public class APIEntry
         if( !stat.isEmpty() )
             this.isStatic = Boolean.valueOf( stat );
 
+        String type = APIUtil.getField( fields, "type" );
+        if( !type.isEmpty() )
+            this.type = type;
+
+        String targetType = APIUtil.getField( fields, "target" );
+        if( !targetType.isEmpty() )
+            this.targetType = targetType;
+
         String simpleFunction = APIUtil.getField( fields, "simpleFunction" );
 
         if( !simpleFunction.isEmpty() )
             action = new FunctionEntry( simpleFunction );
         else
             loadAction( entry );
+
+        loadParameterTypes( entry );
     }
 
     public String getGenus()
@@ -84,8 +96,31 @@ public class APIEntry
     {
         LinkedList<Value> params = (LinkedList<Value>)p.clone();
         Value target = isStatic?null:params.removeFirst();
+        target = setDefaults( mapping, target, params );
 
         return generateCode( mapping, target, params );
+    }
+
+    public String getParameterType( int index )
+    {
+        int size = parameterTypes.size();
+
+        if( index < size )
+            return new String( parameterTypes.get( index ));
+        else if( size >= 1 )
+            return new String( parameterTypes.get( size - 1 ));
+        else
+            return "java.lang.Object";
+    }
+
+    public String getType()
+    {
+        return new String( type );
+    }
+
+    public String getTargetType()
+    {
+        return new String( targetType );
     }
 
     protected Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
@@ -125,5 +160,70 @@ public class APIEntry
                 return;
             }
         }
+    }
+
+    private void loadParameterTypes( Node entry )
+    {
+        NodeList children = entry.getChildNodes();
+
+        for( int i = 0; i < children.getLength(); i++ )
+        {
+            Node n = children.item( i );
+            String name = n.getNodeName();
+            if( name.equals( "Parameter" ))
+            {
+                String type = APIUtil.getField( n.getAttributes(), "type" );
+                parameterTypes.add( (type.isEmpty())?"java.lang.Object":type );
+            } else if( name.equals( "Parameters" )) {
+                String type = APIUtil.getField( n.getAttributes(), "type" );
+                String start = APIUtil.getField( n.getAttributes(), "start" );
+                String end = APIUtil.getField( n.getAttributes(), "end" );
+
+                int min = (start.isEmpty())?-1:Integer.valueOf( start );
+                int max = (end.isEmpty())?-1:Integer.valueOf( end );
+
+                loadParameters( min, max, type );
+
+                if( max < 0 )
+                    break;
+            }
+        }
+
+        if( parameterTypes.size() == 0 )
+            parameterTypes.add( "java.lang.Object" );
+    }
+
+    private void loadParameters( int start, int end, String type )
+    {
+        if( start >= 0 )
+        {
+            while( start < parameterTypes.size() )
+                parameterTypes.add( "java.lang.Object" );
+
+            if( start != parameterTypes.size() )
+                throw new APIMappingException( "Invalid parameter start position" );
+        }
+
+        if( end >= 0 )
+            for( int i = parameterTypes.size(); i < end; i++ )
+                parameterTypes.add( type );
+        else
+            parameterTypes.add( type );
+    }
+
+    private Value setDefaults( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        if( target != null )
+            if( target.isNull() )
+                target = mapping.getDefaultValue( getTargetType() );
+
+        for( int i = 0; i < params.size(); i++ )
+            if( params.get( i ).isNull() )
+            {
+                String type = getParameterType( i );
+                params.set( i, mapping.getDefaultValue( type ));
+            }
+
+        return target;
     }
 }

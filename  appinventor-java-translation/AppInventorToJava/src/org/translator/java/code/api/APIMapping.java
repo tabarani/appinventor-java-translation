@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.translator.java.code.CodeSegment;
 import org.translator.java.code.Value;
 
 import org.w3c.dom.Document;
@@ -38,6 +37,8 @@ import org.w3c.dom.NodeList;
  */
 public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
 {
+    private final HashMap<String, TypeDefault> defaultValues = new HashMap<String, TypeDefault>();
+
     public APIMapping()
     {
         load( JavaBridgeConstants.API_MAPPING_FILE );
@@ -53,6 +54,14 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
                     return entry.generateCode( this, params );
 
         return new Value();
+    }
+
+    public Value getDefaultValue( String type )
+    {
+        if( defaultValues.containsKey( type ))
+            return new Value( defaultValues.get( type ).getDefaultValue() );
+        else
+            return new Value( "null" );
     }
 
     private void load( String fileName )
@@ -88,6 +97,9 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
         {
             APIEntry entry = new APIEntry( n );
             addEntry( entry.toString(), entry );
+        } else if( n.getNodeName().equals( "Type" )) {
+            TypeDefault t = new TypeDefault( n );
+            defaultValues.put( t.getName(), t );
         }
     }
 }
