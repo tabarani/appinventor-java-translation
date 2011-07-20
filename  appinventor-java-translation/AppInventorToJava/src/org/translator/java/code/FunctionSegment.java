@@ -21,7 +21,6 @@ package org.translator.java.code;
 
 import org.translator.java.code.util.CodeUtil;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -71,19 +70,14 @@ public class FunctionSegment extends CodeSegment
 
     public SortedMap<String, String> getDependencies()
     {
-        TreeMap<String, String> newDependencies = (TreeMap<String, String>)dependencies.clone();
-
-        for( CodeSegment block : blocks )
-            newDependencies.putAll( block.getDependencies() );
-
-        return newDependencies;
+        return buildDependencies( blocks.toArray( new CodeSegment[0] ));
     }
 
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
 
-        builder.append( String.format("%s%s %s%s\n{", visibility.toString(), CodeUtil.className( returnType ), identifier, parameterString() ));
+        builder.append( String.format("%s%s %s%s\n{", visibility.toString(), CodeUtil.lastIdentifier( returnType ), identifier, parameterString() ));
 
         for( int i = 0; i < blocks.size(); i++ )
         {
@@ -108,7 +102,7 @@ public class FunctionSegment extends CodeSegment
             else
                 builder.append( " " );
 
-            builder.append( String.format( "%s %s", CodeUtil.className( parameters.get( i ).getType() ), parameters.get( i ).getIdentifier() ));
+            builder.append( String.format( "%s %s", CodeUtil.lastIdentifier( parameters.get( i ).getType() ), parameters.get( i ).getIdentifier() ));
         }
 
         if( parameters.size() > 0 )
@@ -121,14 +115,14 @@ public class FunctionSegment extends CodeSegment
     private void setReturnType( String s )
     {
         returnType = s;
-        dependencies.put( CodeUtil.removeGeneric( s ), CodeUtil.removeGeneric( CodeUtil.className( s )));
+        dependencies.put( CodeUtil.removeGeneric( s ), CodeUtil.removeGeneric( CodeUtil.lastIdentifier( s )));
     }
 
     private void setParameters( Parameter[] params )
     {
         for( Parameter p : params )
         {
-            dependencies.put( CodeUtil.removeGeneric( p.getType() ), CodeUtil.removeGeneric( CodeUtil.className( p.getType() )));
+            dependencies.put( CodeUtil.removeGeneric( p.getType() ), CodeUtil.removeGeneric( CodeUtil.lastIdentifier( p.getType() )));
             parameters.add( p );
         }
     }

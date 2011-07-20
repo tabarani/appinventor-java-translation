@@ -21,6 +21,7 @@ package org.translator.java.code;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.SortedMap;
 
 /**
  *
@@ -57,6 +58,11 @@ public class Operation extends Value
     {
         this.type = OperationType.fromString( type );
         this.params.addAll( params );
+    }
+
+    protected SortedMap<String, String> getDependencies()
+    {
+        return buildDependencies( params.toArray( new CodeSegment[0] ));
     }
 
     public String toString()

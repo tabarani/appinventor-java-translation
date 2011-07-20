@@ -21,7 +21,6 @@ package org.translator.java.code;
 
 import org.translator.java.code.util.CodeUtil;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  *
@@ -65,7 +64,7 @@ public class DeclarationStatement extends Statement
     {
         StringBuilder builder = new StringBuilder();
 
-        builder.append( String.format( "%s%s %s", visibility.toString(), CodeUtil.className( type ), identifier ));
+        builder.append( String.format( "%s%s %s", visibility.toString(), CodeUtil.lastIdentifier( type ), identifier ));
 
         if( value != null )
             builder.append( String.format( " = %s", value.toString() ));
@@ -76,12 +75,9 @@ public class DeclarationStatement extends Statement
 
     protected SortedMap<String, String> getDependencies()
     {
-        TreeMap<String, String> dependencies = new TreeMap<String, String>();
+        SortedMap<String, String> dependencies = buildDependencies( value );
 
-        dependencies.put( CodeUtil.removeGeneric( type ), CodeUtil.removeGeneric( CodeUtil.className( type )));
-
-        if( value != null )
-            dependencies.putAll( value.getDependencies() );
+        addDependency( dependencies, type );
 
         return dependencies;
     }

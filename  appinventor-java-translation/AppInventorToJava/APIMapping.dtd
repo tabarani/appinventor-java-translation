@@ -1,16 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
     Document   : APIMapping.dtd
     Created on : July 19, 2011, 12:06 PM
     Author     : Joshua Swank
 -->
 
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!ELEMENT API (Type*, Entry*)>
 
 <!ELEMENT Type (EMPTY)>
     <!ATTLIST Type name CDATA #REQUIRED>
     <!ATTLIST Type default CDATA #REQUIRED>
+    <!ATTLIST Type literalGenusPattern CDATA #IMPLIED>
+    <!ATTLIST Type literalFormatString CDATA "%s">
 
 <!ELEMENT Entry ((Parameter|Parameters)*, (Operation|Function|Call))>
     <!ATTLIST Entry genus CDATA #REQUIRED>
@@ -32,6 +34,7 @@
 <!ELEMENT Function ((Operation|Function|Call)?, (Parameter|Parameters)*)>
     <!ATTLIST Function name CDATA #REQUIRED>
     <!ATTLIST Function type CDATA "java.lang.Object">
+    <!ATTLIST Function static (true|false) "false">
 
 <!ELEMENT Call ((Operation|Function|Call)?, (Parameter|Parameters)*)>
     <!ATTLIST Call genus CDATA #REQUIRED>

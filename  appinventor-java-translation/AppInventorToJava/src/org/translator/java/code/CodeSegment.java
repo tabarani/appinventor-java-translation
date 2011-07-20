@@ -22,6 +22,7 @@ package org.translator.java.code;
 import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.translator.java.code.util.CodeUtil;
 
 /**
  *
@@ -58,10 +59,21 @@ public class CodeSegment
 
     protected SortedMap<String, String> getDependencies()
     {
+        return buildDependencies( blocks.toArray( new CodeSegment[0] ));
+    }
+
+    protected void addDependency( SortedMap<String, String> dependencies, String className )
+    {
+        dependencies.put( CodeUtil.removeGeneric( className ), CodeUtil.classNameWithoutGeneric( className ));
+    }
+
+    protected SortedMap<String, String> buildDependencies( CodeSegment... segments )
+    {
         TreeMap<String, String> dependencies = new TreeMap<String, String>();
 
-        for( CodeSegment block : blocks )
-            dependencies.putAll( block.getDependencies() );
+        for( CodeSegment segment : segments )
+            if( segment != null )
+                dependencies.putAll( segment.getDependencies() );
 
         return dependencies;
     }

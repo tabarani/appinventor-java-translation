@@ -26,6 +26,7 @@ import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.translator.java.code.Value;
+import org.translator.java.code.util.CodeUtil;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -37,7 +38,10 @@ import org.w3c.dom.NodeList;
  */
 public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
 {
-    private final HashMap<String, TypeDefault> defaultValues = new HashMap<String, TypeDefault>();
+    private final HashMap<String, APIType> defaultValues = new HashMap<String, APIType>();
+    private final HashMap<String, String> knownTypes = new HashMap<String, String>();
+    private final HashMap<String, APIType> knownLiterals = new HashMap<String, APIType>();
+    private String literalGenusPattern = "";
 
     public APIMapping()
     {
@@ -46,14 +50,27 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
 
     public Value generateCode( String genus, LinkedList<Value> params )
     {
-        ArrayList<APIEntry> entries = get( genus );
+        APIEntry entry = findMatchingEntry( genus, params );
 
-        if( entries != null )
-            for( APIEntry entry : entries )
-                if( entry.matches( params ))
-                    return entry.generateCode( this, params );
+        if( entry != null )
+            return entry.generateCode( this, params );
+        else
+            return new Value();
+    }
 
-        return new Value();
+    public Value generateCode( String genus, Value target, LinkedList<Value> params )
+    {
+        APIEntry entry = findMatchingEntry( genus, target, params );
+
+        if( entry != null )
+            return entry.generateCode( this, target, params );
+        else
+            return new Value();
+    }
+
+    public String getLiteralGenusPattern()
+    {
+        return new String( literalGenusPattern );
     }
 
     public Value getDefaultValue( String type )
@@ -62,6 +79,28 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
             return new Value( defaultValues.get( type ).getDefaultValue() );
         else
             return new Value( "null" );
+    }
+
+    public String getFullType( String simple )
+    {
+        if( knownTypes.containsKey( simple ))
+            return knownTypes.get( simple );
+        else
+            return simple;
+    }
+
+    public APIType getMatchingLiteral( String genus )
+    {
+        for( String pattern : knownLiterals.keySet() )
+            if( genus.matches( pattern ))
+                return knownLiterals.get( pattern );
+
+        throw new APIMappingException( String.format( "No literal pattern matches genus \"%s\"", genus ));
+    }
+
+    public boolean isStatic( String genus, Value target, LinkedList<Value> params )
+    {
+        return findMatchingEntry( genus, target, params ).isStatic();
     }
 
     private void load( String fileName )
@@ -95,11 +134,50 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
     {
         if( n.getNodeName().equals( "Entry" ))
         {
-            APIEntry entry = new APIEntry( n );
+            APIEntry entry = new APIEntry( this, n );
             addEntry( entry.toString(), entry );
         } else if( n.getNodeName().equals( "Type" )) {
-            TypeDefault t = new TypeDefault( n );
+            APIType t = new APIType( n );
             defaultValues.put( t.getName(), t );
+            knownTypes.put( CodeUtil.lastIdentifier( t.getName() ), t.getName() );
+
+            if( t.isLiteral() )
+            {
+                knownLiterals.put( t.getLiteralGenusPattern(), t );
+                addToLiteralGenusPattern( t.getLiteralGenusPattern() );
+            }
         }
+    }
+
+    private void addToLiteralGenusPattern( String pattern )
+    {
+        if( literalGenusPattern.isEmpty() )
+            literalGenusPattern = literalGenusPattern.concat( pattern );
+        else
+            literalGenusPattern = String.format( "%s|%s", literalGenusPattern, pattern );
+    }
+
+    private APIEntry findMatchingEntry( String genus, Value target, LinkedList<Value> params )
+    {
+        ArrayList<APIEntry> entries = get( genus );
+
+        if( entries != null )
+            for( APIEntry entry : entries )
+                if( entry.matches( target, params ))
+                    return entry;
+
+       return null;
+    }
+
+    private APIEntry findMatchingEntry( String genus, LinkedList<Value> params )
+    {
+        ArrayList<APIEntry> entries = get( genus );
+
+        if( entries != null )
+            for( APIEntry entry : entries )
+                if( entry.matches( params ))
+                    return entry;
+
+       return null;
     }
 }

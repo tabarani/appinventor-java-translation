@@ -30,7 +30,7 @@ public abstract class CodeUtil
         return new StringBuilder( s.replaceAll( "\n", "\n\t" )).insert( 0, "\t" ).toString();
     }
 
-    public static String className( String s )
+    public static String lastIdentifier( String s )
     {
         if( s.contains( "." ))
             return s.substring( s.lastIndexOf( "." ) + 1 );
@@ -40,7 +40,7 @@ public abstract class CodeUtil
 
     public static String classNameWithoutGeneric( String s )
     {
-        return removeGeneric( className( s ));
+        return removeGeneric( lastIdentifier( s ));
     }
 
     public static String removeGeneric( String s )
@@ -49,5 +49,13 @@ public abstract class CodeUtil
             return s.substring( 0, s.lastIndexOf( "<" ) );
         else
             return s;
+    }
+
+    public static String removeLastIdentifier( String s )
+    {
+        if( s.contains( "." ))
+            return s.substring( 0, s.lastIndexOf( "." ));
+        else
+            return new String();
     }
 }

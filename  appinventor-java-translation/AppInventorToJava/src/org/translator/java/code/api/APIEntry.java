@@ -40,7 +40,7 @@ public class APIEntry
     private boolean isStatic = false;
     private ActionEntry action;
 
-    public APIEntry( Node entry )
+    public APIEntry( APIMapping mapping, Node entry )
     {
         NamedNodeMap fields = entry.getAttributes();
 
@@ -64,22 +64,22 @@ public class APIEntry
         if( !stat.isEmpty() )
             this.isStatic = Boolean.valueOf( stat );
 
-        String type = APIUtil.getField( fields, "type" );
+        String type = mapping.getFullType( APIUtil.getField( fields, "type" ));
         if( !type.isEmpty() )
             this.type = type;
 
-        String targetType = APIUtil.getField( fields, "target" );
+        String targetType = mapping.getFullType( APIUtil.getField( fields, "target" ));
         if( !targetType.isEmpty() )
             this.targetType = targetType;
 
         String simpleFunction = APIUtil.getField( fields, "simpleFunction" );
 
         if( !simpleFunction.isEmpty() )
-            action = new FunctionEntry( simpleFunction );
+            action = new FunctionEntry( simpleFunction, isStatic );
         else
             loadAction( entry );
 
-        loadParameterTypes( entry );
+        loadParameterTypes( mapping, entry );
     }
 
     public String getGenus()
@@ -90,6 +90,11 @@ public class APIEntry
     public String toString()
     {
         return getGenus();
+    }
+
+    public boolean isStatic()
+    {
+        return isStatic;
     }
 
     public Value generateCode( APIMapping mapping, LinkedList<Value> p )
@@ -128,12 +133,20 @@ public class APIEntry
         return action.generateCode( mapping, target, params );
     }
 
-    protected boolean matches( Collection<Value> params )
+    protected boolean matches( LinkedList<Value> params )
     {
-        int size = params.size();
+        LinkedList<Value> p = (LinkedList<Value>)params.clone();
+        Value target = null;
 
         if( !isStatic )
-            size--;
+            target = p.removeFirst();
+
+        return matches( target, p );
+    }
+
+    protected boolean matches( Value target, LinkedList<Value> params )
+    {
+        int size = params.size();
 
         if( minParams >= 0 )
             if( size < minParams )
@@ -162,7 +175,7 @@ public class APIEntry
         }
     }
 
-    private void loadParameterTypes( Node entry )
+    private void loadParameterTypes( APIMapping mapping, Node entry )
     {
         NodeList children = entry.getChildNodes();
 
@@ -172,10 +185,10 @@ public class APIEntry
             String name = n.getNodeName();
             if( name.equals( "Parameter" ))
             {
-                String type = APIUtil.getField( n.getAttributes(), "type" );
+                String type = mapping.getFullType( APIUtil.getField( n.getAttributes(), "type" ));
                 parameterTypes.add( (type.isEmpty())?"java.lang.Object":type );
             } else if( name.equals( "Parameters" )) {
-                String type = APIUtil.getField( n.getAttributes(), "type" );
+                String type = mapping.getFullType( APIUtil.getField( n.getAttributes(), "type" ));
                 String start = APIUtil.getField( n.getAttributes(), "start" );
                 String end = APIUtil.getField( n.getAttributes(), "end" );
 

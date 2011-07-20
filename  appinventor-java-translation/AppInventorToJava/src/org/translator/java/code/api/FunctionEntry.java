@@ -21,8 +21,11 @@ package org.translator.java.code.api;
 
 import java.util.LinkedList;
 import org.translator.java.code.FunctionCall;
+import org.translator.java.code.StaticFunctionCall;
 import org.translator.java.code.Value;
 import org.translator.java.code.api.util.APIUtil;
+import org.translator.java.code.util.CodeUtil;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
@@ -32,21 +35,40 @@ import org.w3c.dom.Node;
 public class FunctionEntry extends ActionEntry
 {
     private String name;
+    private boolean isStatic;
 
     public FunctionEntry( Node entry )
     {
         super( entry );
 
-        name = APIUtil.getField( entry.getAttributes(), "name" );
+        NamedNodeMap fields = entry.getAttributes();
+
+        name = APIUtil.getField( fields, "name" );
+        isStatic = Boolean.valueOf( APIUtil.getField( fields, "static" ));
     }
 
-    public FunctionEntry( String name )
+    public FunctionEntry( String name, boolean isStatic )
     {
         this.name = new String( name );
+        this.isStatic = isStatic;
     }
 
     public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
-        return new FunctionCall( target.toString(), name, params );
+        if( !isStatic )
+            return new FunctionCall( target, name, params );
+        else
+        {
+            String className = null;
+            String functionName = name;
+
+            className = CodeUtil.removeLastIdentifier( name );
+            functionName = CodeUtil.lastIdentifier( name );
+
+            if( !className.isEmpty() )
+                return new StaticFunctionCall( className, functionName, params );
+            else
+                return new FunctionCall( functionName, params );
+        }
     }
 }

@@ -181,7 +181,7 @@ class AppInventorProperties
             events.addAll( page.getEvents() );
 
         for( String event : events )
-            segment.add( new ValueStatement( new ClassStaticFunctionCall( JavaBridgeConstants.EVENT_DISPATCHER, "registerEventForDelegation", new Value( "this" ), new Value( String.format( "\"%s\"", projectName )), new Value( String.format( "\"%s\"", event )))));
+            segment.add( new ValueStatement( new StaticFunctionCall( JavaBridgeConstants.EVENT_DISPATCHER, "registerEventForDelegation", new Value( "this" ), new Value( String.format( "\"%s\"", projectName )), new Value( String.format( "\"%s\"", event )))));
 
         return segment;
     }

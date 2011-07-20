@@ -19,6 +19,8 @@
 
 package org.translator.java.code;
 
+import java.util.SortedMap;
+
 /**
  *
  * @author Joshua
@@ -53,6 +55,15 @@ public class Parameter extends Value
     public void setIndex( int index )
     {
         this.index = index;
+    }
+
+    protected SortedMap<String, String> getDependencies()
+    {
+        SortedMap<String, String> dependencies = buildDependencies();
+
+        addDependency( dependencies, type );
+
+        return dependencies;
     }
 
     protected String getType()

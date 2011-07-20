@@ -21,15 +21,11 @@ package org.translator.java.blocks.definition;
 
 import org.translator.java.blocks.Block;
 import org.translator.java.blocks.BlockConnector;
-import org.translator.java.blocks.literal.MathLiteralBlock;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.CodeVisibility;
-import org.translator.java.code.FunctionCall;
 import org.translator.java.code.FunctionSegment;
 import org.translator.java.code.Parameter;
 import org.translator.java.code.ReturnStatement;
-import org.translator.java.code.Value;
-import org.translator.java.code.ValueStatement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,22 +108,6 @@ public class FunctionDefinitionBlock extends DefinitionBlock
         }
 
         return returnValue;
-    }
-
-    private Collection<Value> getCallParameters()
-    {
-        ArrayList<Value> values = new ArrayList<Value>();
-
-        for( BlockConnector connector : connectors )
-        {
-            Block connected = connector.getConnectedBlock();
-            if( connected instanceof MathLiteralBlock )
-                values.add( (Value)connected.generateCode() );
-            else
-                values.add( new Value( connected.getLabel() ));
-        }
-
-        return values;
     }
 
     private CodeSegment createDeclaration()

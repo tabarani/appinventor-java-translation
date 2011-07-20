@@ -36,19 +36,19 @@ public class ConstructorCall extends Value
     public ConstructorCall( String identifier )
     {
         this.identifier = identifier;
-        functionCall = new FunctionCall( CodeUtil.className( identifier ));
+        functionCall = new FunctionCall( CodeUtil.lastIdentifier( identifier ));
     }
 
     public ConstructorCall( String identifier, Value[] parameters )
     {
         this.identifier = identifier;
-        functionCall = new FunctionCall( CodeUtil.className( identifier ), parameters );
+        functionCall = new FunctionCall( CodeUtil.lastIdentifier( identifier ), parameters );
     }
 
     public ConstructorCall( String identifier, Collection<Value> parameters )
     {
         this.identifier = identifier;
-        functionCall = new FunctionCall( CodeUtil.className( identifier ), parameters );
+        functionCall = new FunctionCall( CodeUtil.lastIdentifier( identifier ), parameters );
     }
 
     public String toString()
@@ -58,10 +58,9 @@ public class ConstructorCall extends Value
 
     protected SortedMap<String, String> getDependencies()
     {
-        TreeMap<String, String> dependencies = new TreeMap<String, String>();
+        SortedMap<String, String> dependencies = buildDependencies( functionCall );
 
-        dependencies.put( CodeUtil.removeGeneric( identifier ), CodeUtil.removeGeneric( CodeUtil.className( identifier )));
-        dependencies.putAll( functionCall.getDependencies() );
+        addDependency( dependencies, identifier );
 
         return dependencies;
     }

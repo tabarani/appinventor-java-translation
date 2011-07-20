@@ -30,7 +30,7 @@ import java.util.TreeMap;
  */
 public class FunctionCall extends Value
 {
-    private String target = null;
+    private Value target = null;
     private String identifier;
     private final ArrayList<Value> parameters = new ArrayList<Value>();
 
@@ -39,9 +39,9 @@ public class FunctionCall extends Value
         this.identifier = new String( identifier );
     }
 
-    public FunctionCall( String target, String identifier )
+    public FunctionCall( Value target, String identifier )
     {
-        this.target = new String( target );
+        this.target = target;
         this.identifier = new String( identifier );
     }
 
@@ -53,18 +53,18 @@ public class FunctionCall extends Value
             parameters.add( v );
     }
 
-    public FunctionCall( String target, String identifier, Value... params )
+    public FunctionCall( Value target, String identifier, Value... params )
     {
-        this.target = new String( target );
+        this.target = target;
         this.identifier = new String( identifier );
 
         for( Value v : params )
             parameters.add( v );
     }
 
-    public FunctionCall( String target, String identifier, Collection<Value> params )
+    public FunctionCall( Value target, String identifier, Collection<Value> params )
     {
-        this.target = new String( target );
+        this.target = target;
         this.identifier = new String( identifier );
 
         for( Value v : params )
@@ -93,6 +93,8 @@ public class FunctionCall extends Value
     {
         TreeMap<String, String> dependencies = new TreeMap<String, String>();
 
+        if( target != null )
+            dependencies.putAll( target.getDependencies() );
         for( Value v : parameters )
             dependencies.putAll( v.getDependencies() );
 

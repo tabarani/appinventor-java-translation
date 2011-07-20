@@ -20,7 +20,6 @@
 package org.translator.java.code;
 
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  *
@@ -52,7 +51,7 @@ public class Value extends Statement
 
     protected SortedMap<String, String> getDependencies()
     {
-        return new TreeMap<String, String>();
+        return buildDependencies();
     }
 
     protected void setValue( String value )

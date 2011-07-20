@@ -42,7 +42,7 @@ public class CallEntry extends ActionEntry
     {
         LinkedList<Value> p = (LinkedList<Value>)params.clone();
 
-        if( target != null )
+        if( target != null && !mapping.isStatic( genus, target, p ))
             p.addFirst( target );
 
         return mapping.generateCode( genus, p );

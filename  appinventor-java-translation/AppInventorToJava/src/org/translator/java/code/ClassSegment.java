@@ -93,7 +93,7 @@ public class ClassSegment extends CodeSegment
         builder.append( String.format( "%sclass %s", visibility, identifier ));
 
         if( parent != null )
-            builder.append( String.format( " extends %s", CodeUtil.className( parent )));
+            builder.append( String.format( " extends %s", CodeUtil.lastIdentifier( parent )));
 
         if( !interfaces.isEmpty() )
         {
@@ -102,7 +102,7 @@ public class ClassSegment extends CodeSegment
             {
                 if( i != 0 )
                     builder.append( ", " );
-                builder.append( CodeUtil.className( interfaces.get( i )));
+                builder.append( CodeUtil.lastIdentifier( interfaces.get( i )));
             }
         }
 
@@ -136,7 +136,7 @@ public class ClassSegment extends CodeSegment
     private void setParent( String parent )
     {
         this.parent = parent;
-        dependencies.put( CodeUtil.removeGeneric( parent ), CodeUtil.removeGeneric( CodeUtil.className( parent )));
+        dependencies.put( CodeUtil.removeGeneric( parent ), CodeUtil.removeGeneric( CodeUtil.lastIdentifier( parent )));
     }
 
     private void setInterfaces( String[] newInterfaces )
@@ -144,7 +144,7 @@ public class ClassSegment extends CodeSegment
         for( String s : newInterfaces )
         {
             interfaces.add( s );
-            dependencies.put( CodeUtil.removeGeneric( s ), CodeUtil.removeGeneric( CodeUtil.className( s )));
+            dependencies.put( CodeUtil.removeGeneric( s ), CodeUtil.removeGeneric( CodeUtil.lastIdentifier( s )));
         }
     }
 

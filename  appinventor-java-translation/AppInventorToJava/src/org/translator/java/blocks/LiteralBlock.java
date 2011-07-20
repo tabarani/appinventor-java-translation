@@ -17,36 +17,52 @@
    limitations under the License.
 */
 
-package org.translator.java.blocks.literal;
+package org.translator.java.blocks;
 
-import org.translator.java.code.CodeSegment;
 import org.translator.java.code.Value;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import org.translator.java.JavaBridgeConstants;
+import org.translator.java.code.CodeSegment;
+import org.translator.java.code.api.APIType;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author Joshua
  */
-public class TextLiteralBlock extends LiteralBlock
+public final class LiteralBlock extends Block
 {
-    public TextLiteralBlock( Node block )
+    private APIType type;
+    
+    public LiteralBlock( Node block )
     {
         super( block );
+
+        this.type = JavaBridgeConstants.API.getMatchingLiteral( genusName );
     }
 
     public static String getGenusPattern()
     {
-        return "text";
+        return JavaBridgeConstants.API.getLiteralGenusPattern();
+    }
+
+    public Collection<Value> getConstructorParameters()
+    {
+        ArrayList<Value> parameters = new ArrayList<Value>();
+
+        parameters.add( (Value)generateCode() );
+
+        return parameters;
     }
 
     public CodeSegment generateCode()
     {
-        return new Value( String.format( "\"%s\"", getLabel() ));
+        return type.getValue( label );
     }
 
     public String getDataType()
     {
-        return "java.lang.String";
+        return type.getName();
     }
 }

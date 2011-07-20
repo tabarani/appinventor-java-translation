@@ -64,6 +64,7 @@ public abstract class ActionEntry
     public final Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
         Value t = getTarget( mapping, target, params );
+
         LinkedList<Value> p = getParameters( mapping, target, params );
 
         return buildCode( mapping, t, p );

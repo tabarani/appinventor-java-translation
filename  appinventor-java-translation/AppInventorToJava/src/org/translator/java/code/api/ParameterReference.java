@@ -61,12 +61,10 @@ public class ParameterReference
         if( isInterval )
             for( int i = lowerBound; i <= upperBound; i++ )
                 parameters.add( params.get( i ));
-        else {
-            if( index != -1 )
-                parameters.add( params.get( index ));
-            else
-                parameters.add( new Value( value ));
-        }
+        else if( index != -1 )
+            parameters.add( params.get( index ));
+        else if( value != null )
+            parameters.add( new Value( value ));
 
         for( ActionEntry entry : entries )
             parameters.add( entry.generateCode( mapping, target, params ));
