@@ -45,7 +45,7 @@ public class FunctionEntry extends ActionEntry
         this.name = new String( name );
     }
 
-    public Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
         return new FunctionCall( target.toString(), name, params );
     }

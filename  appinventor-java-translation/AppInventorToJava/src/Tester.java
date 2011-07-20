@@ -14,11 +14,11 @@ public class Tester
         LinkedList<Value> params = new LinkedList<Value>();
 
         params.add( new Value( "\"target\"" ));
-        //params.add( new Value( "\"string1\"" ));
-        //params.add( new Value( "\"string2\"" ));
-        //params.add( new Value( "\"string3\"" ));
+        params.add( new Value( "\"string1\"" ));
+        params.add( new Value( "\"string2\"" ));
+        params.add( new Value( "\"string3\"" ));
 
-        CodeSegment segment = JavaBridgeConstants.API.generateCode( "string-upcase", params );
+        CodeSegment segment = JavaBridgeConstants.API.generateCode( "string-vappend", params );
         System.out.println( segment.toString() );
     }
 }

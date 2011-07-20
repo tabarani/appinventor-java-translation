@@ -12,6 +12,8 @@ public abstract class ActionEntryFactory
     {
         if( entry.getNodeName().equals( "Function" ))
             return new FunctionEntry( entry );
+        else if( entry.getNodeName().equals( "Call" ))
+            return new CallEntry( entry );
         
         return null;
     }

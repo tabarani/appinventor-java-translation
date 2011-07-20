@@ -38,8 +38,13 @@ public class CallEntry extends ActionEntry
         this.genus = APIUtil.getField( entry.getAttributes(), "genus" );
     }
 
-    public Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
-        return null;
+        LinkedList<Value> p = (LinkedList<Value>)params.clone();
+
+        if( target != null )
+            p.addFirst( target );
+
+        return mapping.generateCode( genus, p );
     }
 }

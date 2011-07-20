@@ -17,12 +17,12 @@ public class ParameterReferenceList extends ArrayList<ParameterReference>
             add( new ParameterReference( param ));
     }
 
-    public LinkedList<Value> getParameters( LinkedList<Value> params )
+    public LinkedList<Value> getParameters( APIMapping mapping, Value target, LinkedList<Value> params )
     {
         LinkedList<Value> parameters = new LinkedList<Value>();
 
         for( ParameterReference reference : this )
-            parameters.addAll( reference.getParameters( params ));
+            parameters.addAll( reference.getParameters( mapping, target, params ));
 
         return parameters;
     }

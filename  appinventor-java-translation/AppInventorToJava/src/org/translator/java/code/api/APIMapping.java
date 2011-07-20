@@ -43,20 +43,16 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
         load( JavaBridgeConstants.API_MAPPING_FILE );
     }
 
-    public CodeSegment generateCode( String genus, LinkedList<Value> params )
+    public Value generateCode( String genus, LinkedList<Value> params )
     {
         ArrayList<APIEntry> entries = get( genus );
-        CodeSegment segment = new CodeSegment();
 
         if( entries != null )
             for( APIEntry entry : entries )
                 if( entry.matches( params ))
-                {
-                    segment.add( entry.generateCode( this, params ));
-                    break;
-                }
+                    return entry.generateCode( this, params );
 
-        return segment;
+        return new Value();
     }
 
     private void load( String fileName )

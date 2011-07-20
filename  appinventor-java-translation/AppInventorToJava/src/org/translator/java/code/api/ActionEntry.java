@@ -58,5 +58,26 @@ public abstract class ActionEntry
         this.parameters.addAll( parameters );
     }
 
-    public abstract Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params );
+    public final Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        Value t = getTarget( mapping, target, params );
+        LinkedList<Value> p = getParameters( mapping, target, params );
+
+        return buildCode( mapping, t, p );
+    }
+
+    private LinkedList<Value> getParameters( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        return parameters.getParameters( mapping, target, params );
+    }
+
+    private Value getTarget( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        if( this.target == null )
+            return target;
+        else
+            return this.target.getTarget( mapping, target, params );
+    }
+
+    protected abstract Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params );
 }

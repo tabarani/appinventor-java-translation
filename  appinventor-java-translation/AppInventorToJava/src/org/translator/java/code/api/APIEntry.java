@@ -20,10 +20,8 @@
 package org.translator.java.code.api;
 
 import org.translator.java.code.api.util.APIUtil;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import org.translator.java.code.CodeSegment;
 import org.translator.java.code.Value;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -38,7 +36,7 @@ public class APIEntry
     private String genus;
     private int minParams = -1, maxParams = -1;
     private boolean isStatic = false;
-    private ArrayList<ActionEntry> actions = new ArrayList<ActionEntry>();
+    private ActionEntry action;
 
     public APIEntry( Node entry )
     {
@@ -67,9 +65,9 @@ public class APIEntry
         String simpleFunction = APIUtil.getField( fields, "simpleFunction" );
 
         if( !simpleFunction.isEmpty() )
-            this.actions.add( new FunctionEntry( simpleFunction ));
+            action = new FunctionEntry( simpleFunction );
         else
-            loadActions( entry );
+            loadAction( entry );
     }
 
     public String getGenus()
@@ -82,7 +80,7 @@ public class APIEntry
         return getGenus();
     }
 
-    public CodeSegment generateCode( APIMapping mapping, LinkedList<Value> p )
+    public Value generateCode( APIMapping mapping, LinkedList<Value> p )
     {
         LinkedList<Value> params = (LinkedList<Value>)p.clone();
         Value target = isStatic?null:params.removeFirst();
@@ -90,14 +88,9 @@ public class APIEntry
         return generateCode( mapping, target, params );
     }
 
-    protected CodeSegment generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    protected Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
-        CodeSegment segment = new CodeSegment();
-
-        for( ActionEntry action : actions )
-            segment.add( action.generateCode( mapping, target, params ));
-
-        return segment;
+        return action.generateCode( mapping, target, params );
     }
 
     protected boolean matches( Collection<Value> params )
@@ -118,15 +111,19 @@ public class APIEntry
         return true;
     }
 
-    private void loadActions( Node entry )
+    private void loadAction( Node entry )
     {
         NodeList children = entry.getChildNodes();
 
         for( int i = 0; i < children.getLength(); i++ )
         {
             ActionEntry e = ActionEntryFactory.create( children.item( i ));
-            if( entry != null )
-                actions.add( e );
+
+            if( e != null )
+            {
+                action = e;
+                return;
+            }
         }
     }
 }
