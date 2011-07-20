@@ -19,8 +19,8 @@
 
 package org.translator.java;
 
-import org.translator.java.api.APIEntry;
-import org.translator.java.api.APIMapping;
+import org.translator.java.code.api.APIEntry;
+import org.translator.java.code.api.APIMapping;
 import java.util.HashMap;
 
 /**

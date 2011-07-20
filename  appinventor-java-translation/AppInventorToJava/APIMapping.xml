@@ -15,16 +15,25 @@
     <Entry genus="string-equal" static="false" nParams="1" simpleFunction="equals" />
     <Entry genus="string-split" static="false" nParams="1" simpleFunction="split" />
 
-    <Entry genus="string-vappend" static="true" minParams="1">
-        <Function name="" static="false">
+
+    <Entry genus="string-vappend" static="false" nParams="1">
+        <Call genus="string-append" />
+    </Entry>
+
+    <Entry genus="string-vappend" static="false" minParams="2">
+        <Call genus="string-vappend">
             <Target>
-                <Construct class="java.util.Scanner" />
+                <Call genus="string-append">
+                    <Parameter index="0" />
+                </Call>
             </Target>
+            <Parameters start="1" />
         </Call>
     </Entry>
 
+
     <Entry genus="string-split-at-spaces" static="false" nParams="0">
-        <Call genus="string-split" static="false">
+        <Call genus="string-split">
             <Parameter value="&quot;\s&quot;" />
         </Call>
     </Entry>
