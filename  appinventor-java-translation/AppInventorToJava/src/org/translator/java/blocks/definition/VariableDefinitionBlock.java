@@ -57,13 +57,8 @@ public class VariableDefinitionBlock extends DefinitionBlock
         String dataType = connector.getDataType();
         Collection<Value> constructorParameters = connector.getConstructorParameters();
 
-        try
-        {
-            if( !Class.forName( CodeUtil.removeGeneric( dataType )).isPrimitive() )
-                return new AssignmentStatement( label, new ConstructorCall( dataType, constructorParameters ));
-        } catch( ClassNotFoundException e ) {
-            System.err.println( e );
-        }
+        if( connector.hasConnectedBlock() )
+            return new AssignmentStatement( label, (Value)connector.getConnectedBlock().generateCode() );
 
         return null;
     }

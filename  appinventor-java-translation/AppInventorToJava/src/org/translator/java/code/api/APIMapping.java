@@ -20,7 +20,7 @@
 package org.translator.java.code.api;
 
 import java.util.ArrayList;
-import org.translator.java.JavaBridgeConstants;
+import org.translator.java.TranslatorConstants;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -45,7 +45,7 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
 
     public APIMapping()
     {
-        load( JavaBridgeConstants.API_MAPPING_FILE );
+        load( TranslatorConstants.API_MAPPING_FILE );
     }
 
     public Value generateCode( String genus, LinkedList<Value> params )

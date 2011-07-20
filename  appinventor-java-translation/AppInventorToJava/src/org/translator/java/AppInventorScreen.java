@@ -60,8 +60,6 @@ class AppInventorScreen
     private final ArrayList<BlocksPage> blocksPages = new ArrayList<BlocksPage>();
     private AppInventorProperties form;
 
-    private final String PACKAGE_PREFIX = "com.android.";
-
     protected AppInventorScreen( String projectName ) throws IOException
     {
         this.projectName = projectName;
@@ -123,7 +121,7 @@ class AppInventorScreen
 
     protected SourceFile generateJavaFile()
     {
-        SourceFile file = new SourceFile( PACKAGE_PREFIX.concat( projectName ));
+        SourceFile file = new SourceFile( TranslatorConstants.PACKAGE_PREFIX.concat( projectName ));
 
         if( form != null )
             file.setMainClass( (ClassSegment)form.generateCode( blocksPages, projectName ));

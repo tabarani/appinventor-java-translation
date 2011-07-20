@@ -79,7 +79,7 @@ class AppInventorProperties
         String type = getType();
 
         if( !type.equals( "Form" ))
-            return new DeclarationStatement( JavaBridgeConstants.COMPONENT_PREFIX.concat( type ), getName(), CodeVisibility.PRIVATE );
+            return new DeclarationStatement( TranslatorConstants.COMPONENT_PREFIX.concat( type ), getName(), CodeVisibility.PRIVATE );
         else
             return null;
     }
@@ -93,7 +93,7 @@ class AppInventorProperties
             CodeSegment inst = new CodeSegment();
 
             Value[] params = { new Value( parent ) };
-            inst.add( new AssignmentStatement( getName(), new ConstructorCall( JavaBridgeConstants.COMPONENT_PREFIX.concat( type ), params )) );
+            inst.add( new AssignmentStatement( getName(), new ConstructorCall( TranslatorConstants.COMPONENT_PREFIX.concat( type ), params )) );
 
             Set<String> keys = (Set<String>)(properties.keySet());
             for( String key : keys )
@@ -101,7 +101,7 @@ class AppInventorProperties
                 {
                     String functionName = String.format( "%s.%s", getName(), key );
 
-                    Class paramType = getParamType( JavaBridgeConstants.COMPONENT_PREFIX.concat( getType() ), key );
+                    Class paramType = getParamType( TranslatorConstants.COMPONENT_PREFIX.concat( getType() ), key );
                     Value[] value = { new Value( getValueString( paramType, properties.get( key )))};
 
                     inst.add( new ValueStatement( new FunctionCall( functionName, value )));
@@ -124,9 +124,9 @@ class AppInventorProperties
         boolean hasEvents = hasEvents( pages );
         
         if( hasEvents )
-            block = new ClassSegment( getName(), CodeVisibility.PUBLIC, JavaBridgeConstants.FORM, JavaBridgeConstants.EVENT_HANDLING_INTERFACES );
+            block = new ClassSegment( getName(), CodeVisibility.PUBLIC, TranslatorConstants.FORM, TranslatorConstants.EVENT_HANDLING_INTERFACES );
         else
-            block = new ClassSegment( getName(), CodeVisibility.PUBLIC, JavaBridgeConstants.FORM );
+            block = new ClassSegment( getName(), CodeVisibility.PUBLIC, TranslatorConstants.FORM );
 
         //Start declarations
         for( AppInventorProperties c : components )
@@ -181,7 +181,7 @@ class AppInventorProperties
             events.addAll( page.getEvents() );
 
         for( String event : events )
-            segment.add( new ValueStatement( new StaticFunctionCall( JavaBridgeConstants.EVENT_DISPATCHER, "registerEventForDelegation", new Value( "this" ), new Value( String.format( "\"%s\"", projectName )), new Value( String.format( "\"%s\"", event )))));
+            segment.add( new ValueStatement( new StaticFunctionCall( TranslatorConstants.EVENT_DISPATCHER, "registerEventForDelegation", new Value( "this" ), new Value( String.format( "\"%s\"", projectName )), new Value( String.format( "\"%s\"", event )))));
 
         return segment;
     }

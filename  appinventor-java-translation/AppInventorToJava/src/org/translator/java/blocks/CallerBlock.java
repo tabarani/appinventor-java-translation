@@ -24,7 +24,7 @@ import org.translator.java.code.CodeSegment;
 import org.translator.java.code.FunctionCall;
 import org.translator.java.code.Value;
 import org.translator.java.code.ValueStatement;
-import org.translator.java.JavaBridgeConstants;
+import org.translator.java.TranslatorConstants;
 import org.w3c.dom.Node;
 
 /**
@@ -59,8 +59,8 @@ public class CallerBlock extends Block
                 else
                     params.add( new Value( "null" ));
 
-        if( JavaBridgeConstants.API.containsKey( getGenus() ))
-            return JavaBridgeConstants.API.generateCode( genusName, params );
+        if( TranslatorConstants.API.containsKey( getGenus() ))
+            return TranslatorConstants.API.generateCode( genusName, params );
 
         return new FunctionCall( getLabel(), params );
     }

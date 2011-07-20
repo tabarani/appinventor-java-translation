@@ -22,7 +22,7 @@ package org.translator.java.blocks;
 import org.translator.java.code.Value;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.translator.java.JavaBridgeConstants;
+import org.translator.java.TranslatorConstants;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.api.APIType;
 import org.w3c.dom.Node;
@@ -39,12 +39,12 @@ public final class LiteralBlock extends Block
     {
         super( block );
 
-        this.type = JavaBridgeConstants.API.getMatchingLiteral( genusName );
+        this.type = TranslatorConstants.API.getMatchingLiteral( genusName );
     }
 
     public static String getGenusPattern()
     {
-        return JavaBridgeConstants.API.getLiteralGenusPattern();
+        return TranslatorConstants.API.getLiteralGenusPattern();
     }
 
     public Collection<Value> getConstructorParameters()

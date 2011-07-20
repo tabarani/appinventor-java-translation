@@ -35,6 +35,10 @@ public abstract class ActionEntryFactory
             return new CallEntry( entry );
         else if( entry.getNodeName().equals( "Operation" ))
             return new OperationEntry( entry );
+        else if( entry.getNodeName().equals( "Value" ))
+            return new ValueEntry( entry );
+        else if( entry.getNodeName().equals( "UtilityFunction" ))
+            return new UtilityFunctionEntry( entry );
         
         return null;
     }

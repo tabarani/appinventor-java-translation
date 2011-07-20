@@ -1,7 +1,4 @@
-import java.util.LinkedList;
-import org.translator.java.JavaBridgeConstants;
-import org.translator.java.code.CodeSegment;
-import org.translator.java.code.Value;
+import java.util.ArrayList;
 
 /**
  *
@@ -11,16 +8,12 @@ public class Tester
 {
     public static void main( String[] args )
     {
-        LinkedList<Value> params = new LinkedList<Value>();
+        ArrayList<String> test = new ArrayList<String>();
 
-        params.add( new Value( "\"target\"" ));
-        params.add( new Value( "\"string1\"" ));
-        //params.add( new Value( "\"string2\"" ));
-        //params.add( new Value( "\"string3\"" ));
+        test.add( "a" );
+        test.add( "(b|C)" );
+        test.add( "d*" );
 
-        CodeSegment segment = JavaBridgeConstants.API.generateCode( "string-starts-at", params );
-        System.out.println( segment.toString() );
-
-        //System.out.println( JavaBridgeConstants.API.get( "string-vappend" ).get( 1 ).getParameterType( 1000 ));
+        System.out.println( AppInventorUtility.joinRegex( test ));
     }
 }

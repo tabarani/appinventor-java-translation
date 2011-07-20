@@ -17,21 +17,29 @@
    limitations under the License.
 */
 
-package org.translator.java;
+package org.translator.java.code.api;
 
-import org.translator.java.code.api.APIMapping;
+import java.util.LinkedList;
+import org.translator.java.code.Value;
+import org.translator.java.code.api.util.APIUtil;
+import org.w3c.dom.Node;
 
 /**
  *
  * @author Joshua
  */
-public abstract class JavaBridgeConstants
+public class ValueEntry extends ActionEntry
 {
-    public static final String API_MAPPING_FILE = "APIMapping.xml";
-    public static final String COMPONENT_PREFIX = "com.google.devtools.simple.runtime.components.android.";
-    public static final String FORM = "com.google.devtools.simple.runtime.components.android.Form";
-    public static final String[] EVENT_HANDLING_INTERFACES = { "com.google.devtools.simple.runtime.components.HandlesEventDispatching" };
-    public static final String EVENT_DISPATCHER = "com.google.devtools.simple.runtime.events.EventDispatcher";
+    private int index;
 
-    public static final APIMapping API = new APIMapping();
+    public ValueEntry( Node entry )
+    {
+        super();
+        index = Integer.valueOf( APIUtil.getField( entry.getAttributes(), "index" ));
+    }
+
+    public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        return params.get( index );
+    }
 }

@@ -46,6 +46,7 @@ public class OperationEntry extends ActionEntry
             this.style = style;
     }
 
+    //TODO: Make operation parser
     public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
         LinkedList<Value> p = (LinkedList<Value>)params.clone();
