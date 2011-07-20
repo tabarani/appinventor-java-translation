@@ -20,33 +20,40 @@
 package org.translator.java.code.api;
 
 import java.util.LinkedList;
-import org.translator.java.code.FunctionCall;
+import org.translator.java.code.Operation;
 import org.translator.java.code.Value;
 import org.translator.java.code.api.util.APIUtil;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author Joshua
  */
-public class FunctionEntry extends ActionEntry
+public class OperationEntry extends ActionEntry
 {
-    private String name;
-
-    public FunctionEntry( Node entry )
+    private String value = null, style = null;
+    
+    public OperationEntry( Node entry )
     {
         super( entry );
 
-        name = APIUtil.getField( entry.getAttributes(), "name" );
-    }
+        NamedNodeMap fields = entry.getAttributes();
+        this.value = APIUtil.getField( fields, "value" );
 
-    public FunctionEntry( String name )
-    {
-        this.name = new String( name );
+        String style = APIUtil.getField( fields, "style" );
+        if( style != null )
+            this.style = style;
     }
 
     public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
-        return new FunctionCall( target.toString(), name, params );
+        LinkedList<Value> p = (LinkedList<Value>)params.clone();
+        p.addFirst( target );
+
+        if( style == null )
+            return new Operation( value, p );
+        else
+            return new Operation( value, style, p );
     }
 }

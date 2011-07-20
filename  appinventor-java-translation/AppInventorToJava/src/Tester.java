@@ -15,10 +15,10 @@ public class Tester
 
         params.add( new Value( "\"target\"" ));
         params.add( new Value( "\"string1\"" ));
-        params.add( new Value( "\"string2\"" ));
-        params.add( new Value( "\"string3\"" ));
+        //params.add( new Value( "\"string2\"" ));
+        //params.add( new Value( "\"string3\"" ));
 
-        CodeSegment segment = JavaBridgeConstants.API.generateCode( "string-vappend", params );
+        CodeSegment segment = JavaBridgeConstants.API.generateCode( "string-starts-at", params );
         System.out.println( segment.toString() );
     }
 }

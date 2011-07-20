@@ -19,11 +19,12 @@
 
 package org.translator.java.blocks;
 
+import java.util.LinkedList;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.FunctionCall;
 import org.translator.java.code.Value;
 import org.translator.java.code.ValueStatement;
-import java.util.ArrayList;
+import org.translator.java.JavaBridgeConstants;
 import org.w3c.dom.Node;
 
 /**
@@ -39,20 +40,17 @@ public class CallerBlock extends Block
 
     public static String getGenusPattern()
     {
-        return "[A-Z].*-.*|caller.*";
+        return ".*-.*|caller.*";
     }
 
     public CodeSegment generateCode()
     {
-        if( getGenus().equals( "caller-command" ) || !getGenus().startsWith( "caller" ))
-            return new ValueStatement( createFunction() );
-        else
-            return createFunction();
+        return createFunction();
     }
 
-    private FunctionCall createFunction()
+    private Value createFunction()
     {
-        ArrayList<Value> params = new ArrayList<Value>();
+        LinkedList<Value> params = new LinkedList<Value>();
 
         for( BlockConnector c : connectors )
             if( !(c instanceof Plug ))
@@ -60,6 +58,9 @@ public class CallerBlock extends Block
                     params.add( (Value)(c.getConnectedBlock().generateCode()) );
                 else
                     params.add( new Value( "null" ));
+
+        if( JavaBridgeConstants.API.containsKey( getGenus() ))
+            return JavaBridgeConstants.API.generateCode( genusName, params );
 
         return new FunctionCall( getLabel(), params );
     }

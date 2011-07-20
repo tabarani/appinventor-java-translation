@@ -15,6 +15,16 @@
     <Entry genus="string-equal" static="false" nParams="1" simpleFunction="equals" />
     <Entry genus="string-split" static="false" nParams="1" simpleFunction="split" />
 
+    <Entry genus="string-starts-at" static="false" nParams="1">
+        <Operation style="unary" value="++">
+            <Target>
+                <Function name="indexOf">
+                    <Parameter index="0" />
+                </Function>
+            </Target>
+        </Operation>
+    </Entry>
+
 
     <Entry genus="string-vappend" static="false" nParams="1">
         <Call genus="string-append">
