@@ -58,6 +58,11 @@ public class Block
         return genusName;
     }
 
+    protected final void setGenus( String genus )
+    {
+        this.genusName = new String( genus );
+    }
+
     public static String getGenusPattern()
     {
         return null;

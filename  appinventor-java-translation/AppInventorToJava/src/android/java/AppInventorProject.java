@@ -61,7 +61,7 @@ public class AppInventorProject
             
             if( name.startsWith("assets"))
                 assets.add( name );
-            else if( name.endsWith( ".blk" ) || name.endsWith( ".scm") || name.endsWith( ".yail" ))
+            else if( name.endsWith( ".blk" ) || name.endsWith( ".scm" ) || name.endsWith( ".yail" ))
                 loadSourceFile( name, inputStream );
         }
 

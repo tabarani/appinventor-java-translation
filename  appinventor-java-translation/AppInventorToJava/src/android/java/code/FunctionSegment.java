@@ -19,7 +19,7 @@
 
 package android.java.code;
 
-import android.java.util.CodeUtil;
+import android.java.code.util.CodeUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.SortedMap;

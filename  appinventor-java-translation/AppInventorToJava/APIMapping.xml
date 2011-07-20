@@ -9,7 +9,11 @@
 -->
 
 <API>
-    <Entry genus="string-upcase" function="toUpperCase" />
-    <Entry genus="string-downcase" function="toLowerCase" />
-    <Entry genus="string-append" function="concat" />
+    <Entry genus="string-upcase" nParams="1" simpleFunction="toUpperCase" />
+    <Entry genus="string-downcase" nParams="1" simpleFunction="toLowerCase" />
+    <Entry genus="string-append" nParams="1" simpleFunction="concat" />
+    <Entry genus="string-equal" nParams="1" simpleFunction="equals" />
+    <Entry genus="string-split" nParams="1" simpleFunction="split" />
+
+    <Entry genus="string-split-at-spaces" />
 </API>

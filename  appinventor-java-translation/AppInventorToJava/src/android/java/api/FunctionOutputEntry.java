@@ -17,42 +17,25 @@
    limitations under the License.
 */
 
-package android.java.code;
+package android.java.api;
 
-import android.java.code.util.CodeUtil;
+import org.w3c.dom.Node;
 
 /**
  *
  * @author Joshua
  */
-public class ForEachSegment extends CodeSegment
+public class FunctionOutputEntry extends OutputEntry
 {
-    private Value variable, list;
+    private String name;
 
-    public ForEachSegment( Value variable, Value list )
+    public FunctionOutputEntry( Node n )
     {
-        this.variable = variable;
-        this.list = list;
+
     }
 
-    public String toString()
+    public FunctionOutputEntry( String name )
     {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append( String.format( "for( %s : %s )\n{", variable, list ));
-
-        for( int i = 0; i < blocks.size(); i++ )
-        {
-            builder.append( "\n" );
-
-            if( blocks.get( i ) instanceof FunctionSegment && i != 0 )
-                builder.append( "\n" );
-
-            builder.append( CodeUtil.indent( blocks.get( i ).toString() ));
-        }
-
-        builder.append( "\n}" );
-
-        return builder.toString();
+        this.name = new String( name );
     }
 }

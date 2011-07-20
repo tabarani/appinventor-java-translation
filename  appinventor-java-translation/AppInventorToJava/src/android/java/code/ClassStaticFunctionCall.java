@@ -19,7 +19,8 @@
 
 package android.java.code;
 
-import android.java.util.CodeUtil;
+import android.java.code.util.CodeUtil;
+import java.util.Collection;
 
 import java.util.SortedMap;
 
@@ -38,6 +39,12 @@ public class ClassStaticFunctionCall extends FunctionCall
     }
 
     public ClassStaticFunctionCall( String className, String functionName, Value... parameters )
+    {
+        super( String.format( "%s.%s", CodeUtil.classNameWithoutGeneric( className ), functionName ), parameters );
+        this.className = new String( className );
+    }
+
+    public ClassStaticFunctionCall( String className, String functionName, Collection<Value> parameters )
     {
         super( String.format( "%s.%s", CodeUtil.classNameWithoutGeneric( className ), functionName ), parameters );
         this.className = new String( className );

@@ -17,42 +17,37 @@
    limitations under the License.
 */
 
-package android.java.code;
-
-import android.java.code.util.CodeUtil;
+package android.java.code.util;
 
 /**
  *
  * @author Joshua
  */
-public class ForEachSegment extends CodeSegment
+public abstract class CodeUtil
 {
-    private Value variable, list;
-
-    public ForEachSegment( Value variable, Value list )
+    public static String indent( String s )
     {
-        this.variable = variable;
-        this.list = list;
+        return new StringBuilder( s.replaceAll( "\n", "\n\t" )).insert( 0, "\t" ).toString();
     }
 
-    public String toString()
+    public static String className( String s )
     {
-        StringBuilder builder = new StringBuilder();
+        if( s.contains( "." ))
+            return s.substring( s.lastIndexOf( "." ) + 1 );
+        else
+            return s;
+    }
 
-        builder.append( String.format( "for( %s : %s )\n{", variable, list ));
+    public static String classNameWithoutGeneric( String s )
+    {
+        return removeGeneric( className( s ));
+    }
 
-        for( int i = 0; i < blocks.size(); i++ )
-        {
-            builder.append( "\n" );
-
-            if( blocks.get( i ) instanceof FunctionSegment && i != 0 )
-                builder.append( "\n" );
-
-            builder.append( CodeUtil.indent( blocks.get( i ).toString() ));
-        }
-
-        builder.append( "\n}" );
-
-        return builder.toString();
+    public static String removeGeneric( String s )
+    {
+        if( s.contains( "<" ))
+            return s.substring( 0, s.lastIndexOf( "<" ) );
+        else
+            return s;
     }
 }

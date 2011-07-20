@@ -27,7 +27,7 @@ import android.java.code.CodeVisibility;
 import android.java.code.ConstructorCall;
 import android.java.code.DeclarationStatement;
 import android.java.code.Value;
-import android.java.util.CodeUtil;
+import android.java.code.util.CodeUtil;
 import java.util.Collection;
 import org.w3c.dom.Node;
 
