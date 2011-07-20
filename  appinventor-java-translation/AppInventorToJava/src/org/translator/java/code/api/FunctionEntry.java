@@ -19,6 +19,10 @@
 
 package org.translator.java.code.api;
 
+import java.util.LinkedList;
+import org.translator.java.code.FunctionCall;
+import org.translator.java.code.Value;
+import org.translator.java.code.api.util.APIUtil;
 import org.w3c.dom.Node;
 
 /**
@@ -29,13 +33,20 @@ public class FunctionEntry extends ActionEntry
 {
     private String name;
 
-    public FunctionEntry( Node n )
+    public FunctionEntry( Node entry )
     {
+        super( entry );
 
+        name = APIUtil.getField( entry.getAttributes(), "name" );
     }
 
     public FunctionEntry( String name )
     {
         this.name = new String( name );
+    }
+
+    public Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        return new FunctionCall( target.toString(), name, params );
     }
 }

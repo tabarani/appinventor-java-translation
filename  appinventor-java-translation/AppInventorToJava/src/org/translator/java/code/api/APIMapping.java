@@ -19,14 +19,14 @@
 
 package org.translator.java.code.api;
 
-import android.java.code.CodeSegment;
-import android.java.code.Value;
 import java.util.ArrayList;
-import java.util.Collection;
 import org.translator.java.JavaBridgeConstants;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.translator.java.code.CodeSegment;
+import org.translator.java.code.Value;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -43,9 +43,20 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
         load( JavaBridgeConstants.API_MAPPING_FILE );
     }
 
-    public CodeSegment generateCode( String genus, Collection<Value> params )
+    public CodeSegment generateCode( String genus, LinkedList<Value> params )
     {
-        
+        ArrayList<APIEntry> entries = get( genus );
+        CodeSegment segment = new CodeSegment();
+
+        if( entries != null )
+            for( APIEntry entry : entries )
+                if( entry.matches( params ))
+                {
+                    segment.add( entry.generateCode( this, params ));
+                    break;
+                }
+
+        return segment;
     }
 
     private void load( String fileName )

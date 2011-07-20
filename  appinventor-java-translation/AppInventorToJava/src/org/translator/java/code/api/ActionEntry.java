@@ -19,11 +19,44 @@
 
 package org.translator.java.code.api;
 
+import java.util.LinkedList;
+import org.translator.java.code.Value;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 /**
  *
  * @author Joshua
  */
-public class ActionEntry
+public abstract class ActionEntry
 {
+    private TargetReference target = null;
+    private final ParameterReferenceList parameters = new ParameterReferenceList();
 
+    protected ActionEntry( Node entry )
+    {
+        NodeList children = entry.getChildNodes();
+
+        for( int i = 0; i < children.getLength(); i++ )
+        {
+            Node child = children.item( i );
+            if( child.getNodeName().equals( "Target" ))
+                target = new TargetReference( child );
+            else if( child.getNodeName().equals( "Parameter" ) || child.getNodeName().equals( "Parameters" ))
+                parameters.add( child );
+        }
+    }
+
+    protected ActionEntry()
+    {
+        parameters.add( new ParameterReference() );
+    }
+
+    protected ActionEntry( TargetReference target, ParameterReferenceList parameters )
+    {
+        this.target = target;
+        this.parameters.addAll( parameters );
+    }
+
+    public abstract Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params );
 }

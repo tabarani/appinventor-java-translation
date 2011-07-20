@@ -14,7 +14,7 @@ public abstract class APIUtil
         Node field = fields.getNamedItem( fieldName );
 
         if( field != null )
-            return field.getNodeName();
+            return field.getNodeValue();
         else
             return new String();
     }

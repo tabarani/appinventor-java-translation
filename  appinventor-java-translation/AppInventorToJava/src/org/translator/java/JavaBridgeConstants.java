@@ -19,9 +19,7 @@
 
 package org.translator.java;
 
-import org.translator.java.code.api.APIEntry;
 import org.translator.java.code.api.APIMapping;
-import java.util.HashMap;
 
 /**
  *
@@ -35,5 +33,5 @@ public abstract class JavaBridgeConstants
     public static final String[] EVENT_HANDLING_INTERFACES = { "com.google.devtools.simple.runtime.components.HandlesEventDispatching" };
     public static final String EVENT_DISPATCHER = "com.google.devtools.simple.runtime.events.EventDispatcher";
 
-    public static final HashMap<String, APIEntry> API = new APIMapping();
+    public static final APIMapping API = new APIMapping();
 }

@@ -83,8 +83,8 @@ public class TextCallerBlock extends CallerBlock
             return new ClassStaticFunctionCall( "java.lang.String", "format", params );
         } else {
             Value target = params.removeFirst();
-            String function = (JavaBridgeConstants.API.containsKey( getGenus() ))?JavaBridgeConstants.API.get( getGenus() ):getLabel();
-            return new FunctionCall( target.toString(), function, params );
+            /*String function = (JavaBridgeConstants.API.containsKey( getGenus() ))?JavaBridgeConstants.API.get( getGenus() ):getLabel();
+            return new FunctionCall( target.toString(), function, params );*/ return null;
         }
     }
 }

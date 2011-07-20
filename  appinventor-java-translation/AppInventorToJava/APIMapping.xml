@@ -9,15 +9,17 @@
 -->
 
 <API>
-    <Entry genus="string-upcase" static="false" nParams="1" simpleFunction="toUpperCase" />
-    <Entry genus="string-downcase" static="false" nParams="1" simpleFunction="toLowerCase" />
+    <Entry genus="string-upcase" static="false" nParams="0" simpleFunction="toUpperCase" />
+    <Entry genus="string-downcase" static="false" nParams="0" simpleFunction="toLowerCase" />
     <Entry genus="string-append" static="false" nParams="1" simpleFunction="concat" />
     <Entry genus="string-equal" static="false" nParams="1" simpleFunction="equals" />
     <Entry genus="string-split" static="false" nParams="1" simpleFunction="split" />
 
 
     <Entry genus="string-vappend" static="false" nParams="1">
-        <Call genus="string-append" />
+        <Call genus="string-append">
+            <Parameter index="0" />
+        </Call>
     </Entry>
 
     <Entry genus="string-vappend" static="false" minParams="2">

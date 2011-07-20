@@ -19,11 +19,27 @@
 
 package org.translator.java.code.api;
 
+import java.util.LinkedList;
+import org.translator.java.code.Value;
+import org.translator.java.code.api.util.APIUtil;
+import org.w3c.dom.Node;
+
 /**
  *
  * @author Joshua
  */
 public class CallEntry extends ActionEntry
 {
+    private String genus;
 
+    public CallEntry( Node entry )
+    {
+        super( entry );
+        this.genus = APIUtil.getField( entry.getAttributes(), "genus" );
+    }
+
+    public Value generateCode( APIMapping mapping, Value target, LinkedList<Value> params )
+    {
+        return null;
+    }
 }
