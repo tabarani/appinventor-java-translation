@@ -20,6 +20,7 @@
 package org.translator.java.code;
 
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  *
@@ -36,11 +37,16 @@ public class ValueStatement extends Statement
 
     public String toString()
     {
-        return value.toString().concat( ";" );
+        if( value != null )
+            return value.toString().concat( ";" );
+        else
+            return new String();
     }
 
     protected SortedMap<String, String> getDependencies()
     {
-        return value.getDependencies();
+        if( value != null )
+            return value.getDependencies();
+        else return new TreeMap<String, String>();
     }
 }

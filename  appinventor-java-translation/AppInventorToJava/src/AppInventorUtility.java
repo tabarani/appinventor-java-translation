@@ -1,8 +1,11 @@
 
 import java.util.Collection;
+import java.util.Random;
 
 public abstract class AppInventorUtility
 {
+    private static final Random random = new Random();
+
     public static String joinRegex( Collection<String> strings )
     {
         StringBuilder builder = new StringBuilder();
@@ -20,5 +23,10 @@ public abstract class AppInventorUtility
     public static Object[] join( Object... o )
     {
         return o;
+    }
+
+    public Random getRandom()
+    {
+        return random;
     }
 }

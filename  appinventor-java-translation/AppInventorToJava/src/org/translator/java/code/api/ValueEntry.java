@@ -40,6 +40,9 @@ public class ValueEntry extends ActionEntry
 
     public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
-        return params.get( index );
+        if( index >= 0 )
+            return params.get( index );
+        else
+            return target;
     }
 }

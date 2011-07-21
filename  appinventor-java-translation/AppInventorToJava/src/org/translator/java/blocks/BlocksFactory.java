@@ -54,7 +54,7 @@ class BlocksFactory
                     knownBlocks.put( genusPattern, c );
             } catch( Exception e )
             {
-                System.out.println( e );
+                System.err.println( e );
                 System.exit( 1 );
             }
         }

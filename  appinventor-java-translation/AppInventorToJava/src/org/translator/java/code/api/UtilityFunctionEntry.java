@@ -13,6 +13,5 @@ public class UtilityFunctionEntry extends FunctionEntry
     public UtilityFunctionEntry( Node entry )
     {
         super( String.format( "%s.%s", TranslatorConstants.getUtilityClass(), APIUtil.getField( entry.getAttributes(), "name" )), true );
-        System.out.println( TranslatorConstants.getUtilityClass() );
     }
 }
