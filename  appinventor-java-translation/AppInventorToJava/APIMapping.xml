@@ -14,10 +14,41 @@
     <Type name="java.lang.Integer" default="0" />
     <Type name="java.lang.Float" default="0.0f" literalGenusPattern="number" literalFormatString="%sf" />
     <Type name="java.lang.Boolean" default="false" literalGenusPattern="true|false" />
-    <Type name="java.util.ArrayList" default="new java.util.ArrayList()" />
+    <Type name="java.util.List" default="null" />
+    <Type name="java.lang.Object" default="null" />
 
-    <Entry genus="make-list" static="true" type="ArrayList" minParams="0" simpleFunction="java.util.Arrays.asList">
-        <Parameters start="0" type="java.lang.Object" />
+    <Entry genus="make-list" static="true" type="List" nParams="1" simpleFunction="java.util.Arrays.asList">
+        <Parameter type="Object[]" />
+    </Entry>
+
+    <Entry genus="make-list" static="true" type="List" minParams="0">
+        <Parameters start="0" type="Object" />
+        <Call genus="make-list">
+            <Parameter>
+                <UtilityFunction name="join" type="Object[]">
+                    <Parameters start="0" type="Object" />
+                </UtilityFunction>
+            </Parameter>
+        </Call>
+    </Entry>
+
+    <Entry genus="get-list-item" target="List" static="false" type="Object" nParams="1" simpleFunction="get">
+        <Parameter type="Integer" />
+    </Entry>
+
+    <!--Entry genus="string-split-at-first-of-any" target="String" static="false" nParams="1" type="List">
+        <Parameter type="List" />
+    </Entry-->
+
+    <Entry genus="string-split-at-any" target="String" static="false" nParams="1" type="List">
+        <Parameter type="List" />
+        <Function type="List" name="split" static="false">
+            <Parameter>
+                <UtilityFunction name="joinRegex" type="String">
+                    <Parameter index="0" type="List" />
+                </UtilityFunction>
+            </Parameter>
+        </Function>
     </Entry>
 
     <Entry genus="string-upcase" target="String" static="false" nParams="0" simpleFunction="toUpperCase" type="String" />
@@ -35,7 +66,34 @@
         <Parameter type="String" />
     </Entry>
 
-    <Entry genus="string-split" target="String" static="false" nParams="1" type="ArrayList">
+    <Entry genus="string-trim" target="String" static="false" nParams="0" simpleFunction="trim" type="String" />
+
+    <Entry genus="string-replace-all" target="String" static="false" nParams="2" simpleFunction="replaceAll" type="String">
+        <Parameters type="String" start="0" end="1" />
+    </Entry>
+
+    <Entry genus="string-subtext" target="String" static="false" nParams="2" type="String">
+        <Parameters type="Integer" start="0" end="1" />
+        <Function type="String" name="substring" static="false">
+            <Parameter>
+                <Operation style="infix" target="Integer" value="-" type="Integer" nParams="1">
+                    <Value index="0" type="Integer" />
+                    <Parameter value="1" type="Integer" />
+                </Operation>
+            </Parameter>
+            <Parameter>
+                <Operation style="infix" target="Integer" value="-" type="Integer" nParams="1">
+                    <Operation style="infix" target="Integer" value="+" type="Integer" nParams="1">
+                        <Value index="0" type="Integer" />
+                        <Parameter index="1" type="Integer" />
+                    </Operation>
+                    <Parameter value="1" type="Integer" />
+                </Operation>
+            </Parameter>
+        </Function>
+    </Entry>
+
+    <Entry genus="string-split" target="String" static="false" nParams="1" type="List">
         <Parameter type="String" />
         <Call genus="make-list">
             <Parameter>
@@ -46,12 +104,7 @@
         </Call>
     </Entry>
 
-    <!--Entry genus="string-split-at-first-of-any" target="String" static="false" nParams="1" type="ArrayList">
-        <Parameter type="ArrayList" />
-
-    </Entry-->
-
-    <Entry genus="string-split-at-first" target="String" static="false" nParams="1" type="ArrayList">
+    <Entry genus="string-split-at-first" target="String" static="false" nParams="1" type="List">
         <Parameter type="String" />
         <Call genus="make-list">
             <Parameter>
@@ -91,7 +144,7 @@
         </Call>
     </Entry>
 
-    <Entry genus="string-split-at-spaces" target="String" static="false" nParams="0" type="ArrayList">
+    <Entry genus="string-split-at-spaces" target="String" static="false" nParams="0" type="List">
         <Call genus="make-list">
             <Parameter>
                 <Call genus="string-split">

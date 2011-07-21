@@ -14,7 +14,7 @@
     <!ATTLIST Type literalGenusPattern CDATA #IMPLIED>
     <!ATTLIST Type literalFormatString CDATA "%s">
 
-<!ELEMENT Entry ((Parameter|Parameters)*, (Operation|Function|Call))>
+<!ELEMENT Entry ((Parameter|Parameters)*, (Operation|Function|Call|Value|UtilityFunction))>
     <!ATTLIST Entry genus CDATA #REQUIRED>
     <!ATTLIST Entry type CDATA #IMPLIED>
     <!ATTLIST Entry target CDATA "java.lang.Object">
@@ -24,27 +24,35 @@
     <!ATTLIST Entry maxParams CDATA #IMPLIED>
     <!ATTLIST Entry simpleFunction CDATA #IMPLIED>
 
-<!ELEMENT Operation ((Operation|Function|Call)?, (Parameter|Parameters)*)>
+<!ELEMENT Operation ((Operation|Function|Call|Value|UtilityFunction)?, (Parameter|Parameters)*)>
     <!ATTLIST Operation style CDATA #IMPLIED>
     <!ATTLIST Operation target CDATA "java.lang.Object">
     <!ATTLIST Operation value CDATA #REQUIRED>
     <!ATTLIST Operation nParams CDATA #IMPLIED>
     <!ATTLIST Operation type CDATA "java.lang.Object">
 
-<!ELEMENT Function ((Operation|Function|Call)?, (Parameter|Parameters)*)>
+<!ELEMENT Function ((Operation|Function|Call|Value|UtilityFunction)?, (Parameter|Parameters)*)>
     <!ATTLIST Function name CDATA #REQUIRED>
     <!ATTLIST Function type CDATA "java.lang.Object">
     <!ATTLIST Function static (true|false) "false">
 
-<!ELEMENT Call ((Operation|Function|Call)?, (Parameter|Parameters)*)>
+<!ELEMENT UtilityFunction ((Operation|Function|Call|Value|UtilityFunction)?, (Parameter|Parameters)*)>
+    <!ATTLIST UtilityFunction name CDATA #REQUIRED>
+    <!ATTLIST UtilityFunction type CDATA "java.lang.Object">
+
+<!ELEMENT Call ((Operation|Function|Call|Value|UtilityFunction)?, (Parameter|Parameters)*)>
     <!ATTLIST Call genus CDATA #REQUIRED>
 
-<!ELEMENT Parameter (Operation|Function|Call)>
+<!ELEMENT Value (EMPTY)>
+    <!ATTLIST Value index CDATA #REQUIRED>
+    <!ATTLIST Value type CDATA "java.lang.Object">
+
+<!ELEMENT Parameter (Operation|Function|Call|Value|UtilityFunction)>
     <!ATTLIST Parameter type CDATA "java.lang.Object">
     <!ATTLIST Parameter value CDATA #IMPLIED>
     <!ATTLIST Parameter index CDATA #IMPLIED>
 
-<!ELEMENT Parameters (Operation|Function|Call)+>
+<!ELEMENT Parameters (Operation|Function|Call|Value|UtilityFunction)+>
     <!ATTLIST Parameters type CDATA "java.lang.Object">
     <!ATTLIST Parameters start CDATA #IMPLIED>
     <!ATTLIST Parameters end CDATA #IMPLIED>
