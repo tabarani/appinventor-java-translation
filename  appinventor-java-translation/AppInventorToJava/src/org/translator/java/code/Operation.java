@@ -211,7 +211,8 @@ public class Operation extends Value
                         break;
                     }
 
-                return s;
+                    //TODO: Make it only insert parentheses as needed
+                return String.format( "(%s)", s );
             }
 
             String format( String operation, Collection<Value> params )
