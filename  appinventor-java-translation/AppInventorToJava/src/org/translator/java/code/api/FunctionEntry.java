@@ -53,6 +53,13 @@ public class FunctionEntry extends ActionEntry
         this.isStatic = isStatic;
     }
 
+    public FunctionEntry( String name, boolean isStatic, int nParameters )
+    {
+        super( nParameters );
+        this.name = new String( name );
+        this.isStatic = isStatic;
+    }
+
     public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
         if( !isStatic )

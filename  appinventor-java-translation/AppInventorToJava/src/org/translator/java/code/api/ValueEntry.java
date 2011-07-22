@@ -31,17 +31,21 @@ import org.w3c.dom.Node;
 public class ValueEntry extends ActionEntry
 {
     private int index;
+    private String value;
 
     public ValueEntry( Node entry )
     {
         super();
-        index = Integer.valueOf( APIUtil.getField( entry.getAttributes(), "index" ));
+        this.index = Integer.valueOf( APIUtil.getField( entry.getAttributes(), "index" ));
+        this.value = APIUtil.getField( entry.getAttributes(), "value" );
     }
 
     public Value buildCode( APIMapping mapping, Value target, LinkedList<Value> params )
     {
         if( index >= 0 )
             return params.get( index );
+        else if( !value.isEmpty() )
+            return new Value( value );
         else
             return target;
     }

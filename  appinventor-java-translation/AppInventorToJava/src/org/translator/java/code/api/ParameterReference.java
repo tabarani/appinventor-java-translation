@@ -46,6 +46,16 @@ public class ParameterReference
             loadParameters( param );
     }
 
+    protected ParameterReference( int nParameters )
+    {
+        isInterval = true;
+        if( nParameters > 0 )
+        {
+            start = 0;
+            end = nParameters - 1;
+        }
+    }
+
     protected ParameterReference()
     {
         isInterval = true;

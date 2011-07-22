@@ -12,6 +12,7 @@ public class UtilityFunctionEntry extends FunctionEntry
 {
     public UtilityFunctionEntry( Node entry )
     {
-        super( String.format( "%s.%s", TranslatorConstants.getUtilityClass(), APIUtil.getField( entry.getAttributes(), "name" )), true );
+        super( String.format( "%s.%s", TranslatorConstants.getUtilityClass(), APIUtil.getField( entry.getAttributes(), "name" )), true,
+                Integer.valueOf( APIUtil.getField( entry.getAttributes(), "nParams" )));
     }
 }

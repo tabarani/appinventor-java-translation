@@ -72,58 +72,67 @@ public class Operation extends Value
 
     public enum OperationType
     {
-        SUM( "+", OperationStyle.INFIX, 3 ),
-        DIFFERENCE( "-", OperationStyle.INFIX, 3 ),
-        PRODUCT( "*", OperationStyle.INFIX, 2 ),
-        QUOTIENT( "/", OperationStyle.INFIX, 2 ),
-        MOD( "%", OperationStyle.INFIX, 2 ),
-        SHIFT_LEFT( "<<", OperationStyle.INFIX, 4 ),
-        SHIFT_RIGHT( ">>", OperationStyle.INFIX, 4 ),
-        SHIFT_RIGHT_UNSIGNED( ">>>", OperationStyle.INFIX, 4 ),
-        LESS_THAN( "<", OperationStyle.INFIX, 5 ),
-        GREATER_THAN( ">", OperationStyle.INFIX, 5 ),
-        LESS_THAN_EQUAL_TO( "<=", OperationStyle.INFIX, 5 ),
-        GREATER_THAN_EQUAL_TO( ">=", OperationStyle.INFIX, 5 ),
-        INSTANCE_OF( "instanceof", OperationStyle.INFIX, 5 ),
-        EQUAL_TO( "==", OperationStyle.INFIX, 6 ),
-        NOT_EQUAL_TO( "!=", OperationStyle.INFIX, 6 ),
-        BITWISE_AND( "&", OperationStyle.INFIX, 7 ),
-        BITWISE_OR( "|", OperationStyle.INFIX, 9 ),
-        BITWISE_XOR( "^", OperationStyle.INFIX, 8 ),
-        LOGICAL_AND( "&&", OperationStyle.INFIX, 10 ),
-        LOGICAL_OR( "||", OperationStyle.INFIX, 11 ),
-        ASSIGN( "=", OperationStyle.INFIX, 13 ),
-        ASSIGN_SUM( "+=", OperationStyle.INFIX, 13 ),
-        ASSIGN_DIFFERENCE( "-=", OperationStyle.INFIX, 13 ),
-        ASSIGN_PRODUCT( "*=", OperationStyle.INFIX, 13 ),
-        ASSIGN_QUOTIENT( "/=", OperationStyle.INFIX, 13 ),
-        ASSIGN_MOD( "%=", OperationStyle.INFIX, 13 ),
-        ASSIGN_AND( "&=", OperationStyle.INFIX, 13 ),
-        ASSIGN_OR( "|=", OperationStyle.INFIX, 13 ),
-        ASSIGN_XOR( "^=", OperationStyle.INFIX, 13 ),
-        ASSIGN_SHIFT_LEFT( "<<=", OperationStyle.INFIX, 13 ),
-        ASSIGN_SHIFT_RIGHT( ">>=", OperationStyle.INFIX, 13 ),
-        ASSIGN_SHIFT_RIGHT_UNSIGNED( ">>>=", OperationStyle.INFIX, 13 ),
-        INCREMENT_UNARY( "++", OperationStyle.UNARY, 1 ),
-        DECREMENT_UNARY( "--", OperationStyle.UNARY, 1 ),
-        POSITIVE( "+", OperationStyle.UNARY, 1 ),
-        NEGATIVE( "-", OperationStyle.UNARY, 1 ),
-        BITWISE_NOT( "~", OperationStyle.UNARY, 1 ),
-        LOGICAL_NOT( "!", OperationStyle.UNARY, 1 ),
-        INCREMENT_POSTFIX( "++", OperationStyle.POSTFIX, 0 ),
-        DECREMENT_POSTFIX( "--", OperationStyle.POSTFIX, 0 ),
-        TERNARY( "?:", OperationStyle.TERNARY, 12 ),
+        ASSIGN( "=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_SUM( "+=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_DIFFERENCE( "-=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_PRODUCT( "*=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_QUOTIENT( "/=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_MOD( "%=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_AND( "&=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_OR( "|=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_XOR( "^=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_SHIFT_LEFT( "<<=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_SHIFT_RIGHT( ">>=", OperationStyle.INFIX, 0, true ),
+        ASSIGN_SHIFT_RIGHT_UNSIGNED( ">>>=", OperationStyle.INFIX, 0, true ),
+        TERNARY( "?:", OperationStyle.TERNARY, 1 ),
+        LOGICAL_OR( "||", OperationStyle.INFIX, 2 ),
+        LOGICAL_AND( "&&", OperationStyle.INFIX, 3 ),
+        BITWISE_OR( "|", OperationStyle.INFIX, 4 ),
+        BITWISE_XOR( "^", OperationStyle.INFIX, 5 ),
+        BITWISE_AND( "&", OperationStyle.INFIX, 6 ),
+        EQUAL_TO( "==", OperationStyle.INFIX, 7 ),
+        NOT_EQUAL_TO( "!=", OperationStyle.INFIX, 7 ),
+        LESS_THAN( "<", OperationStyle.INFIX, 8 ),
+        GREATER_THAN( ">", OperationStyle.INFIX, 8 ),
+        LESS_THAN_EQUAL_TO( "<=", OperationStyle.INFIX, 8 ),
+        GREATER_THAN_EQUAL_TO( ">=", OperationStyle.INFIX, 8 ),
+        INSTANCE_OF( "instanceof", OperationStyle.INFIX, 8 ),
+        SHIFT_LEFT( "<<", OperationStyle.INFIX, 9 ),
+        SHIFT_RIGHT( ">>", OperationStyle.INFIX, 9 ),
+        SHIFT_RIGHT_UNSIGNED( ">>>", OperationStyle.INFIX, 9 ),
+        SUM( "+", OperationStyle.INFIX, 10 ),
+        DIFFERENCE( "-", OperationStyle.INFIX, 10 ),
+        PRODUCT( "*", OperationStyle.INFIX, 11 ),
+        QUOTIENT( "/", OperationStyle.INFIX, 11 ),
+        MOD( "%", OperationStyle.INFIX, 11 ),
+        INCREMENT_UNARY( "++", OperationStyle.UNARY, 12 ),
+        DECREMENT_UNARY( "--", OperationStyle.UNARY, 12 ),
+        POSITIVE( "+", OperationStyle.UNARY, 12 ),
+        NEGATIVE( "-", OperationStyle.UNARY, 12 ),
+        BITWISE_NOT( "~", OperationStyle.UNARY, 12 ),
+        LOGICAL_NOT( "!", OperationStyle.UNARY, 12 ),
+        INCREMENT_POSTFIX( "++", OperationStyle.POSTFIX, 13 ),
+        DECREMENT_POSTFIX( "--", OperationStyle.POSTFIX, 13 ),
         PARENTHESES( "()", OperationStyle.SURROUND, 14 );
 
         private String value;
         private OperationStyle style;
         private int precedence;
+        private boolean rightToLeft = false;
 
         private OperationType( String value, OperationStyle style, int precedence )
         {
             this.value = value.toLowerCase();
             this.style = style;
             this.precedence = precedence;
+        }
+
+        private OperationType( String value, OperationStyle style, int precedence, boolean rightToLeft )
+        {
+            this.value = value.toLowerCase();
+            this.style = style;
+            this.precedence = precedence;
+            this.rightToLeft = rightToLeft;
         }
 
         public static OperationType fromString( String operator, String style )
@@ -144,6 +153,11 @@ public class Operation extends Value
                     return t;
 
             return null;
+        }
+
+        public int getPrecedence()
+        {
+            return precedence;
         }
 
         public String format( Value... params )

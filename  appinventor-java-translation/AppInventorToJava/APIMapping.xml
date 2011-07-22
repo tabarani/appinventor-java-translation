@@ -13,10 +13,23 @@
     <Type name="java.lang.String" default="&quot;&quot;" literalGenusPattern="text" literalFormatString="&quot;%s&quot;" />
     <Type name="java.lang.Integer" default="0" />
     <Type name="java.lang.Float" default="0.0f" literalGenusPattern="number" literalFormatString="%s" />
+    <Type name="java.lang.Long" default="0L" />
     <Type name="java.lang.Boolean" default="false" literalGenusPattern="true|false" />
     <Type name="java.util.List" default="null" />
     <Type name="java.util.Random" default="null" />
     <Type name="java.lang.Object" default="null" />
+
+    <Cast target="Object" type="String">
+        <Function name="toString" type="String" static="false" />
+    </Cast>
+
+    <Cast target="String" type="Integer">
+        <Function name="Integer.valueOf" type="Integer" static="true">
+            <Parameter>
+                <Value type="String" />
+            </Parameter>
+        </Function>
+    </Cast>
 
     <!--Math operations-->
     <Entry genus="yail-equal" static="false" target="Float" type="Boolean" nParams="1">
@@ -59,13 +72,176 @@
         </Operation>
     </Entry>
 
+    <Entry genus="number-quotient" static="false" target="Float" type="Float" nParams="1">
+        <Call genus="number-divide">
+            <Parameter index="0" type="Float" />
+        </Call>
+    </Entry>
+
+    <Entry genus="number-modulo" static="false" target="Integer" type="Integer" nParams="1">
+        <Operation style="infix" target="Integer" value="%" type="Integer" nParams="1">
+            <Parameter index="0" type="Integer" />
+        </Operation>
+    </Entry>
+
+    <Entry genus="number-remainder" static="false" target="Float" type="Float" nParams="1">
+        <Call genus="number-modulo">
+            <Parameter index="0" type="Float" />
+        </Call>
+    </Entry>
+
     <Entry genus="number-sqrt" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.sqrt">
         <Parameter type="Float" />
     </Entry>
 
     <Entry genus="number-random-fraction" static="true" type="Float" nParams="0">
         <Function type="Float" name="nextFloat" static="false">
-            <UtilityFunction name="getRandom" type="Random" />
+            <UtilityFunction name="getRandom" type="Random" nParams="0" />
+        </Function>
+    </Entry>
+
+    <Entry genus="number-random-integer" static="true" type="Integer" nParams="2">
+        <Parameters type="Integer" start="0" end="1" />
+        <Call genus="number-plus">
+            <Function type="Integer" name="nextInt" static="false">
+                <UtilityFunction name="getRandom" type="Random" nParams="0" />
+                <Parameter>
+                    <Operation style="unary" value="++" target="Float" type="Float">
+                        <Call genus="number-minus">
+                            <Value index="1" />
+                            <Parameter index="0" type="Float" />
+                        </Call>
+                    </Operation>
+                </Parameter>
+            </Function>
+            <Parameter index="0" type="Integer" />
+        </Call>
+    </Entry>
+
+    <Entry genus="number-min" static="true" type="Float" nParams="2" simpleFunction="java.lang.Math.min">
+        <Parameters type="Float" start="0" end="1" />
+    </Entry>
+
+    <Entry genus="number-min" static="true" type="Float" minParams="3">
+        <Parameters type="Float" start="0" />
+        <Call genus="number-min">
+            <Parameter index="0" type="Float" />
+            <Parameter>
+                <Call genus="number-min">
+                    <Parameters start="1" type="Float" />
+                </Call>
+            </Parameter>
+        </Call>
+    </Entry>
+
+    <Entry genus="number-max" static="true" type="Float" nParams="2" simpleFunction="java.lang.Math.max">
+        <Parameters type="Float" start="0" end="1" />
+    </Entry>
+
+    <Entry genus="number-max" static="true" type="Float" minParams="3">
+        <Parameters type="Float" start="0" />
+        <Call genus="number-max">
+            <Parameter index="0" type="Float" />
+            <Parameter>
+                <Call genus="number-max">
+                    <Parameters start="1" type="Float" />
+                </Call>
+            </Parameter>
+        </Call>
+    </Entry>
+
+    <Entry genus="number-abs" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.abs">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-round" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.round">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-floor" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.floor">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-ceiling" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.ceil">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-expt" static="true" type="Float" nParams="2" simpleFunction="java.lang.Math.pow">
+        <Parameters type="Float" start="0" end="1" />
+    </Entry>
+
+    <Entry genus="number-exp" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.exp">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-log" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.log">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-sin" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.sin">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-cos" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.cos">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-tan" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.tan">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-asin" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.asin">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-acos" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.acos">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-atan" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.atan">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-atan2" static="true" type="Float" nParams="2" simpleFunction="java.lang.Math.atan2">
+        <Parameter type="Float" start="0" end="1" />
+    </Entry>
+
+    <Entry genus="number-radians-to-degrees" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.toDegrees">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-degrees-to-radians" static="true" type="Float" nParams="1" simpleFunction="java.lang.Math.toRadians">
+        <Parameter type="Float" />
+    </Entry>
+
+    <Entry genus="number-random-set-seed" static="true" type="void" nParams="1">
+        <Parameter type="Long" />
+        <Function type="void" name="setSeed" static="false">
+            <UtilityFunction name="getRandom" type="Random" nParams="0" />
+            <Parameter index="0" type="Long" />
+        </Function>
+    </Entry>
+
+    <Entry genus="format-as-decimal" static="true" type="String" nParams="2">
+        <Parameter type="Float" />
+        <Parameter type="Integer" />
+        <Function type="String" name="String.format" static="true">
+            <Parameter>
+                <Operation style="infix" value="+" type="String" target="String">
+                        <Operation style="infix" value="+" type="String" target="String">
+                            <Value value="&quot;%.&quot;" type="String" />
+                            <Parameter index="1" type="String" />
+                        </Operation>
+                    <Parameter value="&quot;f&quot;" type="String" />
+                </Operation>
+            </Parameter>
+            <Parameter index="0" type="Float" />
+        </Function>
+    </Entry>
+
+    <Entry genus="number-is-number?" static="false" target="String" nParams="0" type="Boolean">
+        <Function type="Boolean" name="matches" static="false">
+            <Parameter value="&quot;\d*[.]?\d*&quot;" />
         </Function>
     </Entry>
 

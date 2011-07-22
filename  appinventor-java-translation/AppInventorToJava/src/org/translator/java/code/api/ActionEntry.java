@@ -55,6 +55,12 @@ public abstract class ActionEntry
         parameters.add( new ParameterReference() );
     }
 
+    protected ActionEntry( int nParameters )
+    {
+        if( nParameters != 0 )
+            parameters.add( new ParameterReference( nParameters ) );
+    }
+
     protected ActionEntry( TargetReference target, ParameterReferenceList parameters )
     {
         this.target = target;
