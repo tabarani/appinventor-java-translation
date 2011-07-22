@@ -45,7 +45,10 @@ public class CallerBlock extends Block
 
     public CodeSegment generateCode()
     {
-        return createFunction();
+        if( isPlugged() )
+            return createFunction();
+        else
+            return new ValueStatement( createFunction() );
     }
 
     private Value createFunction()

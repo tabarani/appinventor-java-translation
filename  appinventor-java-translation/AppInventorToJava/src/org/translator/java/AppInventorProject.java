@@ -29,6 +29,7 @@ import java.util.HashMap;
 
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /**
  *
@@ -81,6 +82,18 @@ public class AppInventorProject
         assets.clear();
         screens.clear();
     }
+    
+    public void writeOutput( ZipOutputStream outputStream )
+    {
+        
+    }
+    
+    public void writeOutput( String directory )
+    {
+        //////////DEBUG//////////////
+        for( SourceFile f : files )
+            System.out.println( f.toString() );
+    }
 
     //TODO: Clean this up
     private String getFolder( String path )
@@ -114,9 +127,5 @@ public class AppInventorProject
 
         for( AppInventorScreen screen : screens.values() )
             files.add( screen.generateJavaFile() );
-
-        //////////DEBUG//////////////
-        for( SourceFile f : files )
-            System.out.println( f.toString() );
     }
 }

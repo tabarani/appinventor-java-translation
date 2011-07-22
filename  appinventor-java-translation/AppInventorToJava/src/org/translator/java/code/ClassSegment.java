@@ -112,9 +112,6 @@ public class ClassSegment extends CodeSegment
         {
             builder.append( "\n" );
 
-            if( blocks.get( i ) instanceof FunctionSegment && i != 0 )
-                builder.append( "\n" );
-
             builder.append( CodeUtil.indent( blocks.get( i ).toString().replaceAll( String.format( "\\b%s([.]{0,1})", identifier ), "this$1" )));
         }
 

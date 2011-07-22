@@ -25,10 +25,13 @@ import javax.swing.JFileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.JOptionPane;
 
@@ -181,9 +184,11 @@ public class AndroidToJavaForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBrowseOutputActionPerformed
 
     private void btnConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertActionPerformed
-        AppInventorProject project;
+        AppInventorProject project = null;
         File inputFile = new File( txtInput.getText() );
+        File outputFile = new File( txtOutput.getText() );
         InputStream inputStream = null;
+        OutputStream outputStream = null;
         
         try
         {
@@ -191,9 +196,18 @@ public class AndroidToJavaForm extends javax.swing.JFrame {
                 project = new AppInventorProject( inputFile.getAbsolutePath() );
             else if( inputFile.getName().toLowerCase().endsWith( ".zip" ))
             {
-                inputStream = new ZipInputStream( new FileInputStream( inputFile ) );
+                inputStream = new ZipInputStream( new FileInputStream( inputFile ));
                 project = new AppInventorProject( (ZipInputStream)inputStream );
             }
+            
+            if( project != null )
+                if( outputFile.isDirectory() )
+                    project.writeOutput( outputFile.getAbsolutePath() );
+                else if( outputFile.getName().toLowerCase().endsWith( ".zip" ))
+                {
+                    outputStream = new ZipOutputStream( new FileOutputStream( outputFile ));
+                    project.writeOutput( (ZipOutputStream)outputStream );
+                }
         } catch( IOException e ) {
             showError( "There was an error reading the input." );
             System.err.println( e );
