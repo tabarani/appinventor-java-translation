@@ -19,11 +19,15 @@
 
 package org.translator.java;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import org.translator.java.manifest.ManifestBuilder;
 import org.translator.java.code.SourceFile;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.StringWriter;
 
 import java.util.ArrayList;
@@ -50,18 +54,28 @@ public class AppInventorProject
     private final ArrayList<String> assets = new ArrayList<String>();
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
     private String projectName = null;
+    private InputStream inputStream = null;
+    private OutputStream outputStream = null;
     
-    public AppInventorProject( ZipInputStream inputStream ) throws IOException
+    public AppInventorProject( File inputFile ) throws IOException
     {
-        load( inputStream );
+        load( inputFile );
     }
-    
-    public AppInventorProject( String directory ) throws IOException
+
+    private void load( File inputFile ) throws IOException
     {
-        load( directory );
+//            if( inputFile.isDirectory() )
+//                //load directory
+            if( inputFile.getName().toLowerCase().endsWith( ".zip" ))
+            {
+                inputStream = new ZipInputStream( new FileInputStream( inputFile ));
+                load( (ZipInputStream)inputStream );
+            }
+
+            inputStream.close();
     }
-    
-    public void load( ZipInputStream inputStream ) throws IOException
+
+    private void load( ZipInputStream inputStream ) throws IOException
     {
         clear();
         
@@ -76,14 +90,6 @@ public class AppInventorProject
                 loadSourceFile( name, inputStream );
         }
 
-        generateSource();
-    }
-    
-    public void load( String directory ) throws IOException
-    {
-        clear();
-
-        //TODO: Load from directory (not just zip)
         generateSource();
     }
     

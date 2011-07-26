@@ -193,14 +193,8 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         
         try
         {
-            if( inputFile.isDirectory() )
-                project = new AppInventorProject( inputFile.getAbsolutePath() );
-            else if( inputFile.getName().toLowerCase().endsWith( ".zip" ))
-            {
-                inputStream = new ZipInputStream( new FileInputStream( inputFile ));
-                project = new AppInventorProject( (ZipInputStream)inputStream );
-            }
-            
+            project = new AppInventorProject( inputFile );
+
             if( project != null )
                 if( outputFile.isDirectory() )
                     project.writeOutput( outputFile.getAbsolutePath() );
@@ -213,14 +207,6 @@ public class AndroidToJavaForm extends javax.swing.JFrame
             showError( "There was an error reading the input." );
             System.err.println( e );
             return;
-        } finally {
-            try
-            {
-                if( inputStream != null )
-                    inputStream.close();
-            } catch( IOException e ) {
-                System.err.println( e );
-            }
         }
     }//GEN-LAST:event_btnConvertActionPerformed
 
