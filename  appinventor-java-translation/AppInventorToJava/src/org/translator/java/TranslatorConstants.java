@@ -35,6 +35,14 @@ public abstract class TranslatorConstants
     public static final String PACKAGE_PREFIX = "android.app.";
     public static final String UTILITY_NAME = "AppInventorUtility";
 
+    public static final String MANIFEST_XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
+    public static final String MANIFEST_ANDROID_VERSIONCODE = "1";
+    public static final String MANIFEST_ANDROID_VERSIONNAME = "1.0";
+    public static final String MANIFEST_ANDROID_ICON = "@drawable/icon";
+    public static final String MANIFEST_ACTION_MAIN = "android.intent.action.MAIN";
+    public static final String MANIFEST_CATEGORY_LAUNCHER = "android.intent.category.LAUNCHER";
+
+
     public static final APIMapping API = new APIMapping();
 
     public static String getUtilityClass()

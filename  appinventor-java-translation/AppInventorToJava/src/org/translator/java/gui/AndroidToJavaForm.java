@@ -39,7 +39,8 @@ import javax.swing.JOptionPane;
  *
  * @author jswank
  */
-public class AndroidToJavaForm extends javax.swing.JFrame {
+public class AndroidToJavaForm extends javax.swing.JFrame
+{
 
     /** Creates new form AndroidToJavaForm */
     public AndroidToJavaForm() {

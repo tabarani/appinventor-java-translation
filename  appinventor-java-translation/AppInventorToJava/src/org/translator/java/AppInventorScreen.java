@@ -53,7 +53,7 @@ import org.w3c.dom.NodeList;
  *
  * @author jswank
  */
-class AppInventorScreen
+public class AppInventorScreen
 {
     private String projectName;
     private final HashMap<String, String> data = new HashMap<String, String>();
@@ -63,6 +63,11 @@ class AppInventorScreen
     protected AppInventorScreen( String projectName ) throws IOException
     {
         this.projectName = projectName;
+    }
+
+    public String getName()
+    {
+        return form.getName();
     }
     
     protected void loadBlocksFile( InputStream inputStream ) throws IOException

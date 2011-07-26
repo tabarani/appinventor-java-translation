@@ -117,6 +117,11 @@ class AppInventorProperties
         else
             return null;
     }
+
+    protected String getName()
+    {
+        return properties.get( "$Name" );
+    }
     
     private CodeSegment generateFormBlock( ArrayList<BlocksPage> pages, String projectName )
     {
@@ -198,11 +203,6 @@ class AppInventorProperties
     private String getType()
     {
         return properties.get( "$Type" );
-    }
-
-    private String getName()
-    {
-        return properties.get( "$Name" );
     }
 
     private Class<?> getParamType( String className, String functionName )

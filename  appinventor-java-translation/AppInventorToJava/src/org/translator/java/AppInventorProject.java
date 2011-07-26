@@ -19,10 +19,12 @@
 
 package org.translator.java;
 
+import org.translator.java.manifest.ManifestBuilder;
 import org.translator.java.code.SourceFile;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +32,12 @@ import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -38,8 +46,10 @@ import java.util.zip.ZipOutputStream;
 public class AppInventorProject
 {
     private final ArrayList<SourceFile> files = new ArrayList<SourceFile>();
+    private Document manifest = null;
     private final ArrayList<String> assets = new ArrayList<String>();
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
+    private String projectName = null;
     
     public AppInventorProject( ZipInputStream inputStream ) throws IOException
     {
@@ -85,14 +95,30 @@ public class AppInventorProject
     
     public void writeOutput( ZipOutputStream outputStream )
     {
-        
     }
     
     public void writeOutput( String directory )
     {
         //////////DEBUG//////////////
-        for( SourceFile f : files )
-            System.out.println( f.toString() );
+        /*for( SourceFile f : files )
+            System.out.println( f.toString() );*/
+
+        StringWriter sw = new StringWriter();
+        StreamResult result = new StreamResult( sw );
+        DOMSource source = new DOMSource( manifest );
+
+        try
+        {
+            Transformer trans = TransformerFactory.newInstance().newTransformer();
+            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            trans.transform( source, result );
+
+            System.out.println( sw.toString() );
+        } catch( Exception e ) {
+            System.err.println( e.toString() );
+        }
     }
 
     //TODO: Clean this up
@@ -105,7 +131,7 @@ public class AppInventorProject
     
     private void loadSourceFile( String path, InputStream inputStream ) throws IOException
     {
-        String projectName = getFolder( path );
+        projectName = getFolder( path );
         AppInventorScreen screen = screens.get( projectName );
         
         if( screen == null )
@@ -127,5 +153,9 @@ public class AppInventorProject
 
         for( AppInventorScreen screen : screens.values() )
             files.add( screen.generateJavaFile() );
+
+        manifest = ManifestBuilder.generateManifest( projectName, screens.values() );
     }
+
+
 }
