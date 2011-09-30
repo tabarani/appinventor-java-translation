@@ -19,9 +19,11 @@
 
 package org.translator.java;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import org.translator.java.manifest.ManifestBuilder;
 import org.translator.java.code.SourceFile;
 
@@ -54,8 +56,6 @@ public class AppInventorProject
     private final ArrayList<String> assets = new ArrayList<String>();
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
     private String projectName = null;
-    private InputStream inputStream = null;
-    private OutputStream outputStream = null;
     
     public AppInventorProject( File inputFile ) throws IOException
     {
@@ -64,12 +64,14 @@ public class AppInventorProject
 
     private void load( File inputFile ) throws IOException
     {
-//            if( inputFile.isDirectory() )
-//                //load directory
+        InputStream inputStream = null;
+
             if( inputFile.getName().toLowerCase().endsWith( ".zip" ))
             {
                 inputStream = new ZipInputStream( new FileInputStream( inputFile ));
                 load( (ZipInputStream)inputStream );
+            } else {
+            
             }
 
             inputStream.close();
@@ -103,12 +105,13 @@ public class AppInventorProject
     {
     }
     
-    public void writeOutput( String directory )
+    public void writeOutput( String directory ) throws IOException
     {
         //////////DEBUG//////////////
         /*for( SourceFile f : files )
             System.out.println( f.toString() );*/
 
+        /*
         StringWriter sw = new StringWriter();
         StreamResult result = new StreamResult( sw );
         DOMSource source = new DOMSource( manifest );
@@ -124,7 +127,32 @@ public class AppInventorProject
             System.out.println( sw.toString() );
         } catch( Exception e ) {
             System.err.println( e.toString() );
-        }
+        }*/
+
+        File f = new File(directory);
+
+        if( f.isDirectory() )
+            for(AppInventorScreen screen : screens.values())
+            {
+                File screenFile = new File(getScreenFilePath(f.getAbsolutePath(), screen));
+
+                screenFile.mkdirs();
+                screenFile.createNewFile();
+                
+                FileWriter out = new FileWriter(screenFile);
+                out.write(screen.toString());
+            }
+    }
+
+    private String getScreenFilePath(String prefix, AppInventorScreen screen)
+    {
+        StringBuilder builder = new StringBuilder(prefix);
+
+        builder.append("\\src\\org");
+        builder.append("\\").append(projectName.toLowerCase());
+        builder.append("\\").append(screen.getName()).append(".java");
+
+        return builder.toString();
     }
 
     //TODO: Clean this up
