@@ -194,7 +194,14 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         try
         {
             project = new AppInventorProject( inputFile );
+        } catch( IOException e ) {
+            showError( "There was an error reading the input." );
+            System.err.println( e );
+            return;
+        }
 
+        try
+        {
             if( project != null )
                 if( outputFile.isDirectory() )
                     project.writeOutput( outputFile.getAbsolutePath() );
@@ -204,7 +211,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
                     project.writeOutput( (ZipOutputStream)outputStream );
                 }
         } catch( IOException e ) {
-            showError( "There was an error reading the input." );
+            showError( "There was an error writing the output." );
             System.err.println( e );
             return;
         }

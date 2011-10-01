@@ -136,11 +136,12 @@ public class AppInventorProject
             {
                 File screenFile = new File(getScreenFilePath(f.getAbsolutePath(), screen));
 
-                screenFile.mkdirs();
+                screenFile.getParentFile().mkdirs();
                 screenFile.createNewFile();
                 
                 FileWriter out = new FileWriter(screenFile);
                 out.write(screen.toString());
+                out.close();
             }
     }
 
