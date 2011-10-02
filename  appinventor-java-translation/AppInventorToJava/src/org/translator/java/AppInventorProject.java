@@ -131,6 +131,7 @@ public class AppInventorProject
 
         File f = new File(directory);
 
+        int i = 0;
         if( f.isDirectory() )
             for(AppInventorScreen screen : screens.values())
             {
@@ -140,8 +141,10 @@ public class AppInventorProject
                 screenFile.createNewFile();
                 
                 FileWriter out = new FileWriter(screenFile);
-                out.write(screen.toString());
+                out.write(files.get(i).toString());
                 out.close();
+
+                i++;
             }
     }
 
