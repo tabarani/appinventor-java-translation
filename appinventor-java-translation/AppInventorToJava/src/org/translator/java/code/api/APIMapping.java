@@ -19,6 +19,10 @@
 
 package org.translator.java.code.api;
 
+import java.io.InputStream;
+
+import java.net.URL;
+
 import java.util.ArrayList;
 import org.translator.java.TranslatorConstants;
 import java.util.HashMap;
@@ -45,7 +49,7 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
 
     public APIMapping()
     {
-        load( TranslatorConstants.API_MAPPING_FILE );
+        load( TranslatorConstants.API_MAPPING_PATH );
     }
 
     public Value generateCode( String genus, LinkedList<Value> params )
@@ -107,7 +111,9 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
     {
         try
         {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse( fileName );
+						String path = this.getClass().getResource(fileName).toString();
+						InputStream is = this.getClass().getResourceAsStream(fileName);
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse( is, path );
 
             NodeList nodes = doc.getDocumentElement().getChildNodes();
 
