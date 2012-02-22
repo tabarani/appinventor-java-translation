@@ -19,30 +19,19 @@
 
 package org.translator.java;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import org.translator.java.manifest.ManifestBuilder;
-import org.translator.java.code.SourceFile;
-
-import java.io.InputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+
+import org.translator.java.code.SourceFile;
+import org.translator.java.manifest.ManifestBuilder;
 import org.w3c.dom.Document;
 
 /**
@@ -151,10 +140,11 @@ public class AppInventorProject
     private String getScreenFilePath(String prefix, AppInventorScreen screen)
     {
         StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
 
-        builder.append("\\src\\org");
-        builder.append("\\").append(projectName.toLowerCase());
-        builder.append("\\").append(screen.getName()).append(".java");
+        builder.append(s + "src" + s + "org");
+        builder.append(s).append(projectName.toLowerCase());
+        builder.append(s).append(screen.getName()).append(".java");
 
         return builder.toString();
     }
