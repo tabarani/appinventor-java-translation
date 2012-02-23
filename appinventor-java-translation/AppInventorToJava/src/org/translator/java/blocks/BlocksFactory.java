@@ -19,7 +19,20 @@
 
 package org.translator.java.blocks;
 
+import java.net.URL;
+
+import java.util.Enumeration;
+import java.util.HashSet;
+
+
+import org.reflections.scanners.SubTypesScanner;
+
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+
 import org.translator.java.blocks.definition.DefinitionBlock;
+
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,8 +52,10 @@ class BlocksFactory
 
     protected BlocksFactory()
     {
-        String packageName = getClass().getPackage().getName();
-        Reflections reflections = new Reflections( packageName );
+        String packageName = this.getClass().getPackage().getName();
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .addUrls(ClasspathHelper.forPackage(packageName, ClassLoader.getSystemClassLoader()))
+                .setScanners(new SubTypesScanner()));
 
         Set<Class<? extends Block>> blocks = reflections.getSubTypesOf( Block.class );
 
@@ -54,7 +69,7 @@ class BlocksFactory
                     knownBlocks.put( genusPattern, c );
             } catch( Exception e )
             {
-                System.err.println( e );
+								e.printStackTrace();
                 System.exit( 1 );
             }
         }
