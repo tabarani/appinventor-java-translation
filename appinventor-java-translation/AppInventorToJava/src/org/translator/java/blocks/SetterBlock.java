@@ -23,6 +23,7 @@ import org.translator.java.code.AssignmentStatement;
 import org.translator.java.code.CodeSegment;
 import org.translator.java.code.FunctionCall;
 import org.translator.java.code.Value;
+import org.translator.java.code.ValueStatement;
 import org.w3c.dom.Node;
 
 /**
@@ -46,7 +47,7 @@ public class SetterBlock extends Block
         if( getGenus().startsWith( "setter" ))
             return new AssignmentStatement( getLabel(), getTo() );
         else
-            return new FunctionCall( getLabel(), getTo() );
+            return new ValueStatement(new FunctionCall( getLabel(), getTo() ));
     }
 
     private Value getTo()
