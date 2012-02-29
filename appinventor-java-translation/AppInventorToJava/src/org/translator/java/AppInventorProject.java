@@ -158,7 +158,7 @@ public class AppInventorProject
             		"proguard.cfg",
             		"default.properties",
             		"libSimpleAndroidRuntime.jar",
-            		"classpath"
+            		"\\.classpath"
             };
             
             for (String copyResourceFilename: copyResourceFilenames) {

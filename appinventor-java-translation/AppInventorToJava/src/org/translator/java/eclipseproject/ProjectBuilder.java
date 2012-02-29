@@ -64,8 +64,7 @@ public class ProjectBuilder {
 		for (String commandName : commandNames) {
 			Element root = d.createElement("buildCommand");
 			Element name = d.createElement("name");
-			Text nameText = d.createTextNode(commandName);
-			name.appendChild(nameText);
+			name.setTextContent(commandName);
 			root.appendChild(name);
 			Element arguments = d.createElement("arguments");
 			root.appendChild(arguments);
@@ -89,10 +88,7 @@ public class ProjectBuilder {
 		List<Element> elements = new LinkedList<Element>();
 		for (String natureName : natureNames) {
 			Element root = d.createElement("nature");
-			Element name = d.createElement("name");
-			Text nameText = d.createTextNode(natureName);
-			name.appendChild(nameText);
-			root.appendChild(name);
+			root.setTextContent(natureName);
 			elements.add(root);
 		}
 		return elements;
