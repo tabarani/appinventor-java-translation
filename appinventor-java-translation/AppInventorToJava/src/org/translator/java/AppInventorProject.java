@@ -31,6 +31,8 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.translator.java.code.SourceFile;
+import org.translator.java.eclipseproject.ProjectBuilder;
+import org.translator.java.eclipseproject.ProjectFile;
 import org.translator.java.manifest.ManifestBuilder;
 import org.translator.java.manifest.ManifestFile;
 
@@ -42,6 +44,7 @@ public class AppInventorProject
 {
     private final ArrayList<SourceFile> files = new ArrayList<SourceFile>();
     private ManifestFile manifest = null;
+    private ProjectFile project = null;
     private final ArrayList<String> assets = new ArrayList<String>();
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
     private String projectName = null;
@@ -141,6 +144,13 @@ public class AppInventorProject
             FileWriter out = new FileWriter(manifestFile);
             out.write(manifest.toString());
             out.close();
+            
+            File projectFile = new File(getProjectFilePath(f.getAbsolutePath(), project));
+            projectFile.getParentFile().mkdirs();
+            projectFile.createNewFile();
+            out = new FileWriter(projectFile);
+            out.write(project.toString());
+            out.close();
         }
     }
 
@@ -160,6 +170,13 @@ public class AppInventorProject
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append(m.getFileName());
+    	return builder.toString();
+    }
+    
+    private String getProjectFilePath(String prefix, ProjectFile p) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+    	builder.append(s).append(p.getFileName());
     	return builder.toString();
     }
 
@@ -197,6 +214,7 @@ public class AppInventorProject
             files.add( screen.generateJavaFile() );
 
         manifest = ManifestBuilder.generateManifest(projectName, screens.values());
+        project = ProjectBuilder.generateProject(projectName);
     }
 
 

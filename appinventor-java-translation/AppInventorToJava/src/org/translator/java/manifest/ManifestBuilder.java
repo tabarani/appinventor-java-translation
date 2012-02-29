@@ -1,8 +1,10 @@
 package org.translator.java.manifest;
 
 import java.util.Collection;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.translator.java.AppInventorScreen;
 import org.translator.java.TranslatorConstants;
 import org.w3c.dom.Document;
