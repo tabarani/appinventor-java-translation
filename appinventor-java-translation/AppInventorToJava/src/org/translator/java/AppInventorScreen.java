@@ -126,7 +126,7 @@ public class AppInventorScreen
 
     protected SourceFile generateJavaFile()
     {
-        SourceFile file = new SourceFile( TranslatorConstants.PACKAGE_PREFIX.concat( projectName ));
+        SourceFile file = new SourceFile( TranslatorConstants.PACKAGE_PREFIX.concat( projectName.toLowerCase() ));
 
         if( form != null )
             file.setMainClass( (ClassSegment)form.generateCode( blocksPages, projectName ));

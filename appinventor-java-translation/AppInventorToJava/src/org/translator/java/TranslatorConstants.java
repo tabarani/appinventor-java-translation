@@ -32,7 +32,7 @@ public abstract class TranslatorConstants
     public static final String FORM = "com.google.devtools.simple.runtime.components.android.Form";
     public static final String[] EVENT_HANDLING_INTERFACES = { "com.google.devtools.simple.runtime.components.HandlesEventDispatching" };
     public static final String EVENT_DISPATCHER = "com.google.devtools.simple.runtime.events.EventDispatcher";
-    public static final String PACKAGE_PREFIX = "android.app.";
+    public static final String PACKAGE_PREFIX = "org.";
     public static final String UTILITY_NAME = "AppInventorUtility";
 
     public static final String MANIFEST_XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
