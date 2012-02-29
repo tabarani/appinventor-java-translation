@@ -21,9 +21,11 @@ package org.translator.java;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
@@ -151,6 +153,26 @@ public class AppInventorProject
             out = new FileWriter(projectFile);
             out.write(project.toString());
             out.close();
+            
+            String[] copyResourceFilenames = {
+            		"proguard.cfg",
+            		"default.properties",
+            		"libSimpleAndroidRuntime.jar",
+            		"classpath"
+            };
+            
+            for (String copyResourceFilename: copyResourceFilenames) {
+            	InputStream is = getClass().getResourceAsStream("/resources/" + copyResourceFilename.replace("\\.", ""));
+            	OutputStream os = new FileOutputStream(f.getAbsolutePath() + File.separator + copyResourceFilename.replace("\\.", "."));
+            	byte[] buf = new byte[1024];
+            	int readBytes;
+            	if (is == null) System.out.println("/resources/" + copyResourceFilename.replace("\\.", ""));
+            	if (os == null) System.out.println(f.getAbsolutePath() + File.separator + copyResourceFilename.replace("\\.", "."));
+            	while((readBytes = is.read(buf)) > 0) {
+            		os.write(buf, 0, readBytes);
+            	}
+            }
+            
         }
     }
 
@@ -177,6 +199,34 @@ public class AppInventorProject
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append(p.getFileName());
+    	return builder.toString();
+    }
+    
+    private String getClasspathFilePath(String prefix) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+    	builder.append(s).append(".classpath");
+    	return builder.toString();
+    }
+    
+    private String getLibSimplePath(String prefix) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+    	builder.append(s).append("libSimpleAndroid.jar");
+    	return builder.toString();
+    }
+    
+    private String getProguardPath(String prefix) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+    	builder.append(s).append("proguard.cfg");
+    	return builder.toString();
+    }
+    
+    private String getDefaultPropsPath(String prefix) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+    	builder.append(s).append("default.properties");
     	return builder.toString();
     }
 
