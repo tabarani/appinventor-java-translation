@@ -32,7 +32,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.translator.java.code.SourceFile;
 import org.translator.java.manifest.ManifestBuilder;
-import org.w3c.dom.Document;
+import org.translator.java.manifest.ManifestFile;
 
 /**
  *
@@ -41,7 +41,7 @@ import org.w3c.dom.Document;
 public class AppInventorProject
 {
     private final ArrayList<SourceFile> files = new ArrayList<SourceFile>();
-    private Document manifest = null;
+    private ManifestFile manifest = null;
     private final ArrayList<String> assets = new ArrayList<String>();
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
     private String projectName = null;
@@ -121,7 +121,7 @@ public class AppInventorProject
         File f = new File(directory);
 
         int i = 0;
-        if( f.isDirectory() )
+        if( f.isDirectory() ) {
             for(AppInventorScreen screen : screens.values())
             {
                 File screenFile = new File(getScreenFilePath(f.getAbsolutePath(), screen));
@@ -135,6 +135,13 @@ public class AppInventorProject
 
                 i++;
             }
+            File manifestFile = new File(getManifestFilePath(f.getAbsolutePath(), manifest));
+            manifestFile.getParentFile().mkdirs();
+            manifestFile.createNewFile();
+            FileWriter out = new FileWriter(manifestFile);
+            out.write(manifest.toString());
+            out.close();
+        }
     }
 
     private String getScreenFilePath(String prefix, AppInventorScreen screen)
@@ -142,11 +149,18 @@ public class AppInventorProject
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
 
-        builder.append(s + "src" + s + "org");
+        builder.append(s).append("src").append(s).append("org");
         builder.append(s).append(projectName.toLowerCase());
         builder.append(s).append(screen.getName()).append(".java");
 
         return builder.toString();
+    }
+    
+    private String getManifestFilePath(String prefix, ManifestFile m) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+    	builder.append(s).append(m.getFileName());
+    	return builder.toString();
     }
 
     //TODO: Clean this up
@@ -182,7 +196,7 @@ public class AppInventorProject
         for( AppInventorScreen screen : screens.values() )
             files.add( screen.generateJavaFile() );
 
-        manifest = ManifestBuilder.generateManifest( projectName, screens.values() );
+        manifest = ManifestBuilder.generateManifest(projectName, screens.values());
     }
 
 

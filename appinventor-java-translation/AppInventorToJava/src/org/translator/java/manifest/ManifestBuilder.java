@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
  */
 public abstract class ManifestBuilder
 {
-    public static Document generateManifest( String projectName, Collection<AppInventorScreen> activities )
+    public static ManifestFile generateManifest( String projectName, Collection<AppInventorScreen> activities )
     {
         Document doc = null;
 
@@ -31,7 +31,7 @@ public abstract class ManifestBuilder
             System.err.println( "Error generating manifest: ".concat( e.toString() ));
         }
 
-        return doc;
+        return new ManifestFile(doc);
     }
 
     private static Element createRoot( String packageName, Document doc )
