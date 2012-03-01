@@ -26,7 +26,8 @@ public abstract class ManifestBuilder
 
             doc = builder.newDocument();
 
-            Element root = createRoot( TranslatorConstants.PACKAGE_PREFIX.concat( projectName ), doc );
+            Element root = createRoot( TranslatorConstants.PACKAGE_PREFIX.concat( projectName.toLowerCase() ), doc );
+            root.appendChild(createUsesSdkVersion(doc));
             root.appendChild( createApplicationElement( activities.toArray( new AppInventorScreen[0] ), projectName, doc ));
             
         } catch( Exception e ) {
@@ -48,6 +49,12 @@ public abstract class ManifestBuilder
         doc.appendChild( root );
 
         return root;
+    }
+    
+    private static Element createUsesSdkVersion(Document doc) {
+    	Element usesSdkVersion = doc.createElement("uses-sdk");
+    	usesSdkVersion.setAttribute("android:minSdkVersion", "7");
+    	return usesSdkVersion;
     }
 
     private static Element createApplicationElement( AppInventorScreen[] activities, String label, Document doc )
@@ -76,12 +83,14 @@ public abstract class ManifestBuilder
         {
             Element actionElement = doc.createElement( "action" );
             Element categoryElement = doc.createElement( "category" );
+            Element filterElement = doc.createElement("intent-filter");
 
             actionElement.setAttribute( "android:name", TranslatorConstants.MANIFEST_ACTION_MAIN );
             categoryElement.setAttribute( "android:name", TranslatorConstants.MANIFEST_CATEGORY_LAUNCHER );
 
-            activityElement.appendChild( actionElement );
-            activityElement.appendChild( categoryElement );
+            filterElement.appendChild( actionElement );
+            filterElement.appendChild( categoryElement );
+            activityElement.appendChild(filterElement);
         }
 
         return activityElement;
