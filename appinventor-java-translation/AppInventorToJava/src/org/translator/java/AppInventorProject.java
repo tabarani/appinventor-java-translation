@@ -158,12 +158,15 @@ public class AppInventorProject
             		"proguard.cfg",
             		"default.properties",
             		"libSimpleAndroidRuntime.jar",
-            		"\\.classpath"
+            		"\\.classpath",
+            		"res/drawable/icon.png"
             };
             
             for (String copyResourceFilename: copyResourceFilenames) {
             	InputStream is = getClass().getResourceAsStream("/resources/" + copyResourceFilename.replace("\\.", ""));
-            	OutputStream os = new FileOutputStream(f.getAbsolutePath() + File.separator + copyResourceFilename.replace("\\.", "."));
+            	File outputFile = new File(f.getAbsoluteFile() + File.separator + copyResourceFilename.replace("\\.", "."));
+            	outputFile.getParentFile().mkdirs();
+            	OutputStream os = new FileOutputStream(outputFile);
             	byte[] buf = new byte[1024];
             	int readBytes;
             	if (is == null) System.out.println("/resources/" + copyResourceFilename.replace("\\.", ""));
