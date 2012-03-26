@@ -50,6 +50,7 @@ public class AppInventorProject
     private final ArrayList<String> assets = new ArrayList<String>();
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
     private String projectName = null;
+    private File assetsDir;
     
     public AppInventorProject( File inputFile ) throws IOException
     {
@@ -75,13 +76,26 @@ public class AppInventorProject
     {
         clear();
         
+        assetsDir = File.createTempFile("assets", "tmp");
+        assetsDir.deleteOnExit();
+        
+        if(!(assetsDir.delete())) {
+            throw new IOException("Could not delete file: " + assetsDir.getAbsolutePath());
+        } 
+        
+        if(!(assetsDir.mkdir())) {
+            throw new IOException("Could not create dir: " + assetsDir.getAbsolutePath());
+        } 
+        
         ZipEntry ze = null;
         while( (ze = inputStream.getNextEntry()) != null )
         {
             String name =  ze.getName();
             
-            if( name.startsWith("assets"))
+            if( name.startsWith("assets")) {
                 assets.add( name );
+                saveAsset(name, inputStream);
+            }
             else if( name.endsWith( ".blk" ) || name.endsWith( ".scm" ) || name.endsWith( ".yail" ))
                 loadSourceFile( name, inputStream );
         }
@@ -93,6 +107,9 @@ public class AppInventorProject
     {
         assets.clear();
         screens.clear();
+        if (assetsDir != null && assetsDir.exists()) {
+        	assetsDir.delete();
+        }
     }
     
     public void writeOutput( ZipOutputStream outputStream )
@@ -176,6 +193,20 @@ public class AppInventorProject
             	}
             }
             
+            for (String assetName : assets) {
+            	InputStream is = new FileInputStream(new File(assetsDir.getAbsolutePath() + File.separator + assetName));
+            	File outputFile = new File(f.getAbsoluteFile() + File.separator + assetName);
+            	outputFile.getParentFile().mkdirs();
+            	OutputStream os = new FileOutputStream(outputFile);
+            	byte[] buf = new byte[1024];
+            	int readBytes;
+            	while((readBytes = is.read(buf)) > 0) {
+            		os.write(buf, 0, readBytes);
+            	}
+            }
+            
+            File assetsOutput = new File(getAssetsFilePath(f.getAbsolutePath()));
+            new File(assetsDir.getAbsoluteFile() + File.separator + "assets").renameTo(assetsOutput);
         }
     }
 
@@ -188,6 +219,13 @@ public class AppInventorProject
         builder.append(s).append(projectName.toLowerCase());
         builder.append(s).append(screen.getName()).append(".java");
 
+        return builder.toString();
+    }
+    
+    private String getAssetsFilePath(String prefix) {
+        StringBuilder builder = new StringBuilder(prefix);
+        String s = File.separator;
+        builder.append(s).append("assets");
         return builder.toString();
     }
     
@@ -257,6 +295,18 @@ public class AppInventorProject
             screen.loadInterfaceFile( inputStream );
 
         screens.put( projectName, screen );
+    }
+    
+    private void saveAsset(String name, InputStream is) throws IOException {
+    	File outputFile = new File(assetsDir.getAbsoluteFile().toString() + File.separator + name);
+    	outputFile.getParentFile().mkdirs();
+    	outputFile.createNewFile();
+    	OutputStream os = new FileOutputStream(outputFile);
+    	byte[] buf = new byte[1024];
+    	int readBytes;
+    	while((readBytes = is.read(buf)) > 0) {
+    		os.write(buf, 0, readBytes);
+    	}
     }
 
     private void generateSource()

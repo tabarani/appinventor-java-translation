@@ -56,9 +56,9 @@ public class ProjectBuilder {
 	private static List<Element> createBuildCommands(Document d) {
 		final String[] commandNames = {
 				"com.android.ide.eclipse.adt.ResourceManagerBuilder",
-				"com.android.ide.eclipse.adt.ResourceManagerBuilder",
-				"com.android.ide.eclipse.adt.ResourceManagerBuilder",
-				"com.android.ide.eclipse.adt.ResourceManagerBuilder"
+				"com.android.ide.eclipse.adt.PrecompilerBuilder",
+				"org.eclipse.jdt.core.javabuilder",
+				"com.android.ide.eclipse.adt.ApkBuilder"
 		};
 		List<Element> elements = new LinkedList<Element>();
 		for (String commandName : commandNames) {
