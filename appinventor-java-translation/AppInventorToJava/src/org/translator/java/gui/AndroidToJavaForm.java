@@ -197,6 +197,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         } catch( IOException e ) {
             showError( "There was an error reading the input." );
             System.err.println( e );
+            e.printStackTrace();
             return;
         }
 
@@ -212,7 +213,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
                 }
         } catch( IOException e ) {
             showError( "There was an error writing the output." );
-            System.err.println( e );
+            e.printStackTrace();
             return;
         }
     }//GEN-LAST:event_btnConvertActionPerformed

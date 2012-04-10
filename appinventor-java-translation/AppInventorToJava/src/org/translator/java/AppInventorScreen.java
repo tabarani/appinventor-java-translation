@@ -103,7 +103,7 @@ public class AppInventorScreen
                     break;
                 }
         } catch( Exception e ) {
-            System.err.println( e );
+        	e.printStackTrace();
         }
     }
 

@@ -121,6 +121,7 @@ public class APIMapping extends HashMap<String, ArrayList<APIEntry>>
                 addEntry( nodes.item( i ));
         } catch( Exception e ) {
             System.err.println( "Error reading API mapping: ".concat( e.toString() ));
+            e.printStackTrace();
         }
     }
 

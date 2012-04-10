@@ -124,9 +124,11 @@ class BlocksFactory
                         return (Block)c.newInstance( blockNode );
                     } catch( NoSuchMethodException e ) {
                         System.err.println( knownBlocks.get( key ).toString() + " does not have a constructor accepting a Node parameter." );
+                        e.printStackTrace();
                         System.exit( 1 );
                     } catch( Exception e ) {
                         System.err.println( e );
+                        e.printStackTrace();
                         System.exit( 1 );
                     }
             }

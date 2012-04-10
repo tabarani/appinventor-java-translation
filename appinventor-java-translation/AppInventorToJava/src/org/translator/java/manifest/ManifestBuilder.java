@@ -32,6 +32,7 @@ public abstract class ManifestBuilder
             
         } catch( Exception e ) {
             System.err.println( "Error generating manifest: ".concat( e.toString() ));
+            e.printStackTrace();
         }
 
         return new ManifestFile(doc);

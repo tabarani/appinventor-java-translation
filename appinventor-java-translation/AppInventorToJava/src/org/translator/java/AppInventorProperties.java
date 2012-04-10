@@ -211,7 +211,7 @@ class AppInventorProperties
         {
             return Class.forName( className ).getMethod( functionName, new Class[0] ).getReturnType();
         } catch( Exception e ) {
-            System.err.println( e );
+        	e.printStackTrace();
             return null;
         }
     }
