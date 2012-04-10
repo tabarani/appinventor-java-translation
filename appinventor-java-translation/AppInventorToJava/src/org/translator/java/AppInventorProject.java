@@ -93,6 +93,11 @@ public class AppInventorProject
             String name =  ze.getName();
             
             if( name.startsWith("assets")) {
+		    	File outputFile = new File(assetsDir.getAbsoluteFile().toString() +
+		    			File.separator + name);
+	        	if (outputFile.equals(new File(assetsDir.getAbsolutePath().toString() +
+	        			File.separator + "assets")))
+	        		continue;	
                 assets.add( name );
                 saveAsset(name, inputStream);
             }
@@ -173,10 +178,11 @@ public class AppInventorProject
             
             String[] copyResourceFilenames = {
             		"proguard.cfg",
-            		"default.properties",
+            		"project.properties",
             		"libSimpleAndroidRuntime.jar",
             		"\\.classpath",
-            		"res/drawable/icon.png"
+            		"res/drawable/icon.png",
+            		"\\.settings/org.eclipse.jdt.core.prefs"
             };
             
             for (String copyResourceFilename: copyResourceFilenames) {
@@ -298,7 +304,8 @@ public class AppInventorProject
     }
     
     private void saveAsset(String name, InputStream is) throws IOException {
-    	File outputFile = new File(assetsDir.getAbsoluteFile().toString() + File.separator + name);
+    	File outputFile = new File(assetsDir.getAbsoluteFile().toString() +
+    			File.separator + name);
     	outputFile.getParentFile().mkdirs();
     	outputFile.createNewFile();
     	OutputStream os = new FileOutputStream(outputFile);
