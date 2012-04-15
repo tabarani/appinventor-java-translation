@@ -46,7 +46,19 @@
 
 		<Entry genus="logical-not" static="value" target="Boolean" type="Boolean" nParams="0">
 				<Operation style="unary" target="Boolean" value="!" type="Boolean" nParams="0" />
-		</Entry>
+	</Entry>
+		
+    <Entry genus="greaterthan" static="false" target="Float" type="Float" nParams="1">
+        <Operation style="infix" target="Float" value=">" type="Float" nParams="1">
+            <Parameter index="0" type="Float" />
+        </Operation>
+    </Entry>
+    
+    <Entry genus="lessthan" static="false" target="Float" type="Float" nParams="1">
+        <Operation style="infix" target="Float" value=">" type="Float" nParams="1">
+            <Parameter index="0" type="Float" />
+        </Operation>
+    </Entry>
 
     <Entry genus="number-negate" static="false" target="Float" type="Float" nParams="0">
         <Operation style="unary" target="Float" value="-" type="Float" nParams="0" />

@@ -40,7 +40,7 @@ public class CallerBlock extends Block
 
     public static String getGenusPattern()
     {
-        return ".*-.*|caller.*";
+        return ".*-.*|caller.*|.*than";
     }
 
     public CodeSegment generateCode()

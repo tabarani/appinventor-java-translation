@@ -19,6 +19,8 @@
 
 package org.translator.java.blocks.control;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.translator.java.blocks.Block;
 import org.translator.java.blocks.BlockConnector;
 import org.translator.java.code.CodeSegment;
@@ -58,8 +60,23 @@ public class IfBlock extends Block
     private Value getTest()
     {
         for( BlockConnector connector : connectors )
-            if( connector.getLabel().equals( "test" ) && connector.hasConnectedBlock() )
-                return (Value)connector.getConnectedBlock().generateCode();
+            if( connector.getLabel().equals( "test" ) && connector.hasConnectedBlock() ) {
+            	Block connected = connector.getConnectedBlock();
+            	Class<?> c = connected.getClass();
+            	try {
+            		
+            	return (Value) c.getMethod("generateCode").invoke(connected);
+            	} catch (NoSuchMethodException e){
+            		e.printStackTrace();
+            		System.exit(1);
+            	} catch (InvocationTargetException e) {
+            		e.printStackTrace();
+            		System.exit(1);
+            	} catch (IllegalAccessException e) {
+            		e.printStackTrace();
+            		System.exit(1);
+            	}
+            }
 
         return new Value( "false" );
     }
