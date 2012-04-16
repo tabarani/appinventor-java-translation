@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import android.R.id;
+
 /**
  *
  * @author Joshua
@@ -112,7 +114,14 @@ public class FunctionCall extends Value
             else
                 builder.append( " " );
 
-            builder.append( parameters.get( i ).toString() );
+            String param = parameters.get(i).toString();
+            if (identifier.endsWith("Text") && !param.contains("\"")) {
+	            builder.append( "(" );
+	            builder.append( param );
+	            builder.append( ").toString()" );
+            } else {
+	            builder.append( param );
+            }
         }
 
         if( parameters.size() > 0 )

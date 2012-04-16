@@ -38,7 +38,12 @@ public class AssignmentStatement extends Statement
 
     public String toString()
     {
-        return String.format( "%s = %s;", identifier, value.toString() );
+    	if (value.toString().matches("\\d+")) {
+	        return String.format( "%s = %sf;", identifier, value.toString() );
+    		
+    	} else {
+	        return String.format( "%s = %s;", identifier, value.toString() );
+    	}
     }
 
     protected SortedMap<String, String> getDependencies()
