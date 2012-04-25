@@ -115,11 +115,16 @@ public class FunctionCall extends Value
                 builder.append( " " );
 
             String param = parameters.get(i).toString();
-            if (identifier.endsWith("Text") && !param.contains("\"")) {
+            if (identifier.equals("Text") && !param.contains("\"")) {
 	            builder.append( "(" );
 	            builder.append( param );
 	            builder.append( ").toString()" );
-            } else {
+            } else if (identifier.equals("Height") || identifier.equals("Width")) {
+	            builder.append( "Integer.valueOf(" );
+	            builder.append( param );
+	            builder.append( ")" );
+            }
+        	else {
 	            builder.append( param );
             }
         }

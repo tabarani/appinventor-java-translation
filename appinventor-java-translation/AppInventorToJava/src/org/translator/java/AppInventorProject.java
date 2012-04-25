@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -157,7 +158,26 @@ public class AppInventorProject
                 screenFile.createNewFile();
                 
                 FileWriter out = new FileWriter(screenFile);
-                out.write(files.get(i).toString());
+                String initial = files.get(i).toString();
+                Map<String, String> types = screen.getTypes();
+                String[] lines = initial.split("\n");
+                for (String key : types.keySet()) {
+                	if (!key.trim().equals(screen.getName().trim())) {
+	                	String value = types.get(key);
+		                boolean varFound = false;
+		                boolean importFound = false;
+		                for (String line : lines) {
+		                	if (line.matches("^\\s*(public|private)\\s+"+value+"\\s+"+key+"\\s*=.*;$")) varFound = true;
+		                	if (line.matches("^\\s*(public|private)\\s+"+value+"\\s+"+key+"\\s*;$")) varFound = true;
+		                	if (line.matches("^\\s*import\\s+.*"+value+"\\s*;$")) importFound = true;
+		                }
+		                if (!varFound)
+		                	initial = initial.replaceFirst("(?s)(?<=\\{\n)", "\tprivate "+value+" "+key+";\n");	
+		                if (!importFound)
+		                	initial = initial.replaceFirst("(?=import)", "import com.google.devtools.simple.runtime.components.android."+value+";\n");	
+                	}
+                }
+                out.write(initial);
                 out.close();
 
                 i++;
