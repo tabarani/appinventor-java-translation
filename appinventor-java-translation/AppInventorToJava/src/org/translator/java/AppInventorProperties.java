@@ -56,8 +56,11 @@ class AppInventorProperties
                     components.add( new AppInventorProperties( reader ));
 
                 reader.endArray();
-            } else
-                properties.put( name, reader.nextString() );
+            } else {
+            	String n = reader.nextString();
+            	if (n.matches("True|False")) n = n.toLowerCase();
+                properties.put( name, n );
+            }
         }
 
         reader.endObject();

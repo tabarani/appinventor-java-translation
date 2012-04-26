@@ -172,8 +172,11 @@ public class AppInventorScreen
             String name = reader.nextName();
             if( name.equals( "Properties" ) )
                 form = new AppInventorProperties( reader );
-            else
-                data.put( name, reader.nextString() );
+            else {
+            	String d = reader.nextString();
+            	if (d.matches("True|False")) d = d.toLowerCase();
+                data.put( name, d );
+            }
         }
 
         reader.endObject();
