@@ -365,8 +365,10 @@
         <Parameter type="String" />
     </Entry>
 
-    <Entry genus="string-append" target="String" static="false" nParams="1" simpleFunction="concat" type="String">
-        <Parameter type="String" />
+    <Entry genus="string-append" static="false" target="String" type="String" nParams="1">
+        <Operation style="infix" target="String" value="+" type="String" nParams="1">
+            <Parameter index="0" type="String" />
+        </Operation>
     </Entry>
 
     <Entry genus="string-equal" target="String" static="false" nParams="1" simpleFunction="equals" type="Boolean">
