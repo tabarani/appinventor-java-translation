@@ -1,0 +1,60 @@
+
+App Inventor to Java Translation Tool
+=====================================
+
+Overview:
+This tool takes App Inventor 'Source' archives as input and produces
+Eclipse Android Java projects as output. The produced projects depend on
+the App Inventor Java Bridge (libsimpleandroidruntime.jar). This library
+provides an API to the Android runtime that closely mimics the API of the
+App Inventor standard library. This allows for a direct translation of the
+user's App Inventor project into a Java project.
+
+Prerequisites:
+* Java
+* JDK (required for Eclipse)
+* Eclipse
+* Android SDK (Platform Version 7/2.1)
+* Android ADT (Eclipse Plugin, will automatically install Android SDK)
+* The App Inventor Translation Application Jar
+
+Usage:
+1) Use the 'Download Source' from the 'More Options' menu after selecting
+   your project from App Inventor's 'My Projects' screen. This will cause
+   your browser to download a Zip archive containing the App Inventor
+   source code for your project.
+2) On your system, create a new empty directory for the translation tool
+   to put the generated Eclipse Android project into. Convention dictates
+   that this directory should have the same name as your App Inventor
+   project, but any name should work
+3) Run the App Inventor Translation Jar (in Windows or OS X,
+   double-click it). Select your project's source archive (Zip) as input.
+   Select your empty directory as output. Click 'Convert'. When the
+   Application becomes responsive to user input again, translation is
+   complete, so long as no error dialogs are presented. You can now close
+   the translator
+4) Launch Eclipse. Go to File -> Import. Select General/Existing Projects
+   into Workspace. The root directory is the translator's output
+   directory, so click the browse button and find it. Verify that your
+   project is selected in the center pane and click 'Finish'. You are now
+   on your own; Your project App Inventor project has been converted to a
+   Java project and the translated version is available in Eclipse.
+
+Issues:
+* The translator does not have a map of the parameter and return types for
+  the App Inventor standard library, so it does not perform necessary
+  casting of values. As a result, it is likely that the user will need to
+  manually add a great number of casts and conversions in order to get
+  their app to compile for the first time. In order to fix this issue,
+  someone will have to map the entire App Inventor standard library and
+	alter the translator source to consider their map in generating method
+	calls
+
+* The translator has issues regarding event handlers that take parameters.
+  It is simply not aware of this possibility, so the user has to manually
+  add the parameters in order to make the project compile.
+
+* Some properties of GUI components are not transfered over. As an
+  example, observe the change in the size of the image of the Android in
+  the Toggle_Image sample project
+
