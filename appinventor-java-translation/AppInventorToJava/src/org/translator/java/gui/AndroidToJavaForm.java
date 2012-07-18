@@ -164,23 +164,23 @@ public class AndroidToJavaForm extends javax.swing.JFrame
 
     private void btnBrowseInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseInputActionPerformed
         JFileChooser chooser = getFileChooser();
-        
+
         int returnVal = chooser.showOpenDialog( this );
-        
+
         if( returnVal == JFileChooser.APPROVE_OPTION )
             txtInput.setText( chooser.getSelectedFile().getAbsolutePath() );
-        
+
         enableConvertIfValid();
     }//GEN-LAST:event_btnBrowseInputActionPerformed
 
     private void btnBrowseOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseOutputActionPerformed
         JFileChooser chooser = getFileChooser();
-        
+
         int returnVal = chooser.showSaveDialog( this );
-        
+
         if( returnVal == JFileChooser.APPROVE_OPTION )
             txtOutput.setText( chooser.getSelectedFile().getAbsolutePath() );
-        
+
         enableConvertIfValid();
     }//GEN-LAST:event_btnBrowseOutputActionPerformed
 
@@ -190,7 +190,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         File outputFile = new File( txtOutput.getText() );
         InputStream inputStream = null;
         OutputStream outputStream = null;
-        
+
         try
         {
             project = new AppInventorProject( inputFile );
@@ -222,23 +222,23 @@ public class AndroidToJavaForm extends javax.swing.JFrame
     {
         JOptionPane.showMessageDialog( this, error, "Error", JOptionPane.ERROR_MESSAGE );
     }
-    
+
     private JFileChooser getFileChooser()
     {
-        JFileChooser chooser = new JFileChooser( "/" );
+        JFileChooser chooser = new JFileChooser( System.getProperty("os.name").contains("Linux")?".":"/" );
         chooser.addChoosableFileFilter( new ZipFilter() );
         chooser.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
         chooser.setMultiSelectionEnabled( false );
-        
+
         return chooser;
     }
-    
+
     private void enableConvertIfValid()
     {
         if( !txtInput.getText().isEmpty() && txtOutput.getText().isEmpty() )
             btnConvert.setEnabled( true );
     }
-    
+
     /**
      * @param args the command line arguments
      */
