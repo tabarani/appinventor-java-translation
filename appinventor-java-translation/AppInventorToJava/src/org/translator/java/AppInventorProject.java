@@ -52,7 +52,7 @@ public class AppInventorProject
     private final HashMap<String, AppInventorScreen> screens = new HashMap<String, AppInventorScreen>();
     private String projectName = null;
     private File assetsDir;
-    
+
     public AppInventorProject( File inputFile ) throws IOException
     {
         load( inputFile );
@@ -67,7 +67,7 @@ public class AppInventorProject
                 inputStream = new ZipInputStream( new FileInputStream( inputFile ));
                 load( (ZipInputStream)inputStream );
             } else {
-            
+
             }
 
             inputStream.close();
@@ -76,29 +76,29 @@ public class AppInventorProject
     private void load( ZipInputStream inputStream ) throws IOException
     {
         clear();
-        
+
         assetsDir = File.createTempFile("assets", "tmp");
         assetsDir.deleteOnExit();
-        
+
         if(!(assetsDir.delete())) {
             throw new IOException("Could not delete file: " + assetsDir.getAbsolutePath());
-        } 
-        
+        }
+
         if(!(assetsDir.mkdir())) {
             throw new IOException("Could not create dir: " + assetsDir.getAbsolutePath());
-        } 
-        
+        }
+
         ZipEntry ze = null;
         while( (ze = inputStream.getNextEntry()) != null )
         {
             String name =  ze.getName();
-            
+
             if( name.startsWith("assets")) {
 		    	File outputFile = new File(assetsDir.getAbsoluteFile().toString() +
 		    			File.separator + name);
 	        	if (outputFile.equals(new File(assetsDir.getAbsolutePath().toString() +
 	        			File.separator + "assets")))
-	        		continue;	
+	        		continue;
                 assets.add( name );
                 saveAsset(name, inputStream);
             }
@@ -108,7 +108,7 @@ public class AppInventorProject
 
         generateSource();
     }
-    
+
     public void clear()
     {
         assets.clear();
@@ -117,11 +117,11 @@ public class AppInventorProject
         	assetsDir.delete();
         }
     }
-    
+
     public void writeOutput( ZipOutputStream outputStream )
     {
     }
-    
+
     public void writeOutput( String directory ) throws IOException
     {
         //////////DEBUG//////////////
@@ -156,7 +156,7 @@ public class AppInventorProject
 
                 screenFile.getParentFile().mkdirs();
                 screenFile.createNewFile();
-                
+
                 FileWriter out = new FileWriter(screenFile);
                 String initial = files.get(i).toString();
                 Map<String, String> types = screen.getTypes();
@@ -172,9 +172,9 @@ public class AppInventorProject
 		                	if (line.matches("^\\s*import\\s+.*"+value+"\\s*;$")) importFound = true;
 		                }
 		                if (!varFound)
-		                	initial = initial.replaceFirst("(?s)(?<=\\{\n)", "\tprivate "+value+" "+key+";\n");	
+		                	initial = initial.replaceFirst("(?s)(?<=\\{\n)", "\tprivate "+value+" "+key+";\n");
 		                if (!importFound)
-		                	initial = initial.replaceFirst("(?=import)", "import com.google.devtools.simple.runtime.components.android."+value+";\n");	
+		                	initial = initial.replaceFirst("(?=import)", "import com.google.devtools.simple.runtime.components.android."+value+";\n");
                 	}
                 }
                 out.write(initial);
@@ -188,14 +188,14 @@ public class AppInventorProject
             FileWriter out = new FileWriter(manifestFile);
             out.write(manifest.toString());
             out.close();
-            
+
             File projectFile = new File(getProjectFilePath(f.getAbsolutePath(), project));
             projectFile.getParentFile().mkdirs();
             projectFile.createNewFile();
             out = new FileWriter(projectFile);
             out.write(project.toString());
             out.close();
-            
+
             String[] copyResourceFilenames = {
             		"proguard.cfg",
             		"project.properties",
@@ -204,7 +204,7 @@ public class AppInventorProject
             		"res/drawable/icon.png",
             		"\\.settings/org.eclipse.jdt.core.prefs"
             };
-            
+
             for (String copyResourceFilename: copyResourceFilenames) {
             	InputStream is = getClass().getResourceAsStream("/resources/" + copyResourceFilename.replace("\\.", ""));
             	File outputFile = new File(f.getAbsoluteFile() + File.separator + copyResourceFilename.replace("\\.", "."));
@@ -218,7 +218,7 @@ public class AppInventorProject
             		os.write(buf, 0, readBytes);
             	}
             }
-            
+
             for (String assetName : assets) {
             	InputStream is = new FileInputStream(new File(assetsDir.getAbsolutePath() + File.separator + assetName));
             	File outputFile = new File(f.getAbsoluteFile() + File.separator + assetName);
@@ -230,7 +230,7 @@ public class AppInventorProject
             		os.write(buf, 0, readBytes);
             	}
             }
-            
+
             File assetsOutput = new File(getAssetsFilePath(f.getAbsolutePath()));
             new File(assetsDir.getAbsoluteFile() + File.separator + "assets").renameTo(assetsOutput);
         }
@@ -247,49 +247,49 @@ public class AppInventorProject
 
         return builder.toString();
     }
-    
+
     private String getAssetsFilePath(String prefix) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
         builder.append(s).append("assets");
         return builder.toString();
     }
-    
+
     private String getManifestFilePath(String prefix, ManifestFile m) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append(m.getFileName());
     	return builder.toString();
     }
-    
+
     private String getProjectFilePath(String prefix, ProjectFile p) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append(p.getFileName());
     	return builder.toString();
     }
-    
+
     private String getClasspathFilePath(String prefix) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append(".classpath");
     	return builder.toString();
     }
-    
+
     private String getLibSimplePath(String prefix) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append("libSimpleAndroid.jar");
     	return builder.toString();
     }
-    
+
     private String getProguardPath(String prefix) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
     	builder.append(s).append("proguard.cfg");
     	return builder.toString();
     }
-    
+
     private String getDefaultPropsPath(String prefix) {
         StringBuilder builder = new StringBuilder(prefix);
         String s = File.separator;
@@ -304,12 +304,22 @@ public class AppInventorProject
 
         return path.substring( path.lastIndexOf( '/', lastSlash - 1) + 1, lastSlash );
     }
-    
+
+    //TODO: Clean this up
+    private String getScreenName( String path )
+    {
+        int lastSlash = path.lastIndexOf( '/' );
+        path = path.substring(lastSlash);
+        int lastDot = path.lastIndexOf( '.' );
+        return path.substring(0, lastDot);
+    }
+
     private void loadSourceFile( String path, InputStream inputStream ) throws IOException
     {
         projectName = getFolder( path );
-        AppInventorScreen screen = screens.get( projectName );
-        
+        String screenName = getScreenName( path );
+        AppInventorScreen screen = screens.get( screenName );
+
         if( screen == null )
             screen = new AppInventorScreen( projectName );
 
@@ -322,7 +332,7 @@ public class AppInventorProject
 
         screens.put( projectName, screen );
     }
-    
+
     private void saveAsset(String name, InputStream is) throws IOException {
     	File outputFile = new File(assetsDir.getAbsoluteFile().toString() +
     			File.separator + name);
