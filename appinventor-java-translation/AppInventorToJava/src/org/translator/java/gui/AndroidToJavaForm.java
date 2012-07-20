@@ -163,7 +163,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnBrowseInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseInputActionPerformed
-        JFileChooser chooser = getFileChooser();
+        JFileChooser chooser = getInputFileChooser();
 
         int returnVal = chooser.showOpenDialog( this );
 
@@ -174,7 +174,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
     }//GEN-LAST:event_btnBrowseInputActionPerformed
 
     private void btnBrowseOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseOutputActionPerformed
-        JFileChooser chooser = getFileChooser();
+        JFileChooser chooser = getOutputFileChooser();
 
         int returnVal = chooser.showSaveDialog( this );
 
@@ -223,11 +223,20 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         JOptionPane.showMessageDialog( this, error, "Error", JOptionPane.ERROR_MESSAGE );
     }
 
-    private JFileChooser getFileChooser()
+    private JFileChooser getInputFileChooser()
     {
         JFileChooser chooser = new JFileChooser(".");
         chooser.addChoosableFileFilter( new ZipFilter() );
         chooser.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
+        chooser.setMultiSelectionEnabled( false );
+
+        return chooser;
+    }
+    
+    private JFileChooser getOutputFileChooser()
+    {
+        JFileChooser chooser = new JFileChooser(".");
+        chooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
         chooser.setMultiSelectionEnabled( false );
 
         return chooser;
