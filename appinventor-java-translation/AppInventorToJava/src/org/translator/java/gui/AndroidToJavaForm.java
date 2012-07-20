@@ -168,7 +168,11 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         int returnVal = chooser.showOpenDialog( this );
 
         if( returnVal == JFileChooser.APPROVE_OPTION )
-            txtInput.setText( chooser.getSelectedFile().getAbsolutePath() );
+			try {
+				txtInput.setText( chooser.getSelectedFile().getCanonicalPath() );
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
         enableConvertIfValid();
     }//GEN-LAST:event_btnBrowseInputActionPerformed
@@ -179,7 +183,11 @@ public class AndroidToJavaForm extends javax.swing.JFrame
         int returnVal = chooser.showSaveDialog( this );
 
         if( returnVal == JFileChooser.APPROVE_OPTION )
-            txtOutput.setText( chooser.getSelectedFile().getAbsolutePath() );
+			try {
+				txtOutput.setText( chooser.getSelectedFile().getCanonicalPath() );
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
         enableConvertIfValid();
     }//GEN-LAST:event_btnBrowseOutputActionPerformed
