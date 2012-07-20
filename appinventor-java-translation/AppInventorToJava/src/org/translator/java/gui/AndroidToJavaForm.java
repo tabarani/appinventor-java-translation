@@ -225,7 +225,7 @@ public class AndroidToJavaForm extends javax.swing.JFrame
 
     private JFileChooser getFileChooser()
     {
-        JFileChooser chooser = new JFileChooser( System.getProperty("os.name").contains("Linux")?".":"/" );
+        JFileChooser chooser = new JFileChooser(".");
         chooser.addChoosableFileFilter( new ZipFilter() );
         chooser.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
         chooser.setMultiSelectionEnabled( false );
