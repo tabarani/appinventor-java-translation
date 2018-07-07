@@ -724,7 +724,7 @@
     "core.courses.notenroled": "أنت لست مسجلاً كطالب في هذا المقرر",
     "core.courses.password": "كلمة المرور",
     "core.courses.paymentrequired": "هذا المقرر الدراسي غير مجانين لذا يجب دفع القيمة للدخول.",
-    "core.courses.paypalaccepted": "تم قبول التبرع المدفوع",
+    "core.courses.paybankaccepted": "تم قبول التبرع المدفوع",
     "core.courses.pluginname": "محادثة",
     "core.courses.search": "بحث",
     "core.courses.searchcourses": "بحث مقررات دراسية",

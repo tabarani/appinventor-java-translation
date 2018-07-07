@@ -657,7 +657,7 @@
     "core.courses.notenroled": "이 강좌에 등록되지 않았습니다.",
     "core.courses.password": "비밀번호",
     "core.courses.paymentrequired": "이 강좌는 수강하기 위해 등록금이 필요합니다.",
-    "core.courses.paypalaccepted": "PayPal 지불 접수됨",
+    "core.courses.paybankaccepted": "paybank 지불 접수됨",
     "core.courses.search": "검색",
     "core.courses.searchcourses": "강좌 찾기",
     "core.courses.sendpaymentbutton": "페이팔을 통해 송금하기",
